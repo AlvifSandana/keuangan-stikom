@@ -10,4 +10,8 @@ class LoginController extends BaseController
     {
         return view('pages/login');
     }
+
+    public function login(){
+            
+    }
 }
