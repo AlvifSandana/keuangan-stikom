@@ -9,7 +9,7 @@ class CreateSesiKuliahTable extends Migration
     public function up()
     {
         $this->forge->addField([
-            // format: 01P
+            // format: 01P, 02M
             'id_sesi' => [
                 'type' => 'VARCHAR',
                 'constraint' => 5

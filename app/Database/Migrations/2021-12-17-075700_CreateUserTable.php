@@ -22,12 +22,10 @@ class CreateUserTable extends Migration
             'username' => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 100,
-                'unique'            => true,
             ],
             'email' => [
                 'type'              => 'VARCHAR',
                 'constraint'        => 100,
-                'unique'            => true,
             ],
             'password' => [
                 'type'              => 'VARCHAR',
@@ -48,8 +46,8 @@ class CreateUserTable extends Migration
             ],
         ]);
         $this->forge->addKey('id_user', true);
-        $this->forge->addKey('username', false, true);
-        $this->forge->addKey('email', false, true);
+        $this->forge->addKey('username', false, true); // unique
+        $this->forge->addKey('email', false, true); // unique
         $this->forge->createTable('tbl_user');
     }
 
