@@ -22,16 +22,19 @@ class CreatePaketTable extends Migration
                 'type' => 'TEXT',
                 'null' => true,
             ],
+            // format: 01TI, 02MI, ...
             'jurusan_id' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
                 'null' => true,
             ],
+            // format: 01P, 02M, ...
             'sesi_id' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
                 'null' => true,
             ],
+            // format: 
             'jalur_id' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
