@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-        <img src="public/assets/img/bill.png" class="brand-image elevation-2" alt="Brand" style="opacity: .8;" />
+        <img src="assets/img/bill.png" class="brand-image elevation-2" alt="Brand" style="opacity: .8;" />
         <span class="brand-text font-weight-light">Sistem Keuangan</span>
     </a>
 
@@ -11,7 +11,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="public/assets/img/admin.png" class="img-circle elevation-2" alt="User Image">
+                <img src="assets/img/admin.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="<?php echo base_url() ?>" class="d-block"><?php echo session('nama'); ?>
@@ -41,12 +41,12 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
-                            Keuangan Mahasiswa
+                            Keuangan
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="<?php echo base_url() ?>/tagihan" class="nav-link<?php $uri_segment == "tagihan" ? print(" active") : print("") ?>">
                                 <i class="fas fa-file-invoice-dollar nav-icon"></i>
                                 <p>Tagihan</p>
@@ -56,6 +56,12 @@
                             <a href="<?php echo base_url() ?>/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
                                 <i class="fas fa-receipt nav-icon"></i>
                                 <p>Pembayaran</p>
+                            </a>
+                        </li>  -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url() ?>/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
+                                <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                                <p>Transaksi</p>
                             </a>
                         </li>
                 </li>

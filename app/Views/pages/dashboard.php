@@ -27,7 +27,7 @@
             <div class="col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>Rp <?php echo number_format($total_tagihan[0]['total_tagihan'], 0); ?></h3>
+                        <h3>Rp </h3>
                         <p>Tagihan Keseluruhan Mahasiswa</p>
                     </div>
                     <div class="icon">
@@ -38,7 +38,7 @@
             <div class="col-6">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>Rp <?php echo number_format($total_pembayaran[0]['total_pembayaran'], 0); ?></h3>
+                        <h3>Rp </h3>
                         <p>Pembayaran Keseluruhan Mahasiswa</p>
                     </div>
                     <div class="icon">
@@ -51,7 +51,7 @@
             <div class="col-3">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3><?php echo $jumlah_mhs[0]['jumlah_mahasiswa']; ?></h3>
+                        <h3>1</h3>
                         <p>Jumlah Mahasiswa</p>
                     </div>
                     <div class="icon">
