@@ -31,8 +31,20 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+
+// route for login
 $routes->get('/login', 'LoginController::index');
+$routes->post('/auth', 'LoginController::auth');
+
+// route for dashboard
+$routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
+$routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
+
+// route for settings
+$routes->get('/settings-account', 'Settings/UserController::index', ['filter' => 'auth']);
+$routes->post('/settings-account/create', 'Settings/UserController::create', ['filter' => 'auth']);
+$routes->post('/settings-account/update/(:any)', 'Settings/UserController::update/$1', ['filter' => 'auth']);
+$routes->delete('/settings-account/delete/(:any)', 'Settings/UserController::delete/$1', ['filter' => 'auth']);
 
 /*
  * --------------------------------------------------------------------
