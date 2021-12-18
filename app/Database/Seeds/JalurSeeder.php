@@ -65,6 +65,12 @@ class JalurSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
+            [
+                'id_jalur' => '10KIP',
+                'nama_jalur' => 'KIP',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
         $this->db->table('tbl_jalur')->insertBatch($data);
     }
