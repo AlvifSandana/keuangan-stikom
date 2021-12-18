@@ -24,5 +24,6 @@ class SesiKuliahSeeder extends Seeder
                 'updated_at' => $now,
             ],
         ];
+        $this->db->table('tbl_sesi_kuliah')->insertBatch($data);
     }
 }
