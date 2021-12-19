@@ -1,5 +1,21 @@
 <?= $this->extend('layout/master') ?>
 
+<?= $this->section('custom-styles') ?>
+<style>
+    .select2-selection__rendered {
+        line-height: 30px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 35px !important;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('content-header') ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -33,7 +49,11 @@
                         <form action="<?php echo base_url(); ?>/pembayaran/create" method="post" id="form_create_pembayaran" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="itempembayaran">Kategori Pemasukan</label>
-                                <select class="form-control" name="kode_akun_pemasukam" id="kode_akun_pemasukan"></select>
+                                <select class="form-control custom-select" name="kode_akun_pemasukam" id="kode_akun_pemasukan" style="width: 100%;">
+                                    <?php foreach ($akun_pemasukan as $p) {
+                                        echo '<option value="' . $p["kode_akun"] . '">' . $p["kode_akun"] . ' - ' . $p["nama_akun"] . '</option>';
+                                    } ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="tanggal_pembayaran">Tanggal Pemasukan</label>
@@ -53,7 +73,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="itempembayaran">Metode Pembayaran</label>
-                                <select class="form-control" name="kode_metode_pembayaran" id="kode_metode_pembayaran"></select>
+                                <select class="form-control custom-select" name="kode_metode_pembayaran" id="kode_metode_pembayaran" style="width: 100%;">
+                                    <?php foreach ($metode_pembayaran as $mp) {
+                                        echo '<option value="' . $mp["id_metode"] . '">' . $mp["id_metode"] . ' - ' . $mp["nama_metode_pembayaran"] . '</option>';
+                                    } ?>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
@@ -82,4 +106,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
+<?= $this->include('pages/transaksi/pemasukan/script') ?>
 <?= $this->endSection() ?>
