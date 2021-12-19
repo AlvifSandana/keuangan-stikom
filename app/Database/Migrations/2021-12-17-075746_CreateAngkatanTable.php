@@ -9,11 +9,10 @@ class CreateAngkatanTable extends Migration
     public function up()
     {
         $this->forge->addField([
+            // format: THN2006 , THN2007, ...
             'id_angkatan' => [
-                'type' => 'INT',
-                'constraint' => 5, 
-                'unsigned' => true,
-                'auto_increment' => true,
+                'type' => 'VARCHAR',
+                'constraint' => 10, 
             ],
             'tahun_angkatan' => [
                 'type' => 'VARCHAR', 
@@ -28,7 +27,7 @@ class CreateAngkatanTable extends Migration
                 'null' => true,
             ],
         ]);
-        $this->forge->addKey('id_angkatan', true);
+        $this->forge->addKey('id_angkatan', true, true);
         $this->forge->createTable('tbl_angkatan');
     }
 
