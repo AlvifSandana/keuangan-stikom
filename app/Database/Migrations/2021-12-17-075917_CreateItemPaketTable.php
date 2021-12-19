@@ -36,6 +36,11 @@ class CreateItemPaketTable extends Migration
                 'constraint' => 10,
                 'null' => true,
             ],
+            'angkatan_id' => [
+                'type' => 'VARCHAR',
+                'constraint' => 10,
+                'null' => true,
+            ],
             'semester_id' => [
                 'type' => 'VARCHAR',
                 'constraint' => 5,
@@ -53,6 +58,7 @@ class CreateItemPaketTable extends Migration
         $this->forge->addKey('id_item', true, true);
         $this->forge->addKey('kode_item', false, true);
         $this->forge->addForeignKey('paket_id', 'tbl_paket', 'id_paket', 'CASCADE');
+        $this->forge->addForeignKey('angkatan_id', 'tbl_angkatan', 'id_angkatan', 'CASCADE');
         $this->forge->addForeignKey('semester_id', 'tbl_semester', 'id_semester', 'CASCADE');
         $this->forge->createTable('tbl_item_paket');
     }
