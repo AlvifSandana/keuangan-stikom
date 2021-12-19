@@ -34,6 +34,7 @@ $routes->setAutoRoute(true);
 
 // route for login
 $routes->get('/login', 'LoginController::index');
+$routes->get('/logout', 'LoginController::logout');
 $routes->post('/auth', 'LoginController::auth');
 
 // route for dashboard
