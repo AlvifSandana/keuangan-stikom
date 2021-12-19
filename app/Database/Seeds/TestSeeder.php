@@ -15,5 +15,6 @@ class TestSeeder extends Seeder
         $this->call('SemesterSeeder');
         $this->call('SesiKuliahSeeder');
         $this->call('UserSeeder');
+        $this->call('PaketSeeder');
     }
 }

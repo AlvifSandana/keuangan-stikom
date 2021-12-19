@@ -18,7 +18,7 @@ class SemesterSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'id_semester' => 'SMT2',
+                'id_semester' => 'SMT02',
                 'nama_semester' => 'SEMESTER 2',
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -60,7 +60,7 @@ class SemesterSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'id_semester' => 'SMT9',
+                'id_semester' => 'SMT09',
                 'nama_semester' => 'SEMESTER 9',
                 'created_at' => $now,
                 'updated_at' => $now,
