@@ -60,8 +60,8 @@ class CreateTransaksiTable extends Migration
                 'null' => true,
             ],
         ]);
-        $this->forge->addKey('id_transaksi', true, true);
-        $this->forge->addKey('kode_transaksi', false, true);
+        $this->forge->addKey('id_transaksi', false, true);
+        $this->forge->addKey('kode_transaksi', true, true);
         $this->forge->addForeignKey('item_kode', 'tbl_item_paket', 'kode_item', 'CASCADE');
         $this->forge->addForeignKey('kode_metode_pembayaran', 'tbl_metode_pembayaran', 'id_metode', 'CASCADE');
         $this->forge->createTable('tbl_transaksi');
