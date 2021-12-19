@@ -61,6 +61,14 @@
                             </li>
                     </li>
                 </ul>
+                <li class="nav-item">
+                    <a href="<?php echo base_url() ?>/master-laporan" class="nav-link<?php $uri_segment == "master-laporan" ? print(" active") : print("") ?>">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Laporan
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">MASTER</li>
                 <li class="nav-item">
                     <a href="<?php echo base_url() ?>/master-keuangan" class="nav-link<?php $uri_segment == "master-keuangan" ? print(" active") : print("") ?>">
@@ -75,14 +83,6 @@
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Mahasiswa
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo base_url() ?>/master-laporan" class="nav-link<?php $uri_segment == "master-laporan" ? print(" active") : print("") ?>">
-                        <i class="nav-icon fas fa-file-alt"></i>
-                        <p>
-                            Laporan
                         </p>
                     </a>
                 </li>
