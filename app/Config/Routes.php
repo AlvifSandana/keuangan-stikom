@@ -40,6 +40,10 @@ $routes->post('/auth', 'LoginController::auth');
 $routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
 $routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
 
+// route for transaksi
+$routes->get('/transaksi/pemasukan', 'Transaksi/PemasukanController::index', ['filter' => 'auth']);
+$routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index', ['filter' => 'auth']);
+
 // route for settings
 $routes->get('/settings-account', 'Settings/UserController::index', ['filter' => 'auth']);
 $routes->post('/settings-account/create', 'Settings/UserController::create', ['filter' => 'auth']);
