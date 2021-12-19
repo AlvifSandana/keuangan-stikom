@@ -1,8 +1,8 @@
 <!-- Footer -->
 <footer class="main-footer">
-    <strong>Copyright &copy; 2021 <a href="https://alvifsandana.me/">ASM</a>.</strong>
+    <strong>Aplikasi Keuangan STIKOM Banyuwangi &copy; 2021</strong>
     <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 1.0.0
+        <b>Version</b> 2021.0.1
     </div>
 </footer>
 <!-- ./Footer -->
