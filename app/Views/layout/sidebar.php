@@ -35,6 +35,30 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-header">MAHASISWA</li>
+                    <li class="nav-item<?php if ($uri_segment == "pembayaran" || $uri_segment == "tagihan") {echo " menu-is-opening menu-open";} ?>">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Keuangan Mahasiswa
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-arrow-down nav-icon"></i>
+                                    <p>Pembayaran</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/keuangan-mahasiswa/tagihan" class="nav-link<?php $uri_segment == "tagihan" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-arrow-up nav-icon"></i>
+                                    <p>Tagihan</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-header">OPERASIONAL</li>
                     <li class="nav-item<?php if ($uri_segment == "pemasukan" || $uri_segment == "pengeluaran") {
                                             echo " menu-is-opening menu-open";
@@ -69,14 +93,35 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-header">MASTER</li>
+                <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url() ?>/master-keuangan" class="nav-link<?php $uri_segment == "master-keuangan" ? print(" active") : print("") ?>">
+                    <a href="#" class="nav-link<?php $uri_segment == "master-keuangan" ? print(" active") : print("") ?>">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Keuangan
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/master-keuangan/paket" class="nav-link<?php $uri_segment == "paket" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-book nav-icon"></i>
+                                    <p>Paket (Mahasiswa)</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/master-keuangan/akun-pemasukan" class="nav-link<?php $uri_segment == "akun-pemasukan" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-plus nav-icon"></i>
+                                    <p>Akun Pemasukan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/master-keuangan/akun-pengeluaran" class="nav-link<?php $uri_segment == "akun-pengeluaran" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-minus nav-icon"></i>
+                                    <p>Akun Pengeluaran</p>
+                                </a>
+                            </li>
+                        </ul>
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo base_url() ?>/master-mahasiswa" class="nav-link<?php $uri_segment == "master-mahasiswa" ? print(" active") : print("") ?>">
@@ -98,7 +143,7 @@
                     <a href="<?php echo base_url() ?>/backup-restore" class="nav-link<?php $uri_segment == "backup-restore" ? print(" active") : print("") ?>">
                         <i class="nav-icon fas fa-database"></i>
                         <p>
-                            Backup / Restore
+                            Backup / Restore DB
                         </p>
                     </a>
                 </li>
