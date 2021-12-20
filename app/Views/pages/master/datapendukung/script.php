@@ -2,6 +2,8 @@
     // enable datatable
     $('table').DataTable();
 
+    
+
     function createAngkatan() {
         var data = {
             nama_angkatan: $('#create_nama_angkatan').val(),

@@ -58,8 +58,24 @@
                             </thead>
                             <tbody class="text-center">
                                 <?php foreach ($data_mahasiswa as $m) {
-                                    echo '<tr data-idmhs="' . $m['id_mahasiswa'] . '"><td>' . $m['nim'] . '</td><td>' . $m['nama_mahasiswa'] . '</td><td><button class="btn btn-sm btn-success mx-1" data-toggle="modal" data-target="#modalUpdateTagihanMahasiswa" onclick="fillModalUpdateForm(' . $m["id_mahasiswa"] . ')"><i class="fas fa-dollar-sign"></i></button><button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalUpdateMahasiswa" onclick="fillModalUpdateForm(' . $m["id_mahasiswa"] . ')"><i class="fas fa-edit"></i></button><button class="btn btn-sm btn-danger mx-1" onclick="deleteMahasiswa(' . $m['id_mahasiswa'] . ')"><i class="fas fa-trash"></i></button></td></tr>';
+                                    echo '<tr data-nim="' . $m['nim'] . '">
+                                    <td>' . $m['nim'] . '</td><td>' . $m['nama_mhs'] . '</td>
+                                    <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Action
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="actionBtn">
+                                        <a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i> Detail Keuangan</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Perbarui Data Mahasiswa</a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-trash"></i> Hapus Data Mahasiswa</a>
+                                        </div>
+                                    </div>
+                                    </td></tr>';
                                 } ?>
+                                
+                                
+                                
                             </tbody>
                         </table>
                     </div>

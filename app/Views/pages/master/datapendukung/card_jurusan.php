@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="h5 mb-3">Data Jurusan <button class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#modalCreatejurusan"><i class="fa fa-plus"></i></button></h5>
+        <table class="table table-hover table-bordered">
+            <thead class="text-center">
+                <th>NO.</th>
+                <th>JURUSAN</th>
+                <th>ACTION</th>
+            </thead>
+            <tbody class="text-center">
+                <?php  foreach ($jurusan as $i => $j) {
+                    echo '<tr>
+                    <td>'.($i+1).'</td>
+                    <td>'.$j['nama_jurusan'].'</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdatejurusan" onclick="fillUpdateField('.$j['id_jurusan'].', '."'".$j['nama_jurusan']."'".','."'".'jurusan'."'".')">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm ml-2" onclick="deletejurusan('.$j['id_jurusan'].')">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td></tr>';
+                } ?>
+            </tbody>
+        </table>
+    </div>
+</div>

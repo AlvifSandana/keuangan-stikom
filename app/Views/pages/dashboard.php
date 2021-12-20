@@ -51,8 +51,8 @@
             <div class="col-3">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>1</h3>
-                        <p>Jumlah Mahasiswa</p>
+                        <h3><?php echo $mahasiswa[0]['jumlah_mahasiswa'];?></h3>
+                        <p>Mahasiswa Aktif</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-users"></i>
@@ -63,11 +63,35 @@
             <div class="col-3">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>4</h3>
+                        <h3><?php echo $jurusan[0]['jumlah_jurusan'];?></h3>
                         <p>Program Studi</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-book"></i>
+                    </div>
+                    <a href="<?php echo base_url(); ?>/master-pendukung#jurusan" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3><?php echo $paket[0]['jumlah_paket'];?></h3>
+                        <p>Paket Program Studi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <a href="<?php echo base_url(); ?>/master-pendukung#paket" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3><?php echo $jalur[0]['jumlah_jalur'];?></h3>
+                        <p>Jalur Registrasi</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-random"></i>
                     </div>
                     <a href="<?php echo base_url(); ?>/master-pendukung" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>

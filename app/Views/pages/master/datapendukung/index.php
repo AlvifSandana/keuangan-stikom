@@ -25,38 +25,49 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col">
-                <?= $this->include('pages/master/datapendukung/card_progdi') ?>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <?= $this->include('pages/master/datapendukung/card_semester') ?>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <?= $this->include('pages/master/datapendukung/card_angkatan') ?>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <?= $this->include('pages/master/datapendukung/card_paket') ?>
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="h4">Data Pendukung</h4>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#angkatan" role="tab" data-toggle="tab">Angkatan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#jurusan" role="tab" data-toggle="tab">Jurusan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#semester" role="tab" data-toggle="tab">Semester</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#paket" role="tab" data-toggle="tab">Paket</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="angkatan">
+                                <?= $this->include('pages/master/datapendukung/card_angkatan') ?>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="jurusan">
+                                <?= $this->include('pages/master/datapendukung/card_jurusan') ?>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="semester">
+                                <?= $this->include('pages/master/datapendukung/card_semester') ?>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="paket">
+                                <?= $this->include('pages/master/datapendukung/card_paket') ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Modals -->
-<?= $this->include('pages/master/datapendukung/modal/modal_create_angkatan') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_create_progdi') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_create_semester') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_create_paket') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_update_angkatan') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_update_progdi') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_update_semester') ?>
-<?= $this->include('pages/master/datapendukung/modal/modal_update_paket') ?>
+
 <!-- /Modals -->
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
-    <?= $this->include('pages/master/datapendukung/script') ?>
+<?= $this->include('pages/master/datapendukung/script') ?>
 <?= $this->endSection() ?>

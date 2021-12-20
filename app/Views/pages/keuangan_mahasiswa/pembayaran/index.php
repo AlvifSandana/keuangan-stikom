@@ -6,12 +6,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Tagihan</h1>
+                <h1 class="m-0">Pembayaran</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tagihan</li>
+                    <li class="breadcrumb-item">Keuangan Mahasiswa</li>
+                    <li class="breadcrumb-item active">Pembayaran</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -22,24 +23,26 @@
 
 <?= $this->section('content-body') ?>
 <section class="content">
-    <div class="container-fluid">
+    <div class="container-fluid container-pembayaran">
     <?= $this->include('layout/flash') ?>
+        <!-- card search input -->
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-9">
-                                <input type="text" name="nim" id="nim" class="form-control" placeholder="Cari berdasarkan NIM">
+                                <input type="text" name="nim" id="nim" class="form-control" placeholder="Cari berdasarkan NIM atau NAMA Mahasiswa">
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-primary btn-block" onclick="searchMhs()"><i class="fas fa-search"></i> Cari</button>
+                                <button class="btn btn-primary btn-block" onclick="searchPembayaran()"><i class="fas fa-search"></i> Cari</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- card search result -->
         <div class="row mb-2">
             <div class="col">
                 <div class="card" id="search_result" style="visibility: hidden;">
@@ -55,8 +58,7 @@
                                         <th>ANGKATAN</th>
                                         <th>ACTION</th>
                                     </thead>
-                                    <tbody class="text-center" id="list_tagihan">
-                                    </tbody>
+                                    <tbody class="text-center" id="list_search_result"></tbody>
                                 </table>
                                 <table>
                                     <tr>
@@ -79,21 +81,22 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col">
-                <div class="card hasil" style="visibility: hidden;">
-                    <div class="card-body detail-tagihan">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Modal Tambah Pembayaran -->
+        
+        <!-- Modal Detail Pembayaran per item -->
+        
+        <!-- /Modal Detail Pembayaran per item -->
     </div>
 </section>
-<!-- modal detail tagihan -->
-<?= $this->include('pages/tagihan/modaldetailtagihan') ?>
-<!-- /modal detail tagihan -->
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
-<?= $this->include('pages/tagihan/script') ?>
+<script>
+    // show upload filename
+    $('#fbp').on('change', function() {
+        var filename = $(this).val();
+        $(this).next('.custom-file-label').html(filename);
+    });
+</script>
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/script') ?>
 <?= $this->endSection() ?>

@@ -21,31 +21,19 @@
                 <div class="form-group">
                     <label for="progdi_id">PROGRAM STUDI</label>
                     <select name="progdi_id" id="tupdate_progdi_id" class="form-control" disabled>
-                        <?php
-                        foreach ($data_progdi as $p) {
-                            echo '<option value="' . $p['id_progdi'] . '">' . $p['nama_progdi'] . '</option>';
-                        }
-                        ?>
+                        
                     </select>
                 </div>
                 <div class="form-group mb-3">
                     <label for="angkatan_id">ANGKATAN</label>
                     <select name="angkatan_id" id="tupdate_angkatan_id" class="form-control" disabled>
-                        <?php
-                        foreach ($data_angkatan as $a) {
-                            echo '<option value="' . $a['id_angkatan'] . '">' . $a['nama_angkatan'] . '</option>';
-                        }
-                        ?>
+                        
                     </select>
                 </div>
                 <div class="form-group mb-3">
                     <label for="tagihan">PAKET TAGIHAN</label>
                     <select class="customselect" name="update_tagihan" id="tupdate_tagihan" multiple="multiple" style="width: 100%;">
-                        <?php
-                        foreach ($data_paket as $p) {
-                            echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . '</option>';
-                        }
-                        ?>
+                        
                     </select>
                 </div>
                 <button class="btn btn-warning float-right" onclick="updateTagihanMahasiswa()">Update</button>
