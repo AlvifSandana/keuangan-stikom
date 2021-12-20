@@ -41,9 +41,22 @@ $routes->post('/auth', 'LoginController::auth');
 $routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
 $routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
 
+// route for keuangan mahasiswa
+$routes->get('/keuangan-mahasiswa/pembayaran', 'Mahasiswa/PembayaranController::index', ['filter' => 'auth']);
+$routes->get('/keuangan-mahasiswa/tagihan', 'Mahasiswa/TagihanController::index', ['filter' => 'auth']);
+
 // route for transaksi
 $routes->get('/transaksi/pemasukan', 'Transaksi/PemasukanController::index', ['filter' => 'auth']);
 $routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index', ['filter' => 'auth']);
+
+// route for master
+$routes->get('/master-mahasiswa', 'Master/MahasiswaController::index', ['filter' => 'auth']);
+$routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
+
+// route for master backup restore database
+$routes->get('/backup-restore', 'Master/BackupRestoreController::index');
+$routes->get('/backup-restore/backup', 'Master/BackupRestoreController::backup', ['filter' => 'auth']);
+$routes->post('/backup-restore/restore', 'Master/BackupRestoreController::restore');
 
 // route for settings
 $routes->get('/settings-account', 'Settings/UserController::index', ['filter' => 'auth']);
