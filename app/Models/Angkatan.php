@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class Angkatan extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'angkatans';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'tbl_angkatan';
+    protected $primaryKey       = 'id_angkatan';
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

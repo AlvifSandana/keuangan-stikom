@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Mahasiswa extends Model
 {
-    protected $DBGroup          = 'old';
+    protected $DBGroup          = 'default_old';
     protected $table            = 'tbl_mahasiswa';
     protected $primaryKey       = 'nim';
     protected $useAutoIncrement = false;

@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class Semester extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'semesters';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'tbl_semester';
+    protected $primaryKey       = 'id_semester';
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

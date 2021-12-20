@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class Paket extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'pakets';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'tbl_paket';
+    protected $primaryKey       = 'id_paet';
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

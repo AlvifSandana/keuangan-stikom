@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class Jurusan extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'jurusans';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'tbl_jurusan';
+    protected $primaryKey       = 'id_jurusan';
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

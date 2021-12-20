@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class SesiKuliah extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'sesikuliahs';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'tbl_sesi_kuliah';
+    protected $primaryKey       = 'id_sesi';
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;

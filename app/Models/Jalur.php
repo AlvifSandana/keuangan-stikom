@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 class Jalur extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'jalurs';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
+    protected $table            = 'tbl_jalur';
+    protected $primaryKey       = 'id_jalur';
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
