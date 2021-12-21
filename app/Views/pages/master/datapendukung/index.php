@@ -25,7 +25,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col">
-                <div class="card">
+                <div class="card border-0">
                     <div class="card-body">
                         <h4 class="h4">Data Pendukung</h4>
                         <ul class="nav nav-tabs" role="tablist">
