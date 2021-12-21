@@ -22,13 +22,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Master Keuangan</h1>
+                <h1 class="m-0">Master Paket</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Master</a></li>
-                    <li class="breadcrumb-item active">Keuangan</li>
+                    <li class="breadcrumb-item"><a href="#">Master Keuangan</a></li>
+                    <li class="breadcrumb-item active">Paket</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -55,12 +55,13 @@
                         <h5 class="h5 mt-3 mb-4">Detail Item Paket <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddItemPaket"><i class="fas fa-plus"></i> Tambah Item Tagihan</button></h5>
                         <table class="table table-bordered tbl_master_paket" id="tbl_master_paket">
                             <thead class="text-center">
+                                <th>Kode Item Tagihan</th>
                                 <th>Nama Item Tagihan</th>
                                 <th>Nominal</th>
                                 <th>Keterangan</th>
                                 <th>Action</th>
                             </thead>
-                            <tbody class="text-center">
+                            <tbody class="">
                             </tbody>
                         </table>
                     </div>

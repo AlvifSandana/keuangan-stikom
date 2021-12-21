@@ -10,7 +10,11 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="paket_id">PAKET</label>
-                    <select name="paket_id" id="paket_id" class="form-control">
+                    <select name="paket_id" id="paket_id" class="form-control custom-select" style="width: 100%;">
+                        <option value=""></option>
+                        <?php foreach ($data_paket as $key => $value) {
+                            echo '<option value="' . $value['id_paket'] . '">' . $value['nama_paket'] . '</option>';
+                        } ?>
                     </select>
                 </div>
                 <div class="form-group">

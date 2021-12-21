@@ -11,21 +11,13 @@
                 <div class="form-group">
                     <label for="nama_paket">NAMA PAKET</label>
                     <select class="form-control" name="add_nama_paket" id="add_nama_paket">
-                        <?php 
-                        foreach ($data_progdi as $p ) {
-                            echo '<option value="' . $p['nama_progdi'] . '">' . $p['nama_progdi'] . '</option>';
-                        }
-                        ?>
+                        
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="semester">SEMESTER</label>
                     <select name="add_semester_id" id="add_semester_id" class="form-control">
-                        <?php
-                        foreach ($data_semester as $s) {
-                            echo '<option value="' . $s['id_semester'] . '">' . $s['nama_semester'] . '</option>';
-                        }
-                        ?>
+                        
                     </select>
                 </div>
                 <div class="form-group mb-3">

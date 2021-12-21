@@ -1,67 +1,75 @@
 <script>
+    // DataTable
+    $('table').DataTable({
+        'columnDefs': [{
+            className: "text-center",
+            "targets": [0, 3]
+        }],
+    });
+
+    // select2
     $('.custom-select').select2({
-        width: 'resolve'
+        width: 'resolve',
+    });
+    $('#paket_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalAddItemPaket")
     });
 
     // get data on selected paket tagihan
     function getItemPaket() {
         $("#tbl_master_paket > tbody").empty();
         $.ajax({
-            url: "<?php echo base_url(); ?>" + "/itempaket/" + $('select#select_paket').children('option:selected').val(),
+            url: "<?php echo base_url(); ?>" + "/master-keuangan/itempaket/" + $('select#select_paket').children('option:selected').val(),
             type: "GET",
             dataType: "JSON",
             success: function(data) {
-                var response = data;
-                if (response.status != "success") {
+                var itempaket = data.data;
+                if (data.status != "success") {
                     showSWAL('error', data.message);
                 } else {
-                    var row_item_tagihan = "";
+                    // total nominal item paket tagihan
                     var total_tagihan = 0;
+                    // create number formatter
                     var numformat = Intl.NumberFormat();
-                    for (let index = 0; index < response.data.length; index++) {
-                        row_item_tagihan += `<tr>
-              <td>${response.data[index].nama_item}</td>
-              <td class="text-left">Rp. ${numformat.format(parseInt(response.data[index].nominal_item))}</td>
-              <td>${response.data[index].keterangan_item}</td>
-              <td>
-                <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getItemPaketById(${response.data[index].id_item})"><i class="far fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger" onclick="deleteItemPaket(${response.data[index].id_item})"><i class="fas fa-trash"></i></button>
-              </td>
-              </tr>`;
-                        total_tagihan += parseInt(response.data[index].nominal_item);
-                    }
-                    Intl
-                    $("#tbl_master_paket > tbody").append(row_item_tagihan);
-                    $("#tbl_master_paket > tbody").append(`<tr class="font-weight-bold"><td colspan="3">Total Tagihan</td><td colspan="2">Rp. ${numformat.format(total_tagihan)}</td></tr>`);
+                    // table
+                    var tbl = $('#tbl_master_paket').DataTable();
+                    // clear table
+                    tbl.clear().draw(false);
+                    // re-draw table with new data
+                    // iterate data
+                    itempaket.forEach(element => {
+                        // create new row data
+                        tbl.row.add([element.kode_item, element.nama_item, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.kode_item)]).draw(false);
+                        // add total tagihan
+                        total_tagihan += parseInt(element.nominal_item);
+                    });
+                    // show total tagihan
+                    $("#tbl_master_paket > tbody").append(`<tr class="font-weight-bold text-center"><td colspan="3">Total Tagihan</td><td colspan="2">Rp. ${numformat.format(total_tagihan)}</td></tr>`);
                 }
             },
             error: function(jqXHR) {
-                showSWAL('error', jqXHR);
+                showSWAL('error', jqXHR.statusText);
             }
         });
     }
 
     /** 
-     * get paket
+     * generate Action Button
      */
-    function getPaket() {
-        $.ajax({
-            url: '<?php echo base_url(); ?>' + '/paket/all',
-            type: 'GET',
-            dataType: 'JSON',
-            success: function(data) {
-                var paket = ``;
-                for (let index = 0; index < data.data.paket.length; index++) {
-                    paket += `<option value="${data.data.paket[index].id_paket}">${data.data.paket[index].nama_paket}</option>`;
-                }
-                $('#paket_id').append(paket);
-            },
-            error: function(jqXHR) {
-                showSWAL('error', jqXHR);
-            }
-        });
+    function generateActionButton(kode_item) {
+        return `
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-info"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item text-warning" href="<?php echo base_url(); ?>/keuangan-keuangan/itempaket/update/${kode_item}"><i class="fas fa-edit"></i> Edit</a>
+                    <a class="dropdown-item text-danger" href="<?php echo base_url(); ?>/keuangan-keuangan/itempaket/delete/${kode_item}"><i class="fas fa-trash"></i> Hapus</a>
+                </div>
+            </div>`;
     }
-    getPaket();
 
     /** 
      * get item paket berdasarkan id_item
