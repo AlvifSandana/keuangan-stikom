@@ -36,15 +36,15 @@
                         </a>
                     </li>
                     <li class="nav-header">MAHASISWA</li>
-                    <li class="nav-item<?php if ($uri_segment == "pembayaran" || $uri_segment == "tagihan") {echo " menu-is-opening menu-open";} ?>">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item<?php //if ($uri_segment == "pembayaran" || $uri_segment == "tagihan") {echo " menu-is-opening menu-open";} ?>">
+                        <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Keuangan Mahasiswa
-                                <i class="fas fa-angle-left right"></i>
+                                <!--<i class="fas fa-angle-left right"></i>-->
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
+                        <!--<ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
                                     <i class="fas fa-arrow-down nav-icon"></i>
@@ -57,7 +57,7 @@
                                     <p>Tagihan</p>
                                 </a>
                             </li>
-                        </ul>
+                        </ul>-->
                     </li>
                     <li class="nav-header">OPERASIONAL</li>
                     <li class="nav-item<?php if ($uri_segment == "pemasukan" || $uri_segment == "pengeluaran") {
@@ -94,7 +94,9 @@
                     </a>
                 </li>
                 <li class="nav-header">MASTER DATA</li>
-                <li class="nav-item">
+                <li class="nav-item<?php if ($uri_segment == "paket" || $uri_segment == "akun-pemasukan") {
+                                            echo " menu-is-opening menu-open";
+                                        } ?>">
                     <a href="#" class="nav-link<?php $uri_segment == "master-keuangan" ? print(" active") : print("") ?>">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
