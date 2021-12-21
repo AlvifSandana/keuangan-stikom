@@ -6,13 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Pembayaran</h1>
+                <h1 class="m-0">Keuangan Mahasiswa</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item">Keuangan Mahasiswa</li>
-                    <li class="breadcrumb-item active">Pembayaran</li>
+                    <li class="breadcrumb-item active">Keuangan Mahasiswa</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -24,7 +23,7 @@
 <?= $this->section('content-body') ?>
 <section class="content">
     <div class="container-fluid container-pembayaran">
-    <?= $this->include('layout/flash') ?>
+        <?= $this->include('layout/flash') ?>
         <!-- card search input -->
         <div class="row mb-2">
             <div class="col">
@@ -32,10 +31,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-9">
-                                <input type="text" name="nim" id="nim" class="form-control" placeholder="Cari berdasarkan NIM atau NAMA Mahasiswa">
+                                <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Cari berdasarkan NIM atau NAMA Mahasiswa">
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-primary btn-block" onclick="searchPembayaran()"><i class="fas fa-search"></i> Cari</button>
+                                <button class="btn btn-primary btn-block" onclick="searchMahasiswa()"><i class="fas fa-search"></i> Cari</button>
                             </div>
                         </div>
                     </div>
@@ -45,35 +44,27 @@
         <!-- card search result -->
         <div class="row mb-2">
             <div class="col">
-                <div class="card" id="search_result" style="visibility: hidden;">
+                <div class="card" id="search_result" style="visibility: visible;">
+                    <div class="card-header border-0">
+                        <h3 class="card-title pt-2"><i class="fas fa-search"></i> Hasil Pencarian</h3>
+                        <div class="card-tools float-right">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <h5 class="h5">Hasil Pencarian</h5>
-                                <table class="table table-hover">
+                                <table class="table table-hover table-bordered table-sm" id="tbl_pencarian">
                                     <thead class="text-center">
                                         <th>NIM</th>
                                         <th>NAMA MAHASISWA</th>
                                         <th>PROGRAM STUDI</th>
-                                        <th>ANGKATAN</th>
+                                        <th>STATUS</th>
                                         <th>ACTION</th>
                                     </thead>
-                                    <tbody class="text-center" id="list_search_result"></tbody>
-                                </table>
-                                <table>
-                                    <tr>
-                                        <td><b>Summary</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total Tagihan</td>
-                                        <td>&emsp;=&emsp;</td>
-                                        <td>Rp <span id="global-tagihan"></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total Terbayar</td>
-                                        <td>&emsp;=&emsp;</td>
-                                        <td>Rp <span id="global-pembayaran"></span></td>
-                                    </tr>
+                                    <tbody class="text-center" id="tbl_hasil_pencarian"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -81,11 +72,6 @@
                 </div>
             </div>
         </div>
-        <!-- Modal Tambah Pembayaran -->
-        
-        <!-- Modal Detail Pembayaran per item -->
-        
-        <!-- /Modal Detail Pembayaran per item -->
     </div>
 </section>
 <?= $this->endSection() ?>
