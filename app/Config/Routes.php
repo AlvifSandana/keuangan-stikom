@@ -43,6 +43,8 @@ $routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
 
 // route for keuangan mahasiswa
 $routes->get('/keuangan-mahasiswa/pembayaran', 'Mahasiswa/PembayaranController::index', ['filter' => 'auth']);
+$routes->get('/keuangan-mahasiswa/pembayaran/detail/(:any)', 'Mahasiswa\PembayaranController::detail_keuangan/$1');
+$routes->post('/keuangan-mahasiswa/cari-mahasiswa', 'Mahasiswa/PembayaranController::search_mahasiswa');
 $routes->get('/keuangan-mahasiswa/tagihan', 'Mahasiswa/TagihanController::index', ['filter' => 'auth']);
 
 // route for transaksi
@@ -51,6 +53,8 @@ $routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index',
 
 // route for master
 $routes->get('/master-mahasiswa', 'Master/MahasiswaController::index', ['filter' => 'auth']);
+$routes->get('/master-keuangan/paket', 'Master/PaketController::index', ['filter' => 'auth']);
+$routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_item_paket/$1', ['filter' => 'auth']);
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
 
 // route for master backup restore database
