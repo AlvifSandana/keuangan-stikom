@@ -17,7 +17,7 @@ class Transaksi extends Model
     protected $allowedFields    = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -39,4 +39,23 @@ class Transaksi extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Get data transaksi by kode_unit & kategori transaksi.
+     */
+    public function findTransaksi(String $kode_unit, String $kategori_transaksi)
+    {
+        try {
+            $result = "Data tidak ditemukan!";
+            $this->like('kode_unit', $kode_unit);
+            $this->like('kategori_transaksi', $kategori_transaksi);
+            $query = $this->get();
+            if ($query->getResultArray()) {
+                $result = $query->getResutArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }
