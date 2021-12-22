@@ -8,16 +8,16 @@ class Paket extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'tbl_paket';
-    protected $primaryKey       = 'id_paet';
+    protected $primaryKey       = 'id_paket';
     protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_paket', 'nama_paket', 'keterangan_paket', 'jurusan_id', 'sesi_id', 'jalur_id'];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
