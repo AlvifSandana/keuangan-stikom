@@ -56,7 +56,9 @@
                         <table class="table table-bordered tbl_master_paket" id="tbl_master_paket">
                             <thead class="text-center">
                                 <th>Kode Item Tagihan</th>
-                                <th>Nama Item Tagihan</th>
+                                <th>Nama Item</th>
+                                <th>Tahun</th>
+                                <th>Semester</th>
                                 <th>Nominal</th>
                                 <th>Keterangan</th>
                                 <th>Action</th>
@@ -70,14 +72,14 @@
         </div>
     </div>
     <!-- Modal Add Paket -->
-    <?= $this->include('pages/master/keuangan/modal_add_paket') ?>
+    <?= $this->include('pages/master/keuangan/paket/modal_add_paket') ?>
     <!-- Modal Add Item Paket -->
-    <?= $this->include('pages/master/keuangan/modal_add_item_paket') ?>
+    <?= $this->include('pages/master/keuangan/paket/modal_add_item_paket') ?>
     <!-- Modal Edit Item Paket -->
-    <?= $this->include('pages/master/keuangan/modal_edit_item_paket') ?>
+    <?= $this->include('pages/master/keuangan/paket/modal_edit_item_paket') ?>
 </section>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
-<?= $this->include('pages/master/keuangan/script') ?>
+<?= $this->include('pages/master/keuangan/paket/script') ?>
 <?= $this->endSection() ?>

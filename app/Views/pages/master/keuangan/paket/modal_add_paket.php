@@ -9,19 +9,35 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="nama_paket">NAMA PAKET</label>
-                    <select class="form-control" name="add_nama_paket" id="add_nama_paket">
-                        
+                    <label for="nama_paket">Nama Paket</label>
+                    <input type="text" name="add_nama_paket" id="add_nama_paket" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="semester">Jurusan</label>
+                    <select name="add_jurusan_id" id="add_jurusan_id" class="form-control">
+                        <?php foreach ($jurusan as $key => $value) {?>
+                            <option value="<? echo $value['id_jurusan'];?>"><? echo $value['nama_program'].' '.$value['nama_jurusan'];?></option>
+                        <? } ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="semester">SEMESTER</label>
-                    <select name="add_semester_id" id="add_semester_id" class="form-control">
-                        
+                    <label for="semester">Sesi Perkuliahan</label>
+                    <select name="add_sesi_id" id="add_sesi_id" class="form-control">
+                        <?php foreach ($sesi as $key => $value) { ?>
+                            <option value="<? echo $value['id_sesi'];?>"><? echo $value['nama_sesi'];?></option>
+                        <? } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="semester">Jalur Pendaftaran</label>
+                    <select name="add_jalur_id" id="add_jalur_id" class="form-control">
+                        <?php foreach ($jalur as $key => $value) { ?>
+                            <option value="<? echo $value['id_jalur'];?>"><? echo $value['nama_jalur'];?></option>
+                        <? } ?>
                     </select>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="keterangan_paket">KETERANGAN</label>
+                    <label for="keterangan_paket">Keterangan Paket</label>
                     <textarea name="add_keterangan_paket" id="add_keterangan_paket" cols="30" rows="4" class="form-control"></textarea>
                 </div>
                 <button class="btn btn-success float-right" onclick="addPaket()">Tambah</button>

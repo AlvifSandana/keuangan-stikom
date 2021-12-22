@@ -3,7 +3,7 @@
     $('table').DataTable({
         'columnDefs': [{
             className: "text-center",
-            "targets": [0, 3]
+            "targets": [0, 2, 3, 5, 6]
         }],
     });
 
@@ -41,7 +41,7 @@
                     // iterate data
                     itempaket.forEach(element => {
                         // create new row data
-                        tbl.row.add([element.kode_item, element.nama_item, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.kode_item)]).draw(false);
+                        tbl.row.add([element.kode_item, element.nama_item, element.tahun_angkatan, element.nama_semester, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.kode_item)]).draw(false);
                         // add total tagihan
                         total_tagihan += parseInt(element.nominal_item);
                     });
@@ -108,18 +108,21 @@
      */
     function addPaket() {
         var data_paket = {
-            nama_paket: $('#add_nama_paket').val() + ' - ' + $('#add_semester_id option:selected').text(),
+            nama_paket: $('#add_nama_paket').val(),
             keterangan_paket: $('#add_keterangan_paket').val(),
-            semester_id: parseInt($('#add_semester_id').val()),
+            jurusan_id: $('#add_jurusan_id').val(),
+            sesi_id: $('#add_sesi_id').val(),
+            jalur_id: $('#add_jalur_id').val(),
         };
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/paket/create',
+            url: '<?php echo base_url(); ?>' + '/master-keuangan/paket/create',
             type: 'POST',
             data: data_paket,
             dataType: 'JSON',
             success: function(data) {
                 if (data.status != 'success') {
                     showSWAL('error', data.message);
+                    console.log(data.data);
                 } else {
                     showSWAL('success', data.message);
                     $('#add_nama_paket').val('');
@@ -128,7 +131,8 @@
                 }
             },
             error: function(jqXHR) {
-                showSWAL('error', jqXHR)
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
             }
         });
     }
