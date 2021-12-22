@@ -43,6 +43,7 @@ $routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
 
 // route for keuangan mahasiswa
 $routes->get('/keuangan-mahasiswa/pembayaran', 'Mahasiswa/PembayaranController::index', ['filter' => 'auth']);
+$routes->get('/keuangan-mahasiswa/pembayaran/create', 'Mahasiswa/PembayaranController::create_pembayaran', ['filter' => 'auth']);
 $routes->get('/keuangan-mahasiswa/pembayaran/detail/(:any)', 'Mahasiswa\PembayaranController::detail_keuangan/$1');
 $routes->post('/keuangan-mahasiswa/cari-mahasiswa', 'Mahasiswa/PembayaranController::search_mahasiswa');
 $routes->get('/keuangan-mahasiswa/tagihan', 'Mahasiswa/TagihanController::index', ['filter' => 'auth']);
@@ -54,6 +55,10 @@ $routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index',
 // route for master
 $routes->get('/master-mahasiswa', 'Master/MahasiswaController::index', ['filter' => 'auth']);
 $routes->get('/master-keuangan/paket', 'Master/PaketController::index', ['filter' => 'auth']);
+$routes->post('/master-keuangan/paket/create', 'Master/PaketController::create_paket', ['filter' => 'auth']);
+$routes->put('/master-keuangan/paket/update', 'Master/PaketController::update_paket', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/paket/delete', 'Master/PaketController::delete_paket', ['filter' => 'auth']);
+$routes->get('/master-keuangan/itempaket/create', 'Master\ItemPaketController::create_item', ['filter' => 'auth']);
 $routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_item_paket/$1', ['filter' => 'auth']);
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
 
