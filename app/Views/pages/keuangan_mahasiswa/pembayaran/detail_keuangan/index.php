@@ -110,9 +110,9 @@
                                             <i class="fas fa-info-circle"></i> Action
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Tambah Pembayaran Baru</a>
-                                            <a class="dropdown-item" href="#">Tambah Tagihan Baru</a>
-                                            <a class="dropdown-item" href="#">Tambah Diskon</a>
+                                            <a class="dropdown-item" href="#pembayaran-baru" data-toggle="modal" data-target="#modalCreatePembayaran">Tambah Pembayaran Baru</a>
+                                            <a class="dropdown-item" href="#tagihan-baru">Tambah Tagihan Baru</a>
+                                            <a class="dropdown-item" href="#diskon-baru">Tambah Diskon</a>
                                         </div>
                                     </div>
                                 </h4>
@@ -201,6 +201,8 @@
         </div>
     </div>
 </section>
+<!-- modal create pembayaran -->
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/modaltambahpembayaran') ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>

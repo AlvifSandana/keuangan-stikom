@@ -3,6 +3,7 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
+use App\Models\ItemPaket;
 use App\Models\Transaksi;
 
 class PembayaranController extends BaseController
@@ -32,6 +33,7 @@ class PembayaranController extends BaseController
             $builder_dosen = $db_old->table('tbl_dosen');
             $builder_tagihan = $db->table('tbl_transaksi');
             $builder_pembayaran = $db->table('tbl_transaksi');
+            $m_itempaket = new ItemPaket();
             
             // query mahasiswa
             $query_mhs = $builder_mhs
@@ -70,12 +72,19 @@ class PembayaranController extends BaseController
             ->get();
             // find data pembayaran
             $pembayaran = $query_pembayaran->getResultArray();
+
+            // get item paket by id_paket
+            $item_paket = $m_itempaket
+                ->where('paket_id', $mahasiswa[0]['id_paket'])
+                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'inner')
+                ->findAll();
             
             // set data for view
             $data['mahasiswa'] = $mahasiswa;
             $data['dosen'] = $dosen;
             $data['tagihan'] = $tagihan;
             $data['pembayaran'] = $pembayaran;
+            $data['item_paket'] = $item_paket;
             // get uri segment for dynamic sidebar active item
             $data['uri_segment'] = $request->uri->getSegment(2);
             // show view

@@ -9,16 +9,24 @@
             </div>
             <div class="modal-body">
                 <form action="<?php echo base_url(); ?>/pembayaran/create" method="post" id="form_create_pembayaran" enctype="multipart/form-data">
-                    <input type="number" name="paket_id" id="add_paket_id" hidden>
                     <input type="number" name="mahasiswa_id" id="add_mahasiswa_id" hidden>
-                    <input type="number" name="user_id" id="add_mahasiswa_id" value="1" hidden>
+                    <input type="number" name="user_id" id="add_user_id" value="1" hidden>
                     <div class="form-group">
                         <label for="itempembayaran">ITEM PAKET</label>
-                        <select class="form-control" name="item_id" id="add_item_id"></select>
+                        <select class="form-control" name="item_id" id="add_item_id">
+                            <option value="">Pilih...</option>
+                            <?
+                            if ($item_paket) {
+                                foreach ($item_paket as $key => $value) {
+                                    echo '<option value="'.$value['id_item'].'">'.$value['nama_semester'].' - '.$value['nama_item'].'</option>';
+                                }
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="tanggal_pembayaran">TANGGAL PEMBAYARAN</label>
-                        <input type="date" class="form-control" name="tanggal_pembayaran" id="add_tanggal_pembayaran">
+                        <input type="datetime-local" class="form-control" name="tanggal_pembayaran" id="add_tanggal_pembayaran">
                     </div>
                     <div class="form-group">
                         <label for="">NOMINAL PEMBAYARAN</label>
