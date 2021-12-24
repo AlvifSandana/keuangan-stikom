@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\Transaksi;
 
 class DashboardController extends BaseController
 {
@@ -11,6 +12,7 @@ class DashboardController extends BaseController
         // create model instance
         $db = \Config\Database::connect('default_old');
         $db1 = \Config\Database::connect('default');
+        $m_transaksi = new Transaksi();
         $builder_mhs = $db->table('tbl_mahasiswa');
         $builder_jurusan = $db1->table('tbl_jurusan');
         $builder_jalur = $db1->table('tbl_jalur');
@@ -37,6 +39,16 @@ class DashboardController extends BaseController
         $data['jurusan'] = $query1->getResultArray();
         $data['jalur'] = $query3->getResultArray();
         $data['paket'] = $query2->getResultArray();
+        $data['total_tagihan'] = $m_transaksi
+            ->select('SUM(q_kredit) as total_tagihan')
+            ->where('kategori_transaksi', 'K')
+            ->like('kode_transaksi', 'BY-')
+            ->find();
+        $data['total_pembayaran'] = $m_transaksi
+            ->select('SUM(q_debit) as total_pembayaran')
+            ->where('kategori_transaksi', 'D')
+            ->like('kode_transaksi', 'BY-')
+            ->find();
         return view('pages/dashboard', $data);
     }
 }
