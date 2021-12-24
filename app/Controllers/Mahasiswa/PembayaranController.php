@@ -278,7 +278,7 @@ class PembayaranController extends BaseController
                             "message" => "Validasi gagal. Mohon isi nominal pembayaran yang sesuai!",
                             "data" => []
                         ];
-                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', 'Data tidak valid, mohon cek kembali nominal pembayaran!');
+                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', 'Data tidak valid, mohon cek kembali nominal pembayaran!');
                     } else {
                         // cek bukti transaksi
                         if ($req_data['is_bukti_transaksi']) {
@@ -291,7 +291,7 @@ class PembayaranController extends BaseController
                                     'message' => $bukti_transaksi->getErrorString() . '(' . $bukti_transaksi->getError() . ')',
                                     'data' => []
                                 ];
-                                return redirect()->to(base_url() . '/keaungan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'])->with('error', $result['message']);
+                                return redirect()->to(base_url() . '/keaungan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'].'#datamhs')->with('error', $result['message']);
                             }
                             // random filename
                             $fn = $req_data['kode_unit'] . '_' . $bukti_transaksi->getRandomName();
@@ -330,31 +330,16 @@ class PembayaranController extends BaseController
                             ];
                         }
                         // return json_encode($result);
-                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('success', $result['message']);
+                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('success', $result['message']);
                     }
                 } else {
-                    // return json_encode([
-                    //     'status' => 'failed',
-                    //     'message' => 'Item tagihan tidak ditemukan!',
-                    //     'data' => [],
-                    // ]);
-                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', 'Item tagihan tidak ditemukan!');
+                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', 'Item tagihan tidak ditemukan!');
                 }
             } else {
-                // return json_encode([
-                //     'status' => 'failed',
-                //     'message' => 'Data tidak valid, mohon cek kembali field input data pembayaran!',
-                //     'data' => $validator->getErrors(),
-                // ]);
-                return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
+                return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
             }
         } catch (\Throwable $th) {
-            // return json_encode([
-            //     'status' => 'error',
-            //     'message' => $th->getMessage(),
-            //     'data' => $th->getTrace(),
-            // ]);
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', $th->getMessage());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', $th->getMessage());
         }
     }
 }
