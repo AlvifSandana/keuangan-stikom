@@ -151,7 +151,9 @@ class PembayaranController extends BaseController
         }
     }
 
-
+    /**
+     * cari pembayaran mahasiswa by nim
+     */
     public function search_pembayaran()
     {
         try {
@@ -197,6 +199,50 @@ class PembayaranController extends BaseController
                 'message' => $th->getMessage(),
                 'data' => $th->getTrace(),
             ]);
+        }
+    }
+
+    /**
+     * create pembayaran baru
+     */
+    public function create_pembayaran()
+    {
+        try {
+            // create validator instance
+            $validator = \Config\Services::validation();
+            $validator->setRules([
+                'kode_unit' => 'required',
+                'tanggal_transaksi' => 'required',
+                'nominal_transaksi' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // get data from request
+                $req_data = [
+                    'item_kode' => $this->request->getPost('item_kode'),
+                    'kode_unit' => $this->request->getPost('kode_unit'),
+                    'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi'),
+                    'q_debit' => $this->request->getPost('nominal_transaksi'),
+                ];
+                // create model instance
+                $m_transaksi = new Transaksi();
+                // get kode transaksi pembayaran mahasiswa
+                // where kode_transaksi like '%nim-D%'
+                $kode_transaksi = $m_transaksi->findTransaksi($req_data['kode_unit'], 'D');
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Data tidak valid, mohon cek kembali field input data pembayaran!',
+                    'data' => $validator->getErrors(),
+                ]); 
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'failed',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace(),
+            ]); 
         }
     }
 }
