@@ -6,6 +6,29 @@
     var global_tagihan = 0;
     var global_pembayaran = 0;
 
+    /** 
+     * Event onchange item tagihan pada modal tambah pembayaran.
+     * Set semester_id
+     */
+    $('#add_item_kode').on('change', function() {
+        // get option selected value
+        var optSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        var textSelected = $('#add_item_kode option:selected').text();
+        // console.log(valueSelected);
+        // array of item_tagihan
+        var item_tagihan = <? echo json_encode($item_paket); ?>;
+        // get semester_id from array
+        var semester_id;
+        item_tagihan.forEach(item => {
+            console.log(item);
+            if(item.kode_item == valueSelected) { semester_id = item.semester_id;}
+        });
+        // console.log(semester_id);
+        $('#add_semester_id').val(semester_id);
+        $('#add_nama_item').val(textSelected);
+    });
+
     /**
      * create a new pembayaran
      */
@@ -14,17 +37,16 @@
         $("#btn_tambah_pembayaran").html(`<div class="spinner-border text-light spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>`);
         var fbp = new FormData($('form#form_create_pembayaran')[0]);
         var mydata = {
-            item_id: $("#add_item_id").val(),
-            paket_id: $("#add_paket_id").val(),
-            mahasiswa_id: $("#add_mahasiswa_id").val(),
-            tanggal_pembayaran: $("#add_tanggal_pembayaran").val(),
-            nominal_pembayaran: $("#add_nominal_pembayaran").val(),
+            item_kode: $("#add_item_kode").val(),
+            kode_unit: $("#add_kode_unit").val(),
+            tanggal_transaksi: $("#add_tanggal_transaksi").val(),
+            nominal_transaksi: $("#add_nominal_transaksi").val(),
             user_id: 1,
             is_dokumen_pembayaran: $('#is_fbp').val(),
             dokumen_pembayaran: fbp
         }
         $.ajax({
-            url: "<?php echo base_url(); ?>/pembayaran/create",
+            url: "<?php echo base_url(); ?>/keuangan-mahasiswa/pembayaran/create",
             type: "POST",
             contentType: false,
             // processData: false,

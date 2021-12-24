@@ -4,6 +4,7 @@ namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
 use App\Models\ItemPaket;
+use App\Models\Semester;
 use App\Models\Transaksi;
 
 class PembayaranController extends BaseController
@@ -34,7 +35,7 @@ class PembayaranController extends BaseController
             $builder_tagihan = $db->table('tbl_transaksi');
             $builder_pembayaran = $db->table('tbl_transaksi');
             $m_itempaket = new ItemPaket();
-            
+
             // query mahasiswa
             $query_mhs = $builder_mhs
                 ->select('*, tbl_dosen_wali_mahasiswa.*, tbl_jurusan.*, tbl_paket.*')
@@ -57,8 +58,8 @@ class PembayaranController extends BaseController
 
             // query data tagihan
             $query_tagihan = $builder_tagihan
-                ->where('kode_unit' , $nim)
-                ->where('kategori_transaksi' , 'K')
+                ->where('kode_unit', $nim)
+                ->where('kategori_transaksi', 'K')
                 ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
                 ->get();
             // find data tagihan
@@ -66,10 +67,10 @@ class PembayaranController extends BaseController
 
             // query data pembayaran
             $query_pembayaran = $builder_pembayaran
-            ->where('kode_unit' , $nim)
-            ->where('kategori_transaksi' , 'D')
-            ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
-            ->get();
+                ->where('kode_unit', $nim)
+                ->where('kategori_transaksi', 'D')
+                ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
+                ->get();
             // find data pembayaran
             $pembayaran = $query_pembayaran->getResultArray();
 
@@ -78,7 +79,7 @@ class PembayaranController extends BaseController
                 ->where('paket_id', $mahasiswa[0]['id_paket'])
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'inner')
                 ->findAll();
-            
+
             // set data for view
             $data['mahasiswa'] = $mahasiswa;
             $data['dosen'] = $dosen;
@@ -171,7 +172,7 @@ class PembayaranController extends BaseController
                 $db = \Config\Database::connect('default');
                 $m_transaksi = new Transaksi($db);
                 // get data transaksi (kredit) by nim
-                $pembayaran = $m_transaksi->findTransaksi($nim, 'debit');
+                $pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'kode_transaksi', 'ASC');
                 if (!is_string($pembayaran)) {
                     return json_encode([
                         'status' => 'success',
@@ -208,6 +209,8 @@ class PembayaranController extends BaseController
     public function create_pembayaran()
     {
         try {
+            // result
+            $result = [];
             // create validator instance
             $validator = \Config\Services::validation();
             $validator->setRules([
@@ -221,28 +224,137 @@ class PembayaranController extends BaseController
                 // get data from request
                 $req_data = [
                     'item_kode' => $this->request->getPost('item_kode'),
+                    'nama_item' => $this->request->getPost('nama_item'),
                     'kode_unit' => $this->request->getPost('kode_unit'),
+                    'kode_metode_pembayaran' => $this->request->getPost('kode_metode_pembayaran'),
                     'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi'),
                     'q_debit' => $this->request->getPost('nominal_transaksi'),
+                    'is_bukti_transaksi' => $this->request->getPost('is_bukti_transaksi'),
                 ];
+                $bukti_transaksi = $this->request->getFile('bukti_transaksi');
                 // create model instance
                 $m_transaksi = new Transaksi();
+                $m_semester = new Semester();
                 // get kode transaksi pembayaran mahasiswa
-                // where kode_transaksi like '%nim-D%'
-                $kode_transaksi = $m_transaksi->findTransaksi($req_data['kode_unit'], 'D');
+                // where kode_transaksi like '%nim%'
+                $kode_transaksi_pembayaran = $m_transaksi->findTransaksi($req_data['kode_unit'], 'D', 'kode_transaksi', 'DESC');
+                $split_kode_transaksi_pembayaran = explode('-', $kode_transaksi_pembayaran[0]['kode_transaksi']);
+                /**
+                 * validating pembayaran:
+                 * 
+                 * nominal pembayaran > nominal item tagihan ? pembayaran failed : pembayaran success 
+                 * nominal pembayaran >= sisa tagihan ? pembayaran failed : pembayaran success
+                 */
+                // get item tagihan
+                $item_tagihan = $m_transaksi
+                    ->where('item_kode', $req_data['item_kode'])
+                    ->where('kategori_transaksi', 'K')
+                    ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
+                    ->find();
+                // get semua pembayaran berdasarkan item_kode, 
+                $semua_pembayaran_item = $m_transaksi->findTransaksiByItemKode($req_data['kode_unit'], 'D', $req_data['item_kode'], 'kode_transaksi', 'ASC');
+                // dd($semua_pembayaran_item);
+                // cek item tagihan
+                if ($item_tagihan) {
+                    // get semester by semester_id
+                    $semester = $m_semester->find($item_tagihan[0]['semester_id']);
+                    $data_semester = explode(' ', $semester['nama_semester']);
+                    // menghitung total tagihan item, 
+                    $total_tagihan_item = (int) $item_tagihan[0]['q_kredit'];
+                    $total_pembayaran_item = 0;
+                    // menghitung total pembayaran item jika record tersedia
+                    if ($semua_pembayaran_item != "Data tidak ditemukan!") {
+                        foreach ($semua_pembayaran_item as $value) {
+                            $total_pembayaran_item += $value['q_debit'];
+                        }
+                    }
+                    // hitung sisa tagihan item
+                    $sisa_tagihan_item = $total_tagihan_item - $total_pembayaran_item;
+                    //dd($total_tagihan_item, $total_pembayaran_item, $req_data, $sisa_tagihan_item);
+                    // proses validasi nominal pembayaran
+                    if ($req_data['q_debit'] > $total_tagihan_item || $req_data['q_debit'] > $sisa_tagihan_item) {
+                        $result = [
+                            "status" => "failed",
+                            "message" => "Validasi gagal. Mohon isi nominal pembayaran yang sesuai!",
+                            "data" => []
+                        ];
+                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', 'Data tidak valid, mohon cek kembali nominal pembayaran!');
+                    } else {
+                        // cek bukti transaksi
+                        if ($req_data['is_bukti_transaksi']) {
+                            // validate dokumen pembayaran
+                            if (!$bukti_transaksi->isValid()) {
+                                // throw error 
+                                throw new \RuntimeException($bukti_transaksi->getErrorString() . '(' . $bukti_transaksi->getError() . ')');
+                                $result = [
+                                    'status' => 'error',
+                                    'message' => $bukti_transaksi->getErrorString() . '(' . $bukti_transaksi->getError() . ')',
+                                    'data' => []
+                                ];
+                                return redirect()->to(base_url() . '/keaungan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'])->with('error', $result['message']);
+                            }
+                            // random filename
+                            $fn = $req_data['kode_unit'] . '_' . $bukti_transaksi->getRandomName();
+                            // move file to public/uploaded/bukti_transaksi
+                            $upload_path = $bukti_transaksi->move(ROOTPATH . 'public/uploaded/bukti_transaksi/', $fn);
+                            // insert transaksi pembayaran
+                            $result = [
+                                'status' => "success",
+                                'message' => 'Berhasil menambahkan pembayaran dari' . $req_data['kode_unit'],
+                                'data' => $m_transaksi->insert([
+                                    'kode_transaksi' => 'BY-' . $req_data['kode_unit'] . '-D-' . $data_semester[1] . $split_kode_transaksi_pembayaran[4],
+                                    'kode_unit' => $req_data['kode_unit'],
+                                    'kategori_transaksi' => 'D',
+                                    'item_kode' => $req_data['item_kode'],
+                                    'q_debit' => $req_data['q_debit'],
+                                    'kode_metode_pembayaran' => $req_data['kode_metode_pembayaran'],
+                                    'bukti_transaksi' => $fn,
+                                    'tanggal_transaksi' => $req_data['tanggal_transaksi'],
+                                ]),
+                            ];
+                        } else {
+                            // insert transaksi pembayaran
+                            $result = [
+                                'status' => "success",
+                                'message' => 'Berhasil menambahkan pembayaran ' . $req_data['nama_item'] . ' dengan NIM ' . $req_data['kode_unit'],
+                                'data' => $m_transaksi->insert([
+                                    'kode_transaksi' => 'BY-' . $req_data['kode_unit'] . '-D-' . $data_semester[1] . '-' . ($split_kode_transaksi_pembayaran[4] + 1),
+                                    'kode_unit' => $req_data['kode_unit'],
+                                    'kategori_transaksi' => 'D',
+                                    'item_kode' => $req_data['item_kode'],
+                                    'q_debit' => $req_data['q_debit'],
+                                    'kode_metode_pembayaran' => $req_data['kode_metode_pembayaran'],
+                                    'bukti_transaksi' => '',
+                                    'tanggal_transaksi' => $req_data['tanggal_transaksi'],
+                                ]),
+                            ];
+                        }
+                        // return json_encode($result);
+                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('success', $result['message']);
+                    }
+                } else {
+                    // return json_encode([
+                    //     'status' => 'failed',
+                    //     'message' => 'Item tagihan tidak ditemukan!',
+                    //     'data' => [],
+                    // ]);
+                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', 'Item tagihan tidak ditemukan!');
+                }
             } else {
-                return json_encode([
-                    'status' => 'failed',
-                    'message' => 'Data tidak valid, mohon cek kembali field input data pembayaran!',
-                    'data' => $validator->getErrors(),
-                ]); 
+                // return json_encode([
+                //     'status' => 'failed',
+                //     'message' => 'Data tidak valid, mohon cek kembali field input data pembayaran!',
+                //     'data' => $validator->getErrors(),
+                // ]);
+                return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
             }
         } catch (\Throwable $th) {
-            return json_encode([
-                'status' => 'failed',
-                'message' => $th->getMessage(),
-                'data' => $th->getTrace(),
-            ]); 
+            // return json_encode([
+            //     'status' => 'error',
+            //     'message' => $th->getMessage(),
+            //     'data' => $th->getTrace(),
+            // ]);
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit'))->with('error', $th->getMessage());
         }
     }
 }

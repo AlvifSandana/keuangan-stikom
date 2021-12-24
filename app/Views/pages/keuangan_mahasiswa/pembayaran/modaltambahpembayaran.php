@@ -8,25 +8,27 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?php echo base_url(); ?>/pembayaran/create" method="post" id="form_create_pembayaran" enctype="multipart/form-data">
-                    <input type="number" name="mahasiswa_id" id="add_mahasiswa_id" hidden>
-                    <input type="number" name="user_id" id="add_user_id" value="1" hidden>
+                <form action="<?php echo base_url(); ?>/keuangan-mahasiswa/pembayaran/create" method="post" id="form_create_pembayaran" enctype="multipart/form-data">
+                    <input type="number" name="kode_unit" id="add_kode_unit" value="<? echo $mahasiswa[0]['nim'] ?>" hidden>
+                    <input type="number" name="user_id" id="add_user_id" value="<? echo session()->get('id_user'); ?>" hidden>
+                    <input type="text" name="semester_id" id="add_semester_id" value="" >
+                    <input type="text" name="nama_item" id="add_nama_item" value="" >
                     <div class="form-group">
                         <label for="itempembayaran">ITEM PAKET</label>
-                        <select class="form-control" name="item_id" id="add_item_id">
+                        <select class="form-control" name="item_kode" id="add_item_kode">
                             <option value="">Pilih...</option>
                             <?
                             if ($item_paket) {
                                 foreach ($item_paket as $key => $value) {
-                                    echo '<option value="'.$value['id_item'].'">'.$value['nama_semester'].' - '.$value['nama_item'].'</option>';
+                                    echo '<option value="' . $value['kode_item'] . '">' . $value['nama_semester'] . ' - ' . $value['nama_item'] . '</option>';
                                 }
                             }
                             ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tanggal_pembayaran">TANGGAL PEMBAYARAN</label>
-                        <input type="datetime-local" class="form-control" name="tanggal_pembayaran" id="add_tanggal_pembayaran">
+                        <label for="tanggal_transaksi">TANGGAL PEMBAYARAN</label>
+                        <input type="datetime-local" class="form-control" name="tanggal_transaksi" id="add_tanggal_transaksi">
                     </div>
                     <div class="form-group">
                         <label for="">NOMINAL PEMBAYARAN</label>
@@ -34,7 +36,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Rp. </span>
                             </div>
-                            <input type="number" class="form-control" name="nominal_pembayaran" id="add_nominal_pembayaran" aria-label="NOMINAL PEMBAYARAN">
+                            <input type="number" class="form-control" name="nominal_transaksi" id="add_nominal_transaksi" aria-label="NOMINAL PEMBAYARAN">
                             <div class="input-group-append">
                                 <span class="input-group-text">.00</span>
                             </div>
@@ -42,12 +44,12 @@
                     </div>
                     <div class="form-group">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" name="is_dokumen_pembayaran" id="is_fbp">
+                            <input class="form-check-input" type="checkbox" value="1" name="is_bukti_transaksi" id="is_fbp">
                             <label class="" for="">DOKUMEN PEMBAYARAN</label>
                         </div>
                         <div class="input-group mb-3">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="fbp" name="dokumen_pembayaran" disabled>
+                                <input type="file" class="custom-file-input" id="fbp" name="bukti_transaksi" disabled>
                                 <label class="custom-file-label" for="inputGroupFile01">Choose file...</label>
                             </div>
                         </div>
