@@ -3,10 +3,12 @@
 namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
+use App\Models\Angkatan;
 use App\Models\ItemPaket;
 use App\Models\Jalur;
 use App\Models\Jurusan;
 use App\Models\Paket;
+use App\Models\Semester;
 use App\Models\SesiKuliah;
 
 class PaketController extends BaseController
@@ -18,6 +20,8 @@ class PaketController extends BaseController
         $m_jurusan = new Jurusan();
         $m_sesi = new SesiKuliah();
         $m_jalur = new Jalur();
+        $m_angkatan = new Angkatan();
+        $m_semester = new Semester();
         // get data paket, jurusan, sesi, and jalur
         $data['data_paket'] = $m_paket
             ->join('tbl_jurusan', 'jurusan_id = tbl_jurusan.id_jurusan', 'inner')
@@ -27,6 +31,8 @@ class PaketController extends BaseController
         $data['jurusan'] = $m_jurusan->findAll();
         $data['sesi'] = $m_sesi->findAll();
         $data['jalur'] = $m_jalur->findAll();
+        $data['angkatan'] = $m_angkatan->findAll();
+        $data['semester'] = $m_semester->findAll();
         // create request instance
         $request = \Config\Services::request();
         // get uri segment for dynamic sidebar active item
