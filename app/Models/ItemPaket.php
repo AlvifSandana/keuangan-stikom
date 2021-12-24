@@ -14,7 +14,7 @@ class ItemPaket extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['kode_item', 'nama_item', 'nominal_item', 'keterangan_item', 'paket_id', 'angkatan_id', 'semester_id'];
 
     // Dates
     protected $useTimestamps = true;
