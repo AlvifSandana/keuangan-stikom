@@ -18,6 +18,24 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="angkatan_id">TAHUN ANGKATAN</label>
+                    <select name="angkatan_id" id="angkatan_id" class="form-control custom-select" style="width: 100%;">
+                        <option value=""></option>
+                        <?php foreach ($angkatan as $key => $value) {
+                            echo '<option value="' . $value['id_angkatan'] . '">' . $value['tahun_angkatan'] . '</option>';
+                        } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="semester_id">SEMESTER</label>
+                    <select name="semester_id" id="semester_id" class="form-control custom-select" style="width: 100%;">
+                        <option value=""></option>
+                        <?php foreach ($semester as $key => $value) {
+                            echo '<option value="' . $value['id_semester'] . '">' . $value['nama_semester'] . '</option>';
+                        } ?>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="dp_nama_item">NAMA ITEM</label>
                     <input type="text" name="nama_item" id="nama_item" class="form-control">
                 </div>

@@ -16,6 +16,16 @@
         tags: true,
         dropdownParent: $("#modalAddItemPaket")
     });
+    $('#angkatan_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalAddItemPaket")
+    });
+    $('#semester_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalAddItemPaket")
+    });
 
     // get data on selected paket tagihan
     function getItemPaket() {
@@ -76,7 +86,7 @@
      */
     function getItemPaketById(id_item) {
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/itempaket/find/' + id_item,
+            url: '<?php echo base_url(); ?>/master-keuangan/itempaket/find/' + id_item,
             type: 'GET',
             dataType: 'JSON',
             success: function(data) {
@@ -142,13 +152,15 @@
      */
     function addItemPaket() {
         var data_item = {
-            paket_id: parseInt($('#paket_id').val()),
+            paket_id: $('#paket_id').val(),
+            angkatan_id: $('#angkatan_id').val(),
+            semester_id: $('#semester_id').val(),
             nama_item: $('#nama_item').val(),
             nominal_item: parseInt($('#nominal_item').val()),
             keterangan_item: $('#keterangan_item').val(),
         };
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/itempaket/create',
+            url: '<?php echo base_url(); ?>/master-keuangan/itempaket/create',
             type: 'POST',
             data: data_item,
             dataType: 'JSON',
@@ -163,6 +175,7 @@
             },
             error: function(jqXHR) {
                 showSWAL('error', jqXHR);
+                console.log(jqXHR);
             }
         });
     }
