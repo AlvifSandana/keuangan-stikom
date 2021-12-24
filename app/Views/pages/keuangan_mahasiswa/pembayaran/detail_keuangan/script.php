@@ -21,8 +21,9 @@
         // get semester_id from array
         var semester_id;
         item_tagihan.forEach(item => {
-            console.log(item);
-            if(item.kode_item == valueSelected) { semester_id = item.semester_id;}
+            if (item.kode_item == valueSelected) {
+                semester_id = item.semester_id;
+            }
         });
         // console.log(semester_id);
         $('#add_semester_id').val(semester_id);
