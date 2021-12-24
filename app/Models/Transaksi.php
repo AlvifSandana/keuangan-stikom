@@ -46,12 +46,18 @@ class Transaksi extends Model
     public function findTransaksi(String $kode_unit, String $kategori_transaksi)
     {
         try {
+            // set result
             $result = "Data tidak ditemukan!";
-            $this->like('kode_unit', $kode_unit);
-            $this->like('kategori_transaksi', $kategori_transaksi);
-            $query = $this->get();
+            // set query
+            $query = $this->builder()
+                ->like('kode_unit', $kode_unit, 'both')
+                ->like('kategori_transaksi', $kategori_transaksi)
+                ->orderBy('kode_transaksi', 'DESC')
+                ->get();
+            // check query, when query success with data, 
+            // set to result
             if ($query->getResultArray()) {
-                $result = $query->getResutArray();
+                $result = $query->getResultArray();
             }
             return $result;
         } catch (\Throwable $th) {
