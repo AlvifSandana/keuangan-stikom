@@ -58,7 +58,8 @@ $routes->get('/master-keuangan/paket', 'Master/PaketController::index', ['filter
 $routes->post('/master-keuangan/paket/create', 'Master/PaketController::create_paket', ['filter' => 'auth']);
 $routes->put('/master-keuangan/paket/update', 'Master/PaketController::update_paket', ['filter' => 'auth']);
 $routes->delete('/master-keuangan/paket/delete', 'Master/PaketController::delete_paket', ['filter' => 'auth']);
-$routes->get('/master-keuangan/itempaket/create', 'Master\ItemPaketController::create_item', ['filter' => 'auth']);
+$routes->post('/master-keuangan/itempaket/create', 'Master\ItemPaketController::create_item', ['filter' => 'auth']);
+$routes->post('/master-keuangan/itempaket/find/(:any)', 'Master\ItemPaketController::find_item_by_id/$1', ['filter' => 'auth']);
 $routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_item_paket/$1', ['filter' => 'auth']);
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
 
