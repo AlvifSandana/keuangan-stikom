@@ -11,8 +11,8 @@
                 <form action="<?php echo base_url(); ?>/keuangan-mahasiswa/pembayaran/create" method="post" id="form_create_pembayaran" enctype="multipart/form-data">
                     <input type="number" name="kode_unit" id="add_kode_unit" value="<? echo $mahasiswa[0]['nim'] ?>" hidden>
                     <input type="number" name="user_id" id="add_user_id" value="<? echo session()->get('id_user'); ?>" hidden>
-                    <input type="text" name="semester_id" id="add_semester_id" value="" >
-                    <input type="text" name="nama_item" id="add_nama_item" value="" >
+                    <input type="text" name="semester_id" id="add_semester_id" value="" hidden>
+                    <input type="text" name="nama_item" id="add_nama_item" value="" hidden>
                     <div class="form-group">
                         <label for="itempembayaran">ITEM PAKET</label>
                         <select class="form-control" name="item_kode" id="add_item_kode">
