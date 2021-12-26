@@ -122,10 +122,10 @@
                                     Data Keuangan
                                     <span class="text-primary"><?php echo $mahasiswa[0]['nama_mhs']; ?></span>
                                     <div class="btn-group dropleft float-right">
-                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false"<? if(strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')){ echo ' disabled'; }?>>
                                             <i class="fas fa-info-circle"></i> Action
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
                                             <a class="dropdown-item" href="#pembayaran-baru" data-toggle="modal" data-target="#modalCreatePembayaran">Tambah Pembayaran Baru</a>
                                             <a class="dropdown-item" href="#tagihan-baru" data-toggle="modal" data-target="#modalTambahTagihan">Tambah Tagihan Baru</a>
                                             <a class="dropdown-item" href="#diskon-baru">Tambah Diskon</a>
