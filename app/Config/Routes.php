@@ -52,15 +52,23 @@ $routes->get('/keuangan-mahasiswa/tagihan', 'Mahasiswa/TagihanController::index'
 $routes->get('/transaksi/pemasukan', 'Transaksi/PemasukanController::index', ['filter' => 'auth']);
 $routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index', ['filter' => 'auth']);
 
-// route for master
+// route for master mahasiswa
 $routes->get('/master-mahasiswa', 'Master/MahasiswaController::index', ['filter' => 'auth']);
+
+// route for master paket
 $routes->get('/master-keuangan/paket', 'Master/PaketController::index', ['filter' => 'auth']);
 $routes->post('/master-keuangan/paket/create', 'Master/PaketController::create_paket', ['filter' => 'auth']);
 $routes->put('/master-keuangan/paket/update', 'Master/PaketController::update_paket', ['filter' => 'auth']);
 $routes->delete('/master-keuangan/paket/delete', 'Master/PaketController::delete_paket', ['filter' => 'auth']);
+
+// route for master item paket
 $routes->post('/master-keuangan/itempaket/create', 'Master\ItemPaketController::create_item', ['filter' => 'auth']);
-$routes->post('/master-keuangan/itempaket/find/(:any)', 'Master\ItemPaketController::find_item_by_id/$1', ['filter' => 'auth']);
+$routes->get('/master-keuangan/itempaket/find/(:any)', 'Master\ItemPaketController::find_item_by_id/$1', ['filter' => 'auth']);
+$routes->post('/master-keuangan/itempaket/update/(:any)', 'Master\ItemPaketController::update_item/$1', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/itempaket/delete/(:any)', 'Master\ItemPaketController::delete_item/$1', ['filter' => 'auth']);
 $routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_item_paket/$1', ['filter' => 'auth']);
+
+// route for master pendukung
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
 
 // route for master backup restore database

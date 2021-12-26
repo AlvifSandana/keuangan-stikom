@@ -51,7 +51,7 @@
                     // iterate data
                     itempaket.forEach(element => {
                         // create new row data
-                        tbl.row.add([element.kode_item, element.nama_item, element.tahun_angkatan, element.nama_semester, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.kode_item)]).draw(false);
+                        tbl.row.add([element.kode_item, element.nama_item, element.tahun_angkatan, element.nama_semester, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.id_item, element.kode_item)]).draw(false);
                         // add total tagihan
                         total_tagihan += parseInt(element.nominal_item);
                     });
@@ -68,15 +68,15 @@
     /** 
      * generate Action Button
      */
-    function generateActionButton(kode_item) {
+    function generateActionButton(id_item, kode_item) {
         return `
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-info"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item text-warning" href="<?php echo base_url(); ?>/keuangan-keuangan/itempaket/update/${kode_item}"><i class="fas fa-edit"></i> Edit</a>
-                    <a class="dropdown-item text-danger" href="<?php echo base_url(); ?>/keuangan-keuangan/itempaket/delete/${kode_item}"><i class="fas fa-trash"></i> Hapus</a>
+                    <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getItemPaketById(${id_item})"><i class="fas fa-edit"></i> Edit</a>
+                    <a class="dropdown-item text-danger" href="#" onclick="deleteItemPaket(${id_item})"><i class="fas fa-trash"></i> Hapus</a>
                 </div>
             </div>`;
     }
@@ -95,16 +95,22 @@
                 } else {
                     // clean input
                     $('#edit_id_item').val(0);
-                    $('#edit_paket_id').val(0);
+                    $('#edit_kode_item').val('');
+                    $('#edit_paket_id').val('');
+                    $('#edit_angkatan_id').val('');
+                    $('#edit_semester_id').val('');
                     $('#edit_nama_item').val('');
                     $('#edit_nominal_item').val(0);
                     $('#edit_keterangan_item').val('data.data.keterangan_item');
                     // fill with data
-                    $('#edit_id_item').val(data.data.id_item);
-                    $('#edit_paket_id').val(data.data.paket_id);
-                    $('#edit_nama_item').val(data.data.nama_item);
-                    $('#edit_nominal_item').val(parseInt(data.data.nominal_item));
-                    $('#edit_keterangan_item').val(data.data.keterangan_item);
+                    $('#edit_id_item').val(data.data[0].id_item);
+                    $('#edit_kode_item').val(data.data[0].kode_item);
+                    $('#edit_paket_id').val(data.data[0].paket_id).change();
+                    $('#edit_angkatan_id').val(data.data[0].angkatan_id).change();
+                    $('#edit_semester_id').val(data.data[0].semester_id).change();
+                    $('#edit_nama_item').val(data.data[0].nama_item);
+                    $('#edit_nominal_item').val(parseInt(data.data[0].nominal_item));
+                    $('#edit_keterangan_item').val(data.data[0].keterangan_item);
                 }
             },
             error: function(jqXHR) {
@@ -195,7 +201,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>' + '/itempaket/delete/' + id_item,
+                    url: '<?php echo base_url(); ?>/master-keuangan/itempaket/delete/' + id_item,
                     type: 'DELETE',
                     dataType: 'JSON',
                     success: function(data) {
@@ -221,13 +227,17 @@
     function updateItemPaket() {
         var data_item = {
             id_item: parseInt($('#edit_id_item').val()),
-            paket_id: parseInt($('#edit_paket_id').val()),
+            kode_item: $('#edit_kode_item').val(),
+            paket_id: $('#edit_paket_id').val(),
+            angkatan_id: $('#edit_angkatan_id').val(),
+            semester_id: $('#edit_semester_id').val(),
             nama_item: $('#edit_nama_item').val(),
             nominal_item: parseInt($('#edit_nominal_item').val()),
             keterangan_item: $('#edit_keterangan_item').val(),
         };
+        console.log(data_item);
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/itempaket/update/' + data_item.id_item,
+            url: '<?php echo base_url(); ?>/master-keuangan/itempaket/update/' + data_item.id_item,
             type: 'POST',
             data: data_item,
             dataType: 'JSON',
