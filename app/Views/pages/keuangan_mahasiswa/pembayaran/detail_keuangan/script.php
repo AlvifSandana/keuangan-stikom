@@ -6,6 +6,17 @@
     var global_tagihan = 0;
     var global_pembayaran = 0;
 
+    // select2
+    $('.custom-select').select2({
+        width: 'resolve',
+    });
+    $('#tagihan_item_paket').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalTambahTagihan")
+    });
+
+
     /** 
      * Event onchange item tagihan pada modal tambah pembayaran.
      * Set semester_id
@@ -99,6 +110,41 @@
                         showSWAL('error', jqXHR);
                     }
                 });
+            }
+        });
+    }
+
+    /** 
+     * Create new tagihan
+     */
+    function createTagihan() {
+        var kode = ($('#tagihan_item_paket').val()).split('-');
+        var data_tagihan = {
+            kode_unit: $('#tagihan_nim').val(),
+            item_kode: kode[0],
+            q_kredit: kode[2],
+            tanggal_transaksi: $('#tagihan_tanggal_transaksi').val(),
+            semester_id: kode[1],
+        };
+        console.log(data_tagihan);
+        $.ajax({
+            url: '<? echo base_url(); ?>/keuangan-mahasiswa/tagihan/create',
+            type: 'POST',
+            data: data_tagihan,
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR){
+                showSWAL('error', jqXHR.response);
+                console.log(jqXHR);
             }
         });
     }

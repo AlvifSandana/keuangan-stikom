@@ -21,6 +21,9 @@
         }
     });
 
+    /** 
+     * Search mahasiswa by keyword (NIM or Nama)
+     */
     function searchMahasiswa() {
         var data = {
             keyword: $('input[name="keyword"]').val(),
@@ -53,6 +56,7 @@
         })
     }
 
+    // generate action button for each mahasiswa
     function generateActionButton(nim) {
         return `
             <div class="dropdown">

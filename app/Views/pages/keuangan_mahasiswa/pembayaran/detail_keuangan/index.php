@@ -1,5 +1,21 @@
 <?= $this->extend('layout/master') ?>
 
+<?= $this->section('custom-styles') ?>
+<style>
+    .select2-selection__rendered {
+        line-height: 30px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 35px !important;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('content-header') ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -111,88 +127,98 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="#pembayaran-baru" data-toggle="modal" data-target="#modalCreatePembayaran">Tambah Pembayaran Baru</a>
-                                            <a class="dropdown-item" href="#tagihan-baru">Tambah Tagihan Baru</a>
+                                            <a class="dropdown-item" href="#tagihan-baru" data-toggle="modal" data-target="#modalTambahTagihan">Tambah Tagihan Baru</a>
                                             <a class="dropdown-item" href="#diskon-baru">Tambah Diskon</a>
                                         </div>
                                     </div>
                                 </h4>
                                 <hr>
-                                <div class="card shadow-none border">
-                                    <div class="card-header">
-                                        <h5 class="card-title h5">Semester X</h5>
-                                        <div class="card-tools float-right">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                                            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
-                                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h6 class="h6 font-weight-bold">Detail Tagihan</h6>
-                                                <table class="table table-hover table-bordered table-sm" id="tbl_detail_tagihan">
-                                                    <thead class="text-center">
-                                                        <th>KODE ITEM</th>
-                                                        <th>NAMA ITEM</th>
-                                                        <th>NOMINAL</th>
-                                                    </thead>
-                                                    <tbody class="">
-                                                        <?php
-                                                        $total_tagihan = 0;
-                                                        foreach ($tagihan as $key => $value) {
-                                                            $total_tagihan += $value['nominal_item']; ?>
-                                                            <tr>
-                                                                <td class="text-center"><? echo $value['kode_item']; ?></td>
-                                                                <td><? echo $value['nama_item']; ?></td>
-                                                                <td>Rp <? echo number_format($value['nominal_item']); ?></td>
-                                                            </tr>
-                                                        <? } ?>
-                                                        <tr class="font-weight-bold">
-                                                            <td class="text-center" colspan="2">Total Tagihan</td>
-                                                            <td>Rp <? echo number_format($total_tagihan); ?></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                <?
+                                $collapse_state = "";
+                                foreach ($semester as $s => $svalue) { ?>
+                                    <div class="card shadow-none border <?= $svalue['id_semester'] ?> <?= $collapse_state ?>">
+                                        <div class="card-header">
+                                            <h5 class="card-title h5"><? echo $svalue['nama_semester']; ?></h5>
+                                            <div class="card-tools float-right">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                                <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
+                                                <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
                                             </div>
-                                            <div class="col-md-6">
-                                                <h6 class="h6 font-weight-bold">Detail Pembayaran</h6>
-                                                <table class="table table-hover table-bordered table-sm" id="tbl_detail_tagihan">
-                                                    <thead class="text-center">
-                                                        <th>NAMA ITEM</th>
-                                                        <th>TERBAYAR</th>
-                                                        <th>ACTION</th>
-                                                    </thead>
-                                                    <tbody class="">
-                                                        <?php
-                                                        $total_pembayaran = 0;
-                                                        $current_nominal_item_pembayaran = 0;
-                                                        foreach ($tagihan as $key => $value) { ?>
-                                                            <tr>
-                                                                <td><? echo $value['nama_item']; ?></td>
-                                                                <? foreach ($pembayaran as $k => $v) {
-                                                                    if ($v['kode_item'] == $value['kode_item']) {
-                                                                        $current_nominal_item_pembayaran += $v['q_debit'];
-                                                                    } else {
-                                                                        continue;
-                                                                    }
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6 class="h6 font-weight-bold">Detail Tagihan</h6>
+                                                    <table class="table table-hover table-bordered table-sm" id="tbl_detail_tagihan">
+                                                        <thead class="text-center">
+                                                            <th>KODE ITEM</th>
+                                                            <th>NAMA ITEM</th>
+                                                            <th>NOMINAL</th>
+                                                        </thead>
+                                                        <tbody class="">
+                                                            <?php
+                                                            $total_tagihan = 0;
+                                                            foreach ($tagihan as $key => $value) {
+                                                                if ($value['nama_semester'] == $svalue['nama_semester']) {
+                                                                    $total_tagihan += $value['nominal_item']; ?>
+                                                                    <tr>
+                                                                        <td class="text-center"><? echo $value['kode_item']; ?></td>
+                                                                        <td><? echo $value['nama_item']; ?></td>
+                                                                        <td>Rp <? echo number_format($value['nominal_item']); ?></td>
+                                                                    </tr>
+                                                                <? } else {
+                                                                    $collapse_state = "collapsed-card";
                                                                 } ?>
-                                                                <td>Rp <? echo number_format($current_nominal_item_pembayaran); ?></td>
-                                                                <td></td>
+                                                            <? } ?>
+                                                            <tr class="font-weight-bold">
+                                                                <td class="text-center" colspan="2">Total Tagihan</td>
+                                                                <td>Rp <? echo number_format($total_tagihan); ?></td>
                                                             </tr>
-                                                        <?
-                                                            $total_pembayaran += $current_nominal_item_pembayaran;
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <h6 class="h6 font-weight-bold">Detail Pembayaran</h6>
+                                                    <table class="table table-hover table-bordered table-sm" id="tbl_detail_tagihan">
+                                                        <thead class="text-center">
+                                                            <th>NAMA ITEM</th>
+                                                            <th>TERBAYAR</th>
+                                                            <th>ACTION</th>
+                                                        </thead>
+                                                        <tbody class="">
+                                                            <?php
+                                                            $total_pembayaran = 0;
                                                             $current_nominal_item_pembayaran = 0;
-                                                        } ?>
-                                                        <tr class="font-weight-bold">
-                                                            <td class="text-center" colspan="2">Total Pembayaran</td>
-                                                            <td>Rp <? echo number_format($total_pembayaran); ?></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                            foreach ($tagihan as $key => $value) {
+                                                                if ($value['nama_semester'] == $svalue['nama_semester']) { ?>
+                                                                    <tr>
+                                                                        <td><? echo $value['nama_item']; ?></td>
+                                                                        <? foreach ($pembayaran as $k => $v) {
+                                                                            if ($v['kode_item'] == $value['kode_item']) {
+                                                                                $current_nominal_item_pembayaran += $v['q_debit'];
+                                                                            } else {
+                                                                                continue;
+                                                                            }
+                                                                        } ?>
+                                                                        <td>Rp <? echo number_format($current_nominal_item_pembayaran); ?></td>
+                                                                        <td></td>
+                                                                    </tr>
+                                                                <? } ?>
+                                                            <?
+                                                                $total_pembayaran += $current_nominal_item_pembayaran;
+                                                                $current_nominal_item_pembayaran = 0;
+                                                            } ?>
+                                                            <tr class="font-weight-bold">
+                                                                <td class="text-center" colspan="2">Total Pembayaran</td>
+                                                                <td>Rp <? echo number_format($total_pembayaran); ?></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                <? } ?>
                             </div>
                         </div>
                     </div>
@@ -203,6 +229,8 @@
 </section>
 <!-- modal create pembayaran -->
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modaltambahpembayaran') ?>
+<!-- modal create tagihan -->
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/modal_tambah_tagihan') ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
