@@ -133,8 +133,12 @@
                                     </div>
                                 </h4>
                                 <hr>
-                                <?
-                                foreach ($semester as $s => $svalue) { ?>
+                                <? if (strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')) { ?>
+                                    <div class="info text-center">
+                                        <span class="h4 text-primary"><?= $mahasiswa[0]['nama_mhs'] ?> mengikut program <?= $mahasiswa[0]['nama_paket'] ?></span>
+                                    </div>
+                                <? } ?>
+                                <? foreach ($semester as $s => $svalue) { ?>
                                     <div class="card shadow-none border <?= $svalue['id_semester'] ?>">
                                         <div class="card-header">
                                             <h5 class="card-title h5"><? echo $svalue['nama_semester']; ?></h5>
@@ -154,7 +158,7 @@
                                                             <th>NAMA ITEM</th>
                                                             <th>NOMINAL</th>
                                                         </thead>
-                                                        <tbody class="<?= $svalue['id_semester']?>">
+                                                        <tbody class="<?= $svalue['id_semester'] ?>">
                                                             <?php
                                                             $total_tagihan = 0;
                                                             foreach ($tagihan as $key => $value) {
