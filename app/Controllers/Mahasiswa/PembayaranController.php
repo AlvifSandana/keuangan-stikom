@@ -35,6 +35,7 @@ class PembayaranController extends BaseController
             $builder_tagihan = $db->table('tbl_transaksi');
             $builder_pembayaran = $db->table('tbl_transaksi');
             $m_itempaket = new ItemPaket();
+            $m_semester = new Semester();
 
             // query mahasiswa
             $query_mhs = $builder_mhs
@@ -58,18 +59,24 @@ class PembayaranController extends BaseController
 
             // query data tagihan
             $query_tagihan = $builder_tagihan
+                ->select('tbl_transaksi.*, tbl_item_paket.*, tbl_semester.nama_semester')
                 ->where('kode_unit', $nim)
                 ->where('kategori_transaksi', 'K')
                 ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
+                ->join('tbl_semester', 'tbl_item_paket.semester_id = tbl_semester.id_semester', 'inner')
+                ->orderBy('kode_transaksi', 'ASC')
                 ->get();
             // find data tagihan
             $tagihan = $query_tagihan->getResultArray();
 
             // query data pembayaran
             $query_pembayaran = $builder_pembayaran
+                ->select('tbl_transaksi.*, tbl_item_paket.*, tbl_semester.nama_semester')
                 ->where('kode_unit', $nim)
                 ->where('kategori_transaksi', 'D')
                 ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
+                ->join('tbl_semester', 'tbl_item_paket.semester_id = tbl_semester.id_semester', 'inner')
+                ->orderBy('kode_transaksi', 'ASC')
                 ->get();
             // find data pembayaran
             $pembayaran = $query_pembayaran->getResultArray();
@@ -77,8 +84,13 @@ class PembayaranController extends BaseController
             // get item paket by id_paket
             $item_paket = $m_itempaket
                 ->where('paket_id', $mahasiswa[0]['id_paket'])
+                ->like('angkatan_id', $mahasiswa[0]['angkatan'])
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'inner')
+                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'inner')
                 ->findAll();
+
+            // get semester 
+            $semester = $m_semester->findAll();
 
             // set data for view
             $data['mahasiswa'] = $mahasiswa;
@@ -86,6 +98,7 @@ class PembayaranController extends BaseController
             $data['tagihan'] = $tagihan;
             $data['pembayaran'] = $pembayaran;
             $data['item_paket'] = $item_paket;
+            $data['semester'] = $semester;
             // get uri segment for dynamic sidebar active item
             $data['uri_segment'] = $request->uri->getSegment(2);
             // show view
@@ -278,7 +291,7 @@ class PembayaranController extends BaseController
                             "message" => "Validasi gagal. Mohon isi nominal pembayaran yang sesuai!",
                             "data" => []
                         ];
-                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', 'Data tidak valid, mohon cek kembali nominal pembayaran!');
+                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', 'Data tidak valid, mohon cek kembali nominal pembayaran!');
                     } else {
                         // cek bukti transaksi
                         if ($req_data['is_bukti_transaksi']) {
@@ -291,7 +304,7 @@ class PembayaranController extends BaseController
                                     'message' => $bukti_transaksi->getErrorString() . '(' . $bukti_transaksi->getError() . ')',
                                     'data' => []
                                 ];
-                                return redirect()->to(base_url() . '/keaungan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'].'#datamhs')->with('error', $result['message']);
+                                return redirect()->to(base_url() . '/keaungan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', $result['message']);
                             }
                             // random filename
                             $fn = $req_data['kode_unit'] . '_' . $bukti_transaksi->getRandomName();
@@ -330,16 +343,16 @@ class PembayaranController extends BaseController
                             ];
                         }
                         // return json_encode($result);
-                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('success', $result['message']);
+                        return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('success', $result['message']);
                     }
                 } else {
-                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', 'Item tagihan tidak ditemukan!');
+                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', 'Item tagihan tidak ditemukan!');
                 }
             } else {
-                return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
+                return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit').'#datamhs')->with('error', $th->getMessage());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', $th->getMessage());
         }
     }
 }
