@@ -6,6 +6,16 @@
     var global_tagihan = 0;
     var global_pembayaran = 0;
 
+    // remove empty card detail keuangan
+    $(document).ready(function(){
+        var tbl = $('.tagihan > tbody')
+        for (let i = 0; i < tbl.length; i++) {
+            if(tbl[i].childElementCount == 1){
+                $(`.card .${tbl[i].className}`).remove();
+            }
+        }
+    });
+
     // select2
     $('.custom-select').select2({
         width: 'resolve',

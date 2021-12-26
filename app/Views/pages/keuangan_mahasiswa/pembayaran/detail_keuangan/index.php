@@ -134,9 +134,8 @@
                                 </h4>
                                 <hr>
                                 <?
-                                $collapse_state = "";
                                 foreach ($semester as $s => $svalue) { ?>
-                                    <div class="card shadow-none border <?= $svalue['id_semester'] ?> <?= $collapse_state ?>">
+                                    <div class="card shadow-none border <?= $svalue['id_semester'] ?>">
                                         <div class="card-header">
                                             <h5 class="card-title h5"><? echo $svalue['nama_semester']; ?></h5>
                                             <div class="card-tools float-right">
@@ -149,13 +148,13 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <h6 class="h6 font-weight-bold">Detail Tagihan</h6>
-                                                    <table class="table table-hover table-bordered table-sm" id="tbl_detail_tagihan">
+                                                    <table class="table table-hover table-bordered table-sm tagihan" id="tbl_detail_tagihan">
                                                         <thead class="text-center">
                                                             <th>KODE ITEM</th>
                                                             <th>NAMA ITEM</th>
                                                             <th>NOMINAL</th>
                                                         </thead>
-                                                        <tbody class="">
+                                                        <tbody class="<?= $svalue['id_semester']?>">
                                                             <?php
                                                             $total_tagihan = 0;
                                                             foreach ($tagihan as $key => $value) {
@@ -166,9 +165,7 @@
                                                                         <td><? echo $value['nama_item']; ?></td>
                                                                         <td>Rp <? echo number_format($value['nominal_item']); ?></td>
                                                                     </tr>
-                                                                <? } else {
-                                                                    $collapse_state = "collapsed-card";
-                                                                } ?>
+                                                                <? } ?>
                                                             <? } ?>
                                                             <tr class="font-weight-bold">
                                                                 <td class="text-center" colspan="2">Total Tagihan</td>
