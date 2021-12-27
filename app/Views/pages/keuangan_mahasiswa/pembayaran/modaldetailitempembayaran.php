@@ -10,20 +10,31 @@
             <div class="modal-body">
                 <form action="">
                     <div class="form-group">
-                        <label for="dp_nama_item">NAMA PEMBAYARAN</label>
-                        <input type="text" name="dp_nama_pembayaran" id="dp_nama_pembayaran" class="form-control" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="dp_nama_item">NAMA ITEM</label>
+                        <label for="dp_nama_item">NAMA ITEM PEMBAYARAN</label>
                         <input type="text" name="dp_nama_item" id="dp_nama_item" class="form-control" disabled>
                     </div>
-                    <table class="table table-hover table-bordered" id="tbl_detail_pembayaran_per_item">
+                    <div class="form-group">
+                        <label for="dp_nama_item">TOTAL NOMINAL TAGIHAN</label>
+                        <input type="text" name="dp_nama_item" id="dp_nominal_tagihan" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="dp_nama_item">TOTAL NOMINAL PEMBAYARAN</label>
+                        <input type="text" name="dp_nama_item" id="dp_nominal_pembayaran" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="dp_nama_item">SISA NOMINAL TAGIHAN</label>
+                        <input type="text" name="dp_nama_item" id="dp_sisa_tagihan" class="form-control" disabled>
+                    </div>
+                    <table class="table table-hover table-bordered table-sm" id="tbl_detail_pembayaran_per_item">
                         <thead class="text-center">
+                            <th>Kode Transaksi</th>
                             <th>Tanggal Pembayaran</th>
                             <th>Nominal Pembayaran</th>
                             <th>ACTION</th>
                         </thead>
-                        <tbody class="text-center"></tbody>
+                        <tbody class="text-center" id="tbody_dp">
+                            
+                        </tbody>
                     </table>
                 </form>
             </div>

@@ -122,10 +122,12 @@
                                     Data Keuangan
                                     <span class="text-primary"><?php echo $mahasiswa[0]['nama_mhs']; ?></span>
                                     <div class="btn-group dropleft float-right">
-                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false"<? if(strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')){ echo ' disabled'; }?>>
+                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false" <? if (strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')) {
+                                                                                                                                                                                        echo ' disabled';
+                                                                                                                                                                                    } ?>>
                                             <i class="fas fa-info-circle"></i> Action
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="#pembayaran-baru" data-toggle="modal" data-target="#modalCreatePembayaran">Tambah Pembayaran Baru</a>
                                             <a class="dropdown-item" href="#tagihan-baru" data-toggle="modal" data-target="#modalTambahTagihan">Tambah Tagihan Baru</a>
                                             <a class="dropdown-item" href="#diskon-baru">Tambah Diskon</a>
@@ -202,7 +204,21 @@
                                                                             }
                                                                         } ?>
                                                                         <td>Rp <? echo number_format($current_nominal_item_pembayaran); ?></td>
-                                                                        <td></td>
+                                                                        <td class="text-center">
+                                                                            <div class="dropdown no-arrow">
+                                                                                <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                                                                <div class="dropdown-menu">
+                                                                                    <a href="#detail" class="dropdown-item text-primary edit" data-toggle="modal" data-target="#modalDetailPembayaranPerItem" onclick="getDetailPembayaranItem('<?= $value['nama_item'] ?>', <?= $value['q_kredit'] ?>, '<?= $value['kode_unit'] ?>', '<?= $value['item_kode'] ?>')">
+                                                                                        <i class="fas fa-fw fa-eye "></i>
+                                                                                        Detail Pembayaran
+                                                                                    </a>
+                                                                                    <!--<a href="#hapus" class="dropdown-item text-danger" onclick="">
+                                                                                        <i class="fas fa-fw fa-trash"></i>
+                                                                                        Hapus
+                                                                                    </a>-->
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
                                                                     </tr>
                                                                 <? } ?>
                                                             <?
@@ -232,6 +248,8 @@
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modaltambahpembayaran') ?>
 <!-- modal create tagihan -->
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modal_tambah_tagihan') ?>
+<!-- modal detail pembayaran per item  -->
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/modaldetailitempembayaran') ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>

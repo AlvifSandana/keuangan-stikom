@@ -7,10 +7,10 @@
     var global_pembayaran = 0;
 
     // remove empty card detail keuangan
-    $(document).ready(function(){
+    $(document).ready(function() {
         var tbl = $('.tagihan > tbody')
         for (let i = 0; i < tbl.length; i++) {
-            if(tbl[i].childElementCount == 1){
+            if (tbl[i].childElementCount == 1) {
                 $(`.card .${tbl[i].className}`).remove();
             }
         }
@@ -142,20 +142,72 @@
             type: 'POST',
             data: data_tagihan,
             dataType: 'JSON',
-            success: function(data){
+            success: function(data) {
                 if (data.status != 'success') {
                     showSWAL('error', data.message);
                 } else {
                     showSWAL('success', data.message);
-                    setTimeout(function(){
+                    setTimeout(function() {
                         window.location.reload();
                     }, 3000);
                 }
             },
-            error: function(jqXHR){
+            error: function(jqXHR) {
                 showSWAL('error', jqXHR.response);
                 console.log(jqXHR);
             }
         });
+    }
+
+    /** 
+     * Get detail pembayaran per item
+     */
+    function getDetailPembayaranItem(nama_item, nominal_tagihan, kode_unit, item_kode) {
+        // set valur from params
+        $('#dp_nama_item').val(nama_item);
+        $('#dp_nominal_tagihan').val('Rp ' + num_format.format(nominal_tagihan));
+        // get data from api
+        $.ajax({
+            url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran/detail-pembayaran-item/' + kode_unit + '/' + item_kode,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    // total pembayaran
+                    var total_pembayaran = 0;
+                    var sisa_tagihan = 0;
+                    // clear tbody
+                    $('#tbl_detail_pembayaran_per_item tbody').empty();
+                    if (data.data.length > 0) {
+                        data.data.forEach(element => {
+                            var tr = `
+                            <tr>
+                                <td>${element.kode_transaksi}</td>
+                                <td>${element.tanggal_transaksi}</td>
+                                <td class="text-left">Rp ${num_format.format(element.q_debit)}</td>
+                                <td></td>
+                            </tr>`
+                            $('#tbl_detail_pembayaran_per_item tbody').append(tr);
+                            total_pembayaran += parseInt(element.q_debit);
+                        });
+                        sisa_tagihan = parseInt(nominal_tagihan) - total_pembayaran
+                        $('#dp_nominal_pembayaran').val('Rp ' + num_format.format(total_pembayaran))
+                        $('#dp_sisa_tagihan').val('Rp ' + num_format.format(sisa_tagihan))
+                    } else {
+                        $('#tbl_detail_pembayaran_per_item tbody').empty();
+                        $('#dp_nominal_pembayaran').val('Rp ' + num_format.format(total_pembayaran))
+                        $('#dp_sisa_tagihan').val('Rp ' + num_format.format(nominal_tagihan))
+                        $('#tbl_detail_pembayaran_per_item tbody').append('<tr><td colspan="4" class="text-center text-primary">Belum ada pembayaran untuk item tagihan ini.</td></tr>')
+                    }
+                } else {
+                    showSWAL('error', data.message);
+                    $('#tbl_detail_pembayaran_per_item tbody').empty();
+                    $('#tbl_detail_pembayaran_per_item tbody').append('<tr><td colspan="4" class="text-center text-primary">Belum ada pembayaran untuk item tagihan ini.</td></tr>')
+                }
+            },
+            error: function(jqXHR) {
+                console.log(jqXHR);
+            }
+        })
     }
 </script>
