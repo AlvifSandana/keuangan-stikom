@@ -355,4 +355,51 @@ class PembayaranController extends BaseController
             return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', $th->getMessage());
         }
     }
+
+    /**
+     * Get detail pembayaran item by 
+     * kode_unit & item_kode
+     * 
+     */
+    public function get_detail_pembayaran_item(String $kode_unit = '', String $item_kode = '')
+    {
+        try {
+            if ($kode_unit != '' && $item_kode != '') {
+                // create model instance
+                $m_transaksi = new Transaksi();
+                // get data pembayaran
+                $pembayaran = $m_transaksi
+                    ->where('kode_unit', $kode_unit)
+                    ->where('item_kode', $item_kode)
+                    ->where('kategori_transaksi', 'D')
+                    ->findAll();
+                // check result
+                if (sizeof($pembayaran) > 0) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Data pembayaran tersedia!',
+                        'data' => $pembayaran,
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Data pembayaran kosong!',
+                        'data' => [],
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Kode Unit atau Kode Item tidak valid!',
+                    'data' => [],
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace(),
+            ]);
+        }
+    }
 }
