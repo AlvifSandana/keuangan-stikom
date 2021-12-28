@@ -71,6 +71,16 @@ $routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_i
 
 // route for master pendukung
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
+$routes->post('/master-pendukung/create/angkatan', 'Master/AngkatanController::create_angkatan', ['filter' => 'auth']);
+$routes->post('/master-pendukung/create/jurusan', 'Master/JurusanController::create_jurusan', ['filter' => 'auth']);
+$routes->post('/master-pendukung/create/semester', 'Master/SemesterController::create_semester', ['filter' => 'auth']);
+$routes->post('/master-pendukung/update/angkatan/(:any)', 'Master\AngkatanController::update_angkatan/$1', ['filter' => 'auth']);
+$routes->post('/master-pendukung/update/jurusan/(:any)', 'Master\JurusanController::update_jurusan/$1', ['filter' => 'auth']);
+$routes->post('/master-pendukung/update/semester/(:any)', 'Master\SemesterController::update_semester/$1', ['filter' => 'auth']);
+$routes->delete('/master-pendukung/delete/angkatan/(:any)', 'Master\AngkatanController::delete_angkatan/$1', ['filter' => 'auth']);
+$routes->delete('/master-pendukung/delete/jurusan/(:any)', 'Master\JurusanController::delete_jurusan/$1', ['filter' => 'auth']);
+$routes->delete('/master-pendukung/delete/semester/(:any)', 'Master\SemesterController::delete_semester/$1', ['filter' => 'auth']);
+
 
 // route for master backup restore database
 $routes->get('/backup-restore', 'Master/BackupRestoreController::index');
