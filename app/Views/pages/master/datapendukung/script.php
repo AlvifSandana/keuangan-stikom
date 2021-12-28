@@ -1,7 +1,6 @@
 <script>
     // enable datatable
     $('table').DataTable();
-
     
 
     function createAngkatan() {
@@ -29,12 +28,13 @@
         });
     }
 
-    function createProgdi() {
+    function createJurusan() {
         var data = {
-            nama_progdi: $('#create_nama_progdi').val(),
+            nama_jurusan: $('#create_nama_jurusan').val(),
+            nama_program: $('#create_nama_program').val(),
         };
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/master-pendukung/create/progdi',
+            url: '<?php echo base_url(); ?>' + '/master-pendukung/create/jurusan',
             type: 'POST',
             data: data,
             dataType: 'JSON',
@@ -131,12 +131,13 @@
         });
     }
 
-    function updateProgdi() {
+    function updateJurusan() {
         var data = {
-            nama_progdi: $('#update_nama_progdi').val(),
+            nama_jurusan: $('#update_nama_jurusan').val(),
+            nama_program: $('#update_nama_jprogram').val(),
         };
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/master-pendukung/update/progdi/' + $('#update_id_progdi').val(),
+            url: '<?php echo base_url(); ?>' + '/master-pendukung/update/jurusan/' + $('#update_id_jurusan').val(),
             type: 'POST',
             data: data,
             dataType: 'JSON',
@@ -241,7 +242,7 @@
         });
     }
 
-    function deleteProgdi(id) {
+    function deleteJurusan(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
             text: "Tindakan ini tidak dapat dikembalikan!",
@@ -253,7 +254,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>' + '/master-pendukung/delete/progdi/' + id,
+                    url: '<?php echo base_url(); ?>' + '/master-pendukung/delete/jurusan/' + id,
                     type: 'DELETE',
                     dataType: 'JSON',
                     success: function(data) {
@@ -340,16 +341,17 @@
         });
     }
 
-    function fillUpdateField(id, value, type) {
+    function fillUpdateField(id, value, type, another_val = '') {
         switch (type) {
             case "angkatan":
                 $('#update_id_angkatan').val(id);
                 $('#update_nama_angkatan').val(value);
                 break;
 
-            case "progdi":
-                $('#update_id_progdi').val(id);
-                $('#update_nama_progdi').val(value);
+            case "jurusan":
+                $('#update_id_jurusan').val(id);
+                $('#update_nama_jurusan').val(value);
+                $('#update_nama_program').val(another_val);
                 break;
 
             case "semester":

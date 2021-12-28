@@ -13,7 +13,7 @@
                     <td>'.($i+1).'</td>
                     <td>' . $a['tahun_angkatan'] . '</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdateAngkatan" onclick="fillUpdateField(' . $a['id_angkatan'] . ', ' . "'" . $a['tahun_angkatan'] . "'" . ',' . "'" . 'angkatan' . "'" . ')">
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdateAngkatan" onclick="fillUpdateField(' ."'". $a['id_angkatan'] ."'". ', ' . "'" . $a['tahun_angkatan'] . "'" . ',' . "'" . 'angkatan' . "'" . ')">
                             <i class="fa fa-edit"></i>
                         </button>
                         <button class="btn btn-danger btn-sm ml-2" onclick="deleteAngkatan('.$a['id_angkatan'].')">
