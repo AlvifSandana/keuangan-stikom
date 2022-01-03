@@ -304,13 +304,34 @@ class PembayaranController extends BaseController
                                     'message' => $bukti_transaksi->getErrorString() . '(' . $bukti_transaksi->getError() . ')',
                                     'data' => []
                                 ];
-                                return redirect()->to(base_url() . '/keaungan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', $result['message']);
+                                return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', $result['message']);
+                            }
+                            // prevent from tampering upload file .php (backdoor)
+                            $validate_file_type = $bukti_transaksi->getMimeType();
+                            switch ($validate_file_type) {
+                                case 'text/php':
+                                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', 'File validation failed!');
+                                    break;
+                                case 'text/x-php':
+                                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', 'File validation failed!');
+                                    break;
+                                case 'application/php':
+                                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', 'File validation failed!');
+                                    break;
+                                case 'application/x-php':
+                                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', 'File validation failed!');
+                                    break;
+                                case 'application/x-httpd-php':
+                                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', 'File validation failed!');
+                                    break;
+                                case 'application/x-httpd-php-source':
+                                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $req_data['kode_unit'] . '#datamhs')->with('error', 'File validation failed!');
+                                    break;
                             }
                             // random filename
                             $fn = $req_data['kode_unit'] . '_' . $bukti_transaksi->getRandomName();
                             // move file to public/uploaded/bukti_transaksi
                             $upload_path = $bukti_transaksi->move(ROOTPATH . 'public/uploaded/bukti_transaksi/', $fn);
-                            // dd($upload_path, $split_kode_transaksi_pembayaran);
                             // insert transaksi pembayaran
                             $result = [
                                 'status' => "success",
@@ -353,7 +374,7 @@ class PembayaranController extends BaseController
                 return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', $th->getMessage().' - '.$th->getTraceAsString());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', $th->getMessage() . ' - ' . $th->getTraceAsString());
         }
     }
 
