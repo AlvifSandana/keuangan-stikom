@@ -310,12 +310,13 @@ class PembayaranController extends BaseController
                             $fn = $req_data['kode_unit'] . '_' . $bukti_transaksi->getRandomName();
                             // move file to public/uploaded/bukti_transaksi
                             $upload_path = $bukti_transaksi->move(ROOTPATH . 'public/uploaded/bukti_transaksi/', $fn);
+                            // dd($upload_path, $split_kode_transaksi_pembayaran);
                             // insert transaksi pembayaran
                             $result = [
                                 'status' => "success",
-                                'message' => 'Berhasil menambahkan pembayaran dari' . $req_data['kode_unit'],
+                                'message' => 'Berhasil menambahkan pembayaran dari ' . $req_data['kode_unit'],
                                 'data' => $m_transaksi->insert([
-                                    'kode_transaksi' => 'BY-' . $req_data['kode_unit'] . '-D-' . $data_semester[1] . $split_kode_transaksi_pembayaran[4],
+                                    'kode_transaksi' => 'BY-' . $req_data['kode_unit'] . '-D-' . $data_semester[1] .  '-' . ($split_kode_transaksi_pembayaran[4] + 1),
                                     'kode_unit' => $req_data['kode_unit'],
                                     'kategori_transaksi' => 'D',
                                     'item_kode' => $req_data['item_kode'],
@@ -329,7 +330,7 @@ class PembayaranController extends BaseController
                             // insert transaksi pembayaran
                             $result = [
                                 'status' => "success",
-                                'message' => 'Berhasil menambahkan pembayaran ' . $req_data['nama_item'] . ' dengan NIM ' . $req_data['kode_unit'],
+                                'message' => 'Berhasil menambahkan pembayaran ' . $req_data['nama_item'] . ' dari ' . $req_data['kode_unit'],
                                 'data' => $m_transaksi->insert([
                                     'kode_transaksi' => 'BY-' . $req_data['kode_unit'] . '-D-' . $data_semester[1] . '-' . ($split_kode_transaksi_pembayaran[4] + 1),
                                     'kode_unit' => $req_data['kode_unit'],
@@ -352,7 +353,7 @@ class PembayaranController extends BaseController
                 return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', 'Data tidak valid, mohon cek kembali field input data pembayaran!');
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', $th->getMessage());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $this->request->getPost('kode_unit') . '#datamhs')->with('error', $th->getMessage().' - '.$th->getTraceAsString());
         }
     }
 

@@ -212,10 +212,6 @@
                                                                                         <i class="fas fa-fw fa-eye "></i>
                                                                                         Detail Pembayaran
                                                                                     </a>
-                                                                                    <!--<a href="#hapus" class="dropdown-item text-danger" onclick="">
-                                                                                        <i class="fas fa-fw fa-trash"></i>
-                                                                                        Hapus
-                                                                                    </a>-->
                                                                                 </div>
                                                                             </div>
                                                                         </td>

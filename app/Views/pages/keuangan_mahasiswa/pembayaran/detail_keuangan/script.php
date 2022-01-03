@@ -26,6 +26,14 @@
         dropdownParent: $("#modalTambahTagihan")
     });
 
+    // enable and disable select file bukti transaksi
+    $('input[type="checkbox"]').click(function() {
+        if ($(this).is(":checked")) {
+            $('#fbp').prop('disabled', false);
+        } else if ($(this).is(":not(:checked)")) {
+            $('#fbp').prop('disabled', true);
+        }
+    });
 
     /** 
      * Event onchange item tagihan pada modal tambah pembayaran.
@@ -64,8 +72,8 @@
             tanggal_transaksi: $("#add_tanggal_transaksi").val(),
             nominal_transaksi: $("#add_nominal_transaksi").val(),
             user_id: 1,
-            is_dokumen_pembayaran: $('#is_fbp').val(),
-            dokumen_pembayaran: fbp
+            is_bukti_transaksi: $('#is_fbp').val(),
+            bukti_transaksi: fbp
         }
         $.ajax({
             url: "<?php echo base_url(); ?>/keuangan-mahasiswa/pembayaran/create",
@@ -176,8 +184,10 @@
                     // total pembayaran
                     var total_pembayaran = 0;
                     var sisa_tagihan = 0;
+                    console.log(data.data);
                     // clear tbody
                     $('#tbl_detail_pembayaran_per_item tbody').empty();
+                    // create tbody with new data
                     if (data.data.length > 0) {
                         data.data.forEach(element => {
                             var tr = `
@@ -185,11 +195,34 @@
                                 <td>${element.kode_transaksi}</td>
                                 <td>${element.tanggal_transaksi}</td>
                                 <td class="text-left">Rp ${num_format.format(element.q_debit)}</td>
-                                <td></td>
+                                <td>
+                                <div class="dropdown no-arrow">
+                                    <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                    <div class="dropdown-menu">
+                                        <a href="${element.bukti_transaksi == null ? '#bukti-pembayaran' : element.bukti_transaksi}" class="dropdown-item text-primary edit ${element.bukti_transaksi == null ? 'disabled' : ''}" 
+                                        data-toggle="" 
+                                        data-target="#" 
+                                        onclick="">
+                                            <i class="fas fa-fw fa-print "></i>
+                                            Bukti Pembayaran
+                                        </a>
+                                        <a href="#edit" class="dropdown-item text-warning edit" data-toggle="" data-target="#" onclick="">
+                                            <i class="fas fa-fw fa-edit "></i>
+                                            Edit
+                                        </a>
+                                        <a href="#hapus" class="dropdown-item text-danger edit" data-toggle="" data-target="#" onclick="">
+                                            <i class="fas fa-fw fa-trash "></i>
+                                            Hapus
+                                        </a>
+                                    </div>
+                                </div>
+                                </td>
                             </tr>`
                             $('#tbl_detail_pembayaran_per_item tbody').append(tr);
+                            // add total tagihan from q_debit
                             total_pembayaran += parseInt(element.q_debit);
                         });
+                        // sisa tagihan from nominal tagihan - total pembayaran
                         sisa_tagihan = parseInt(nominal_tagihan) - total_pembayaran
                         $('#dp_nominal_pembayaran').val('Rp ' + num_format.format(total_pembayaran))
                         $('#dp_sisa_tagihan').val('Rp ' + num_format.format(sisa_tagihan))
