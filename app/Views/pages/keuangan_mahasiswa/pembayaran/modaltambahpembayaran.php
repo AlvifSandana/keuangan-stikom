@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" name="is_bukti_transaksi" id="is_fbp">
-                            <label class="" for="">DOKUMEN PEMBAYARAN</label>
+                            <label class="buktipembayaran" for="">DOKUMEN PEMBAYARAN</label>
                         </div>
                         <div class="input-group mb-3">
                             <div class="custom-file">
