@@ -44,9 +44,10 @@ $routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
 // route for keuangan mahasiswa
 $routes->get('/keuangan-mahasiswa/pembayaran', 'Mahasiswa/PembayaranController::index', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/pembayaran/create', 'Mahasiswa/PembayaranController::create_pembayaran', ['filter' => 'auth']);
-$routes->get('/keuangan-mahasiswa/pembayaran/detail/(:any)', 'Mahasiswa\PembayaranController::detail_keuangan/$1');
-$routes->get('/keuangan-mahasiswa/pembayaran/detail-pembayaran-item/(:any)/(:any)', 'Mahasiswa\PembayaranController::get_detail_pembayaran_item/$1/$2');
-$routes->post('/keuangan-mahasiswa/cari-mahasiswa', 'Mahasiswa/PembayaranController::search_mahasiswa');
+$routes->get('/keuangan-mahasiswa/pembayaran/detail/(:any)', 'Mahasiswa\PembayaranController::detail_keuangan/$1', ['filter' => 'auth']);
+$routes->get('/keuangan-mahasiswa/pembayaran/detail-pembayaran-item/(:any)/(:any)', 'Mahasiswa\PembayaranController::get_detail_pembayaran_item/$1/$2', ['filter' => 'auth']);
+$routes->post('/keuangan-mahasiswa/cari-mahasiswa', 'Mahasiswa/PembayaranController::search_mahasiswa', ['filter' => 'auth']);
+$routes->post('/keuangan-mahasiswa/pembayaran/delete/(:any)', 'Mahasiswa/PembayaranController::delete_pembayaran/$1', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/tagihan/create', 'Mahasiswa/TagihanController::create_tagihan', ['filter' => 'auth']);
 
 // route for transaksi
