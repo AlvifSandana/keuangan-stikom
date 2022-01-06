@@ -122,7 +122,7 @@
                                     Data Keuangan
                                     <span class="text-primary"><?php echo $mahasiswa[0]['nama_mhs']; ?></span>
                                     <div class="btn-group dropleft float-right">
-                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false" <? if (strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')) {
+                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false" <?php if (strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')) {
                                                                                                                                                                                         echo ' disabled';
                                                                                                                                                                                     } ?>>
                                             <i class="fas fa-info-circle"></i> Action
@@ -135,15 +135,15 @@
                                     </div>
                                 </h4>
                                 <hr>
-                                <? if (strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')) { ?>
+                                <?php if (strpos($mahasiswa[0]['nama_paket'], 'BERBAGI')) { ?>
                                     <div class="info text-center">
                                         <span class="h4 text-primary"><?= $mahasiswa[0]['nama_mhs'] ?> mengikut program <?= $mahasiswa[0]['nama_paket'] ?></span>
                                     </div>
-                                <? } ?>
-                                <? foreach ($semester as $s => $svalue) { ?>
+                                <?php } ?>
+                                <?php foreach ($semester as $s => $svalue) { ?>
                                     <div class="card shadow-none border <?= $svalue['id_semester'] ?>">
                                         <div class="card-header">
-                                            <h5 class="card-title h5"><? echo $svalue['nama_semester']; ?></h5>
+                                            <h5 class="card-title h5"><?php echo $svalue['nama_semester']; ?></h5>
                                             <div class="card-tools float-right">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                                                 <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i></button>
@@ -167,15 +167,15 @@
                                                                 if ($value['nama_semester'] == $svalue['nama_semester']) {
                                                                     $total_tagihan += $value['nominal_item']; ?>
                                                                     <tr>
-                                                                        <td class="text-center"><? echo $value['kode_item']; ?></td>
-                                                                        <td><? echo $value['nama_item']; ?></td>
-                                                                        <td>Rp <? echo number_format($value['nominal_item']); ?></td>
+                                                                        <td class="text-center"><?php echo $value['kode_item']; ?></td>
+                                                                        <td><?php echo $value['nama_item']; ?></td>
+                                                                        <td>Rp <?php echo number_format($value['nominal_item']); ?></td>
                                                                     </tr>
-                                                                <? } ?>
-                                                            <? } ?>
+                                                                <?php } ?>
+                                                            <?php } ?>
                                                             <tr class="font-weight-bold">
                                                                 <td class="text-center" colspan="2">Total Tagihan</td>
-                                                                <td>Rp <? echo number_format($total_tagihan); ?></td>
+                                                                <td>Rp <?php echo number_format($total_tagihan); ?></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -195,15 +195,15 @@
                                                             foreach ($tagihan as $key => $value) {
                                                                 if ($value['nama_semester'] == $svalue['nama_semester']) { ?>
                                                                     <tr>
-                                                                        <td><? echo $value['nama_item']; ?></td>
-                                                                        <? foreach ($pembayaran as $k => $v) {
+                                                                        <td><?php echo $value['nama_item']; ?></td>
+                                                                        <?php foreach ($pembayaran as $k => $v) {
                                                                             if ($v['kode_item'] == $value['kode_item']) {
                                                                                 $current_nominal_item_pembayaran += $v['q_debit'];
                                                                             } else {
                                                                                 continue;
                                                                             }
                                                                         } ?>
-                                                                        <td>Rp <? echo number_format($current_nominal_item_pembayaran); ?></td>
+                                                                        <td>Rp <?php echo number_format($current_nominal_item_pembayaran); ?></td>
                                                                         <td class="text-center">
                                                                             <div class="dropdown no-arrow">
                                                                                 <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
@@ -216,14 +216,14 @@
                                                                             </div>
                                                                         </td>
                                                                     </tr>
-                                                                <? } ?>
+                                                                <?php } ?>
                                                             <?
                                                                 $total_pembayaran += $current_nominal_item_pembayaran;
                                                                 $current_nominal_item_pembayaran = 0;
                                                             } ?>
                                                             <tr class="font-weight-bold">
                                                                 <td class="text-center" colspan="2">Total Pembayaran</td>
-                                                                <td>Rp <? echo number_format($total_pembayaran); ?></td>
+                                                                <td>Rp <?php echo number_format($total_pembayaran); ?></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -231,7 +231,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                <? } ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

@@ -16,24 +16,24 @@
                     <label for="semester">Jurusan</label>
                     <select name="add_jurusan_id" id="add_jurusan_id" class="form-control">
                         <?php foreach ($jurusan as $key => $value) {?>
-                            <option value="<? echo $value['id_jurusan'];?>"><? echo $value['nama_program'].' '.$value['nama_jurusan'];?></option>
-                        <? } ?>
+                            <option value="<?php echo $value['id_jurusan'];?>"><?php echo $value['nama_program'].' '.$value['nama_jurusan'];?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="semester">Sesi Perkuliahan</label>
                     <select name="add_sesi_id" id="add_sesi_id" class="form-control">
                         <?php foreach ($sesi as $key => $value) { ?>
-                            <option value="<? echo $value['id_sesi'];?>"><? echo $value['nama_sesi'];?></option>
-                        <? } ?>
+                            <option value="<?php echo $value['id_sesi'];?>"><?php echo $value['nama_sesi'];?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="semester">Jalur Pendaftaran</label>
                     <select name="add_jalur_id" id="add_jalur_id" class="form-control">
                         <?php foreach ($jalur as $key => $value) { ?>
-                            <option value="<? echo $value['id_jalur'];?>"><? echo $value['nama_jalur'];?></option>
-                        <? } ?>
+                            <option value="<?php echo $value['id_jalur'];?>"><?php echo $value['nama_jalur'];?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group mb-3">

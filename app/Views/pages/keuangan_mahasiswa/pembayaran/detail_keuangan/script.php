@@ -25,6 +25,11 @@
         tags: true,
         dropdownParent: $("#modalTambahTagihan")
     });
+    $('#add_item_kode').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalCreatePembayaran")
+    });
 
     // enable and disable select file bukti transaksi
     $('input[type="checkbox"]').click(function() {
@@ -46,7 +51,7 @@
         var textSelected = $('#add_item_kode option:selected').text();
         // console.log(valueSelected);
         // array of item_tagihan
-        var item_tagihan = <? echo json_encode($item_paket); ?>;
+        var item_tagihan = <?php echo json_encode($item_paket); ?>;
         // get semester_id from array
         var semester_id;
         item_tagihan.forEach(item => {
@@ -146,7 +151,7 @@
         };
         console.log(data_tagihan);
         $.ajax({
-            url: '<? echo base_url(); ?>/keuangan-mahasiswa/tagihan/create',
+            url: '<?php echo base_url(); ?>/keuangan-mahasiswa/tagihan/create',
             type: 'POST',
             data: data_tagihan,
             dataType: 'JSON',
@@ -176,7 +181,7 @@
         $('#dp_nominal_tagihan').val('Rp ' + num_format.format(nominal_tagihan));
         // get data from api
         $.ajax({
-            url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran/detail-pembayaran-item/' + kode_unit + '/' + item_kode,
+            url: '<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran/detail-pembayaran-item/' + kode_unit + '/' + item_kode,
             type: 'GET',
             dataType: 'JSON',
             success: function(data) {
@@ -199,7 +204,7 @@
                                 <div class="dropdown no-arrow">
                                     <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu">
-                                        <a target="_blank" href="<?= base_url('uploaded/bukti_transaksi').'/' ?>${element.bukti_transaksi == null ? '#bukti-pembayaran' : element.bukti_transaksi}" class="dropdown-item text-primary edit ${element.bukti_transaksi == null ? 'disabled' : ''}" 
+                                        <a target="_blank" href="<?php echo base_url('uploaded/bukti_transaksi').'/' ?>${element.bukti_transaksi == null ? '#bukti-pembayaran' : element.bukti_transaksi}" class="dropdown-item text-primary edit ${element.bukti_transaksi == null ? 'disabled' : ''}" 
                                         data-toggle="" 
                                         data-target="#" 
                                         onclick="">
