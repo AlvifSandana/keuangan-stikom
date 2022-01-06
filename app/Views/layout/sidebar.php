@@ -37,7 +37,7 @@
                     </li>
                     <li class="nav-header">MAHASISWA</li>
                     <li class="nav-item<?php //if ($uri_segment == "pembayaran" || $uri_segment == "tagihan") {echo " menu-is-opening menu-open";} ?>">
-                        <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
+                        <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" || $uri_segment == "frs" || $uri_segment == "keuangan-mahasiswa"? print(" active") : print("") ?>">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Keuangan Mahasiswa
