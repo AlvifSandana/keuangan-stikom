@@ -50,6 +50,9 @@ $routes->post('/keuangan-mahasiswa/cari-mahasiswa', 'Mahasiswa/PembayaranControl
 $routes->post('/keuangan-mahasiswa/pembayaran/delete/(:any)', 'Mahasiswa/PembayaranController::delete_pembayaran/$1', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/tagihan/create', 'Mahasiswa/TagihanController::create_tagihan', ['filter' => 'auth']);
 
+// route for FRS
+$routes->get('/keuangan-mahasiswa/frs/(:any)', 'Mahasiswa/FRSController::index', ['filter' => 'auth']);
+
 // route for transaksi
 $routes->get('/transaksi/pemasukan', 'Transaksi/PemasukanController::index', ['filter' => 'auth']);
 $routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index', ['filter' => 'auth']);
