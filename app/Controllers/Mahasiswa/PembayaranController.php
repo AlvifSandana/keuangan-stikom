@@ -41,10 +41,10 @@ class PembayaranController extends BaseController
             $query_mhs = $builder_mhs
                 ->select('*, tbl_dosen_wali_mahasiswa.*, tbl_jurusan.*, tbl_paket.*')
                 ->where('tbl_mahasiswa.nim', $nim)
-                ->join('tbl_dosen_wali_mahasiswa', 'tbl_mahasiswa.nim = tbl_dosen_wali_mahasiswa.nim', 'inner')
-                ->join('tbl_jurusan', 'tbl_mahasiswa.id_jur = tbl_jurusan.id_jur', 'inner')
-                ->join('tbl_paket', 'tbl_mahasiswa.id_paket = tbl_paket.id_paket', 'inner')
-                ->join('tbl_status', 'tbl_mahasiswa.status = tbl_status.id_sts', 'inner')
+                ->join('tbl_dosen_wali_mahasiswa', 'tbl_mahasiswa.nim = tbl_dosen_wali_mahasiswa.nim', 'left')
+                ->join('tbl_jurusan', 'tbl_mahasiswa.id_jur = tbl_jurusan.id_jur', 'left')
+                ->join('tbl_paket', 'tbl_mahasiswa.id_paket = tbl_paket.id_paket', 'left')
+                ->join('tbl_status', 'tbl_mahasiswa.status = tbl_status.id_sts', 'left')
                 ->get();
             // find data mahasiswa
             $mahasiswa = $query_mhs->getResult('array');
