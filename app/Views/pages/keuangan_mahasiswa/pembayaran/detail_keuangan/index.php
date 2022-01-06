@@ -217,7 +217,7 @@
                                                                         </td>
                                                                     </tr>
                                                                 <?php } ?>
-                                                            <?
+                                                            <?php
                                                                 $total_pembayaran += $current_nominal_item_pembayaran;
                                                                 $current_nominal_item_pembayaran = 0;
                                                             } ?>
