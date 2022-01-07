@@ -5,7 +5,7 @@
 
     function createAngkatan() {
         var data = {
-            nama_angkatan: $('#create_nama_angkatan').val(),
+            tahun_angkatan: $('#create_nama_angkatan').val(),
         };
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-pendukung/create/angkatan',
@@ -23,7 +23,7 @@
                 }
             },
             error: function(jqXHR) {
-
+                console.log(jqXHR);
             }
         });
     }
@@ -108,7 +108,7 @@
 
     function updateAngkatan() {
         var data = {
-            nama_angkatan: $('#update_nama_angkatan').val(),
+            tahun_angkatan: $('#update_nama_angkatan').val(),
         };
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-pendukung/update/angkatan/' + $('#update_id_angkatan').val(),
