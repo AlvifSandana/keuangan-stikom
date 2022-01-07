@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="number" name="id_jurusan" id="update_id_jurusan" hidden disabled>
+                <input type="text" name="id_jurusan" id="update_id_jurusan" hidden disabled>
                 <div class="form-group">
                     <label for="nama_progdi">JURUSAN</label>
                     <input type="text" name="nama_jurusan" id="update_nama_jurusan" class="form-control" required>

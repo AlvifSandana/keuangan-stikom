@@ -49,7 +49,7 @@
                 }
             },
             error: function(jqXHR) {
-
+                console.log(jqXHR);
             }
         });
     }
@@ -134,7 +134,7 @@
     function updateJurusan() {
         var data = {
             nama_jurusan: $('#update_nama_jurusan').val(),
-            nama_program: $('#update_nama_jprogram').val(),
+            nama_program: $('#update_nama_program').val(),
         };
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-pendukung/update/jurusan/' + $('#update_id_jurusan').val(),

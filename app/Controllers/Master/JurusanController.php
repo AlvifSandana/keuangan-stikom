@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\Jurusan;
@@ -17,7 +17,7 @@ class JurusanController extends BaseController
      * 
      * @return JSON
      */
-    public function createJurusan()
+    public function create_jurusan()
     {
         try {
             // create validator
@@ -32,8 +32,17 @@ class JurusanController extends BaseController
             if ($isDataValid) {
                 // create model instance
                 $m_jurusan = new Jurusan();
+                // get last id_jurusan
+                $last_jurusan = $m_jurusan->orderBy('id_jurusan', 'DESC')->first();
+                $last_id = preg_split('#(?<=\d)(?=[a-z])#i', $last_jurusan['id_jurusan']);
+                // create new id from last_id + nama jurusan
+                $split_nama_jurusan = explode(' ', $this->request->getPost('nama_jurusan'));
+                $two_caps = substr($split_nama_jurusan[0], 0, 1).substr($split_nama_jurusan[1], 0, 1);
+                $new_id = '0' . ((int) $last_id[0] + 1) . strtoupper($two_caps);
+                // dd($last_jurusan, $last_id, $split_nama_jurusan, $two_caps,$new_id);
                 // insert data
                 $jurusan = $m_jurusan->insert([
+                    'id_jurusan' => $new_id,
                     'nama_jurusan' => $this->request->getPost('nama_jurusan'),
                     'nama_program' => $this->request->getPost('nama_program'),
                 ]);
@@ -73,7 +82,7 @@ class JurusanController extends BaseController
      * @param int @id
      * @return JSON
      */
-    public function updateJurusan($id)
+    public function update_jurusan($id)
     {
         try {
             // create validator
@@ -128,7 +137,7 @@ class JurusanController extends BaseController
      * 
      * @return JSON
      */
-    public function deleteJurusan($id)
+    public function delete_jurusan($id)
     {
         try {
             if ($id != null) {
