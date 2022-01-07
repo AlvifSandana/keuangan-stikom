@@ -64,6 +64,9 @@
     </div>
 </section>
 <!-- Modals -->
+<?= $this->include('pages/master/datapendukung/modal/modal_create_angkatan') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_create_jurusan') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_create_semester') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_angkatan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_jurusan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_semester') ?>
