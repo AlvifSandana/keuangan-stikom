@@ -16,7 +16,7 @@
                         <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdateSemester" onclick="fillUpdateField(' ."'". $s['id_semester'] ."'". ', ' . "'" . $s['nama_semester'] . "'" . ',' . "'" . 'semester' . "'" . ')">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger btn-sm ml-2" onclick="deleteSemester('.$s['id_semester'].')">
+                        <button class="btn btn-danger btn-sm ml-2" onclick="deleteSemester('."'".$s['id_semester']."'".')">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td></tr>';

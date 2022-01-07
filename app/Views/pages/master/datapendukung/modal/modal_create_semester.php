@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="dp_nama_item">SEMESTER</label>
+                    <label for="dp_nama_item">SEMESTER (ex: SEMESTER 1)</label>
                     <input type="text" name="nama_semester" id="create_nama_semester" class="form-control" required>
                 </div>
                 <button class="btn btn-success float-right mb-4" onclick="createSemester()">Tambah</button>

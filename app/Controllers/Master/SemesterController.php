@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\Semester;
@@ -17,7 +17,7 @@ class SemesterController extends BaseController
      * 
      * @return JSON
      */
-    public function createSemester()
+    public function create_semester()
     {
         try {
             // create validator
@@ -31,8 +31,14 @@ class SemesterController extends BaseController
             if ($isDataValid) {
                 // create model instance
                 $m_semester = new Semester();
+                // get last semester
+                $last_semester = $m_semester->orderBy('id_semester', 'DESC')->first();
+                // get last id semester
+                $matches = [];
+                preg_match("/([A-Z]+)(\\d+)/", $last_semester['id_semester'],$matches);
                 // insert data
                 $semester = $m_semester->insert([
+                    'id_semester' => 'SMT'.((int) $matches[2] + 1),
                     'nama_semester' => $this->request->getPost('nama_semester'),
                 ]);
                 // check insert result
@@ -67,7 +73,7 @@ class SemesterController extends BaseController
      * @param int @id
      * @return JSON
      */
-    public function updateSemester($id)
+    public function update_semester($id)
     {
         try {
             // create validator
@@ -116,7 +122,7 @@ class SemesterController extends BaseController
      * 
      * @return JSON
      */
-    public function deleteSemester($id)
+    public function delete_semester($id)
     {
         try {
             if ($id != null) {

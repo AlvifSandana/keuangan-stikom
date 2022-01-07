@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="number" name="id_semester" id="update_id_semester" hidden disabled>
+                <input type="text" name="id_semester" id="update_id_semester" hidden disabled>
                 <div class="form-group">
                     <label for="dp_nama_item">SEMESTER</label>
                     <input type="text" name="nama_semester" id="update_nama_semester" class="form-control" required>
