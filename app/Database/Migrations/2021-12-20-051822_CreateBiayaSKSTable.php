@@ -34,8 +34,8 @@ class CreateBiayaSKSTable extends Migration
             ],
         ]);
         $this->forge->addKey('id_sks', true, true);
-        $this->forge->addForeignKey('angkatan_id', 'tbl_angkatan', 'id_angkatan', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('paket_id', 'tbl_paket', 'id_paket', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('angkatan_id', 'tbl_angkatan', 'id_angkatan', 'CASCADE');
+        $this->forge->addForeignKey('paket_id', 'tbl_paket', 'id_paket', 'CASCADE');
         $this->forge->createTable('tbl_biaya_sks');
     }
 
