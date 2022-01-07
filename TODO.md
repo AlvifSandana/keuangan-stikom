@@ -7,9 +7,9 @@
 - [x] Pencarian data mahasiswa
 - [x] (action button) Detail keuangan
 - [x] (ection button) Proses FRS
-- [ ] Menambah pembayaran baru
+- [x] Menambah pembayaran baru
 - [ ] Ubah data pembayaran
-- [ ] Detail pembayaran per item tagihan
+- [x] Detail pembayaran per item tagihan
 - [ ] Print detail pembayaran
 - [ ] Print detail keuangan (pembayaran, tagihan, diskon)
 - [ ] 
@@ -64,7 +64,7 @@
 #### Paket
 - [x] Tampilan paket beserta item paket terkait
 - [x] Tambah paket baru
-- [ ] Tambah item paket baru
+- [x] Tambah item paket baru
 - [ ] 
 - [ ] 
 - [ ] 
