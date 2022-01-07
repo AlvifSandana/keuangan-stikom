@@ -13,10 +13,13 @@
                     <td>'.($i+1).'</td>
                     <td>' . $p['nama_paket'] . '</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdatePaket" onclick="fillUpdatePaketField()">
+                        <button class="btn btn-warning btn-sm" 
+                        data-toggle="modal" 
+                        data-target="#modalUpdatePaket" 
+                        onclick="fillUpdatePaketField('."'". $p['id_paket'] ."','". $p['nama_paket'] ."','". $p['jurusan_id'] ."','".$p['jalur_id'] ."','".$p['sesi_id'] ."','".$p['keterangan_paket'] ."'".')">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger btn-sm ml-2" onclick="deletePaket(' . $p['id_paket'] . ')">
+                        <button class="btn btn-danger btn-sm ml-2" onclick="deletePaket(' ."'". $p['id_paket'] ."'". ')">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td></tr>';

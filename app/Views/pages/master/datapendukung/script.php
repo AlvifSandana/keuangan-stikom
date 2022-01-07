@@ -1,7 +1,7 @@
 <script>
     // enable datatable
     $('table').DataTable();
-    
+
 
     function createAngkatan() {
         var data = {
@@ -79,29 +79,36 @@
         });
     }
 
+    /** 
+     * tambah paket tagihan
+     */
     function createPaket() {
-        var data = {
-            nama_paket: $('#create_nama_paket').val() + ' - ' + $('#create_semester_id option:selected').text(),
-            semester_id: $('#create_semester_id').val(),
-            keterangan_paket: $('#create_keterangan_paket').val()
+        var data_paket = {
+            nama_paket: $('#add_nama_paket').val(),
+            keterangan_paket: $('#add_keterangan_paket').val(),
+            jurusan_id: $('#add_jurusan_id').val(),
+            sesi_id: $('#add_sesi_id').val(),
+            jalur_id: $('#add_jalur_id').val(),
         };
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/master-pendukung/create/paket',
+            url: '<?php echo base_url(); ?>' + '/master-keuangan/paket/create',
             type: 'POST',
-            data: data,
+            data: data_paket,
             dataType: 'JSON',
             success: function(data) {
                 if (data.status != 'success') {
                     showSWAL('error', data.message);
+                    console.log(data.data);
                 } else {
                     showSWAL('success', data.message);
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 3000);
+                    $('#add_nama_paket').val('');
+                    $('#add_keterangan_paket').val('');
+                    window.location.reload();
                 }
             },
             error: function(jqXHR) {
-
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
             }
         });
     }
@@ -183,28 +190,31 @@
     }
 
     function updatePaket() {
-        var data = {
-            nama_paket: $('#update_nama_paket').val() + ' - ' + $('#update_semester_id option:selected').text(),
+        var data_paket = {
+            id_paket: $('#update_id_paket').val(),
+            nama_paket: $('#update_nama_paket').val(),
             keterangan_paket: $('#update_keterangan_paket').val(),
-            semester_id: $('#update_semester_id').val()
+            jurusan_id: $('#update_jurusan_id').val(),
+            sesi_id: $('#update_sesi_id').val(),
+            jalur_id: $('#update_jalur_id').val(),
         };
         $.ajax({
-            url: '<?php echo base_url(); ?>' + '/master-pendukung/update/paket/' + $('#update_id_paket').val(),
+            url: '<?php echo base_url(); ?>' + '/master-keuangan/paket/update',
             type: 'POST',
-            data: data,
+            data: data_paket,
             dataType: 'JSON',
             success: function(data) {
                 if (data.status != 'success') {
                     showSWAL('error', data.message);
+                    console.log(data.data);
                 } else {
                     showSWAL('success', data.message);
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 3000);
+                    window.location.reload();
                 }
             },
             error: function(jqXHR) {
-
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
             }
         });
     }
@@ -320,7 +330,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>' + '/master-pendukung/delete/paket/' + id,
+                    url: '<?php echo base_url(); ?>' + '/master-keuangan/paket/delete/' + id,
                     type: 'DELETE',
                     dataType: 'JSON',
                     success: function(data) {
@@ -366,10 +376,12 @@
         }
     }
 
-    function fillUpdatePaketField(id, nama_paket, semester_id, keterangan_paket) {
+    function fillUpdatePaketField(id, nama_paket, jurusan_id, jalur_id, sesi_id, keterangan_paket) {
         $('#update_id_paket').val(id);
-        $('#current_nama_paket').val(nama_paket);
-        $('#update_semester_id').val(semester_id);
+        $('#update_nama_paket').val(nama_paket);
+        $('#update_jurusan_id').val(jurusan_id);
+        $('#update_sesi_id').val(sesi_id);
+        $('#update_jalur_id').val(jalur_id);
         $('#update_keterangan_paket').val(keterangan_paket);
     }
 </script>

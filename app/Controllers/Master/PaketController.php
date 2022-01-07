@@ -148,21 +148,91 @@ class PaketController extends BaseController
     public function update_paket()
     {
         try {
-            
+            // create validator instance
+            $validator = \Config\Services::validation();
+            $validator->setRules([
+                'id_paket' => 'required',
+                'nama_paket' => 'required',
+                'jurusan_id' => 'required',
+                'sesi_id' => 'required',
+                'jalur_id' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create model instance
+                $m_paket = new Paket();
+                // insert new paket
+                $update_paket = $m_paket
+                    ->update( $this->request->getPost('id_paket'), [
+                        'nama_paket' => $this->request->getPost('nama_paket'),
+                        'keterangan_paket' => $this->request->getPost('keterangan_paket'),
+                        'jurusan_id' => $this->request->getPost('jurusan_id'),
+                        'sesi_id' => $this->request->getPost('sesi_id'),
+                        'jalur_id' => $this->request->getPost('jalur_id'),
+                    ]);
+                if ($update_paket) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Berhasil memperbarui paket.',
+                        'data' => $update_paket,
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal memperbarui paket.',
+                        'data' => [],
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message'=> $validator->getError(),
+                    'data' => $validator->getErrors()
+                ]);
+            }
         } catch (\Throwable $th) {
-            
+            return json_encode([
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
         }
     }
 
     /**
      * delete paket by id_paket
      */
-    public function delete_paket()
+    public function delete_paket($id)
     {
         try {
-            
+            if ($id != null) {
+                $m_paket = new Paket();
+                // insert data
+                $paket = $m_paket->delete($id);
+                // check insert result
+                if ($paket) {
+                    $result['status'] = 'success';
+                    $result['message'] = 'Berhasil menghapus data paket dengan ID ' . $id;
+                    $result['data'] = $paket;
+                    return json_encode($result);
+                } else {
+                    $result['status'] = 'failed';
+                    $result['message'] = 'Gagal menghapus data paket dengan ID ' . $id;
+                    $result['data'] = [];
+                    return json_encode($result);
+                }
+            } else {
+                $result['status'] = 'failed';
+                $result['message'] = 'ID invalid!';
+                $result['data'] = [];
+                return json_encode($result);
+            }
         } catch (\Throwable $th) {
-            
+            $result['status'] = 'error';
+            $result['message'] = $th->getMessage();
+            $result['data'] = $th->getTrace();
+            return json_encode($result);
         }
     }
 }

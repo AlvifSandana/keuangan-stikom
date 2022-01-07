@@ -2,38 +2,46 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Perbarui Paket</h5>
+                <h5 class="modal-title">Update Paket Tagihan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <input type="number" name="id_paket" id="update_id_paket" hidden disabled>
                 <div class="form-group">
-                    <label for="">NAMA PAKET SAAT INI</label>
-                    <input type="text" name="nama_paket" id="current_nama_paket" class="form-control" disabled>
+                    <label for="nama_paket">Nama Paket</label>
+                    <input type="text" name="update_nama_paket" id="update_nama_paket" class="form-control">
+                    <input type="text" name="update_id_paket" id="update_id_paket" class="form-control" hidden>
                 </div>
                 <div class="form-group">
-                    <label for="dp_nama_item">NAMA PAKET</label>
-                    <select class="form-control" name="nama_paket" id="update_nama_paket">
-                        <?php foreach ($progdi as $p) {
-                            echo '<option value="'.$p['nama_progdi'].'">'.$p['nama_progdi'].'</option>';
-                        } ?>
+                    <label for="semester">Jurusan</label>
+                    <select name="update_jurusan_id" id="update_jurusan_id" class="form-control">
+                        <?php foreach ($jurusan as $key => $value) {?>
+                            <option value="<?php echo $value['id_jurusan'];?>"><?php echo $value['nama_program'].' '.$value['nama_jurusan'];?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="dp_nama_item">SEMESTER</label>
-                    <select class="form-control" name="semester_id" id="update_semester_id">
-                        <?php foreach ($semester as $s) {
-                            echo '<option value="'.$s['id_semester'].'">'.$s['nama_semester'].'</option>';
-                        } ?>
+                    <label for="semester">Sesi Perkuliahan</label>
+                    <select name="update_sesi_id" id="update_sesi_id" class="form-control">
+                        <?php foreach ($sesi_kuliah as $key => $value) { ?>
+                            <option value="<?php echo $value['id_sesi'];?>"><?php echo $value['nama_sesi'];?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="semester">Jalur Pendaftaran</label>
+                    <select name="update_jalur_id" id="update_jalur_id" class="form-control">
+                        <?php foreach ($jalur as $key => $value) { ?>
+                            <option value="<?php echo $value['id_jalur'];?>"><?php echo $value['nama_jalur'];?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group mb-3">
-                    <label for="keterangan_paket">KETERANGAN</label>
-                    <textarea name="keterangan_paket" id="update_keterangan_paket" cols="30" rows="4" class="form-control"></textarea>
+                    <label for="keterangan_paket">Keterangan Paket</label>
+                    <textarea name="update_keterangan_paket" id="update_keterangan_paket" cols="30" rows="4" class="form-control"></textarea>
                 </div>
-                <button class="btn btn-warning float-right mb-4" onclick="updatePaket()">Perbarui</button>
+                <button class="btn btn-warning float-right" onclick="updatePaket()">Update</button>
             </div>
         </div>
     </div>
