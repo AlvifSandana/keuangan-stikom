@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="number" name="id_angkatan" id="update_id_angkatan" hidden disabled>
+                <input type="text" name="id_angkatan" id="update_id_angkatan" hidden disabled>
                 <div class="form-group">
                     <label for="nama_angkatan">TAHUN ANGKATAN</label>
                     <input type="text" name="nama_angkatan" id="update_nama_angkatan" class="form-control" required>
