@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\Angkatan;
@@ -33,6 +33,7 @@ class AngkatanController extends BaseController
                 $m_angkatan = new Angkatan();
                 // insert data
                 $angkatan = $m_angkatan->insert([
+                    'id_angkatan' => 'THN' . $this->request->getPost('tahun_angkatan'),
                     'tahun_angkatan' => $this->request->getPost('tahun_angkatan')
                 ]);
                 // result check
@@ -71,7 +72,7 @@ class AngkatanController extends BaseController
      * @param int $id
      * @return JSON
      */
-    public function updateAngkatan($id)
+    public function update_angkatan($id)
     {
         try {
             // create validator
@@ -121,7 +122,7 @@ class AngkatanController extends BaseController
      * @param int $id
      * @return JSON
      */
-    public function deleteAngkatan($id)
+    public function delete_angkatan($id)
     {
         try {
             if ($id) {

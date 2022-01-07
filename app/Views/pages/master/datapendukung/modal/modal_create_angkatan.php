@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="dp_nama_item">TAHUN ANGAKTAN</label>
+                    <label for="dp_nama_item">TAHUN ANGKATAN</label>
                     <input type="text" name="nama_angkatan" id="create_nama_angkatan" class="form-control" required>
                 </div>
                 <button class="btn btn-success float-right mb-4" onclick="createAngkatan()">Tambah</button>
