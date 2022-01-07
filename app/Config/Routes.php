@@ -63,8 +63,8 @@ $routes->get('/master-mahasiswa', 'Master/MahasiswaController::index', ['filter'
 // route for master paket
 $routes->get('/master-keuangan/paket', 'Master/PaketController::index', ['filter' => 'auth']);
 $routes->post('/master-keuangan/paket/create', 'Master/PaketController::create_paket', ['filter' => 'auth']);
-$routes->put('/master-keuangan/paket/update', 'Master/PaketController::update_paket', ['filter' => 'auth']);
-$routes->delete('/master-keuangan/paket/delete', 'Master/PaketController::delete_paket', ['filter' => 'auth']);
+$routes->post('/master-keuangan/paket/update', 'Master\PaketController::update_paket', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/paket/delete/(:any)', 'Master\PaketController::delete_paket/$1', ['filter' => 'auth']);
 
 // route for master item paket
 $routes->post('/master-keuangan/itempaket/create', 'Master\ItemPaketController::create_item', ['filter' => 'auth']);
@@ -75,9 +75,9 @@ $routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_i
 
 // route for master pendukung
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);
-$routes->post('/master-pendukung/create/angkatan', 'Master/AngkatanController::create_angkatan', ['filter' => 'auth']);
-$routes->post('/master-pendukung/create/jurusan', 'Master/JurusanController::create_jurusan', ['filter' => 'auth']);
-$routes->post('/master-pendukung/create/semester', 'Master/SemesterController::create_semester', ['filter' => 'auth']);
+$routes->post('/master-pendukung/create/angkatan', 'Master\AngkatanController::create_angkatan', ['filter' => 'auth']);
+$routes->post('/master-pendukung/create/jurusan', 'Master\JurusanController::create_jurusan', ['filter' => 'auth']);
+$routes->post('/master-pendukung/create/semester', 'Master\SemesterController::create_semester', ['filter' => 'auth']);
 $routes->post('/master-pendukung/update/angkatan/(:any)', 'Master\AngkatanController::update_angkatan/$1', ['filter' => 'auth']);
 $routes->post('/master-pendukung/update/jurusan/(:any)', 'Master\JurusanController::update_jurusan/$1', ['filter' => 'auth']);
 $routes->post('/master-pendukung/update/semester/(:any)', 'Master\SemesterController::update_semester/$1', ['filter' => 'auth']);
