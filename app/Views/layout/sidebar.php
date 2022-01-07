@@ -112,6 +112,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/master-keuangan/formula" class="nav-link<?php $uri_segment == "formula" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-percentage nav-icon"></i>
+                                    <p>Formula</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="<?php echo base_url() ?>/master-keuangan/akun-pemasukan" class="nav-link<?php $uri_segment == "akun-pemasukan" ? print(" active") : print("") ?>">
                                     <i class="fas fa-plus nav-icon"></i>
                                     <p>Akun Pemasukan</p>
