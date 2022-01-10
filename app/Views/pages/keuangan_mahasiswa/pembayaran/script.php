@@ -65,7 +65,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="<?php echo base_url() ;?>/keuangan-mahasiswa/pembayaran/detail/${nim}">Detail Keuangan</a>
-                    <a class="dropdown-item" href="#">Proses FRS</a>
+                    <a class="dropdown-item" href="<?php echo base_url() ;?>/keuangan-mahasiswa/frs/${nim}">Proses FRS</a>
                 </div>
             </div>`;
     }
