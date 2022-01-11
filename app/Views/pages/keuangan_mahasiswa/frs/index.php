@@ -86,7 +86,7 @@
                                     <tr>
                                         <td>Semester yang akan ditempuh(*)</td>
                                         <td>:</td>
-                                        <td><?= $next_semester[0]['semester']?></td>
+                                        <td><?= $next_semester[0]['semester'] ?></td>
                                     </tr>
                                     <tr>
                                         <td>Beban Studi Maksimal</td>
@@ -127,35 +127,60 @@
                                 <th>Calon</th>
                             </thead>
                             <tbody>
-                            <?php foreach ($list_frs as $key => $value) { ?>
+                                <?php foreach ($list_frs as $key => $value) { ?>
+                                    <tr class="<?= $tanggal_persetujuan_dw[0]['status'] != 1 && ((int)$value['kapasitas'] - 1) < (int)$value['Peserta'] ? 'bg-danger' : ''; ?>">
+                                        <td><?= $value['kode_mk'] ?></td>
+                                        <td><?= $value['nama_mk'] ?></td>
+                                        <td class="text-center"><?= $value['smtTempuh'] ?></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><?= $value['jum_sks'] ?></td>
+                                        <td><?= $value['nama_dosen'] ?></td>
+                                        <td class="text-center"><?= $value['kelas'] ?></td>
+                                        <td><?= $value['jadwal'] ?></td>
+                                        <td class="text-center"><?= $value['kapasitas'] ?></td>
+                                        <td class="text-center"><?= $value['Peserta'] ?></td>
+                                        <td class="text-center"><?= $value['CalonPeserta'] ?></td>
+                                    </tr>
+                                <? } ?>
                                 <tr>
-                                    <td><?= $value['kode_mk'] ?></td>
-                                    <td><?= $value['nama_mk'] ?></td>
-                                    <td class="text-center"><?= $value['smtTempuh'] ?></td>
-                                    <td class="text-center"></td>
-                                    <td class="text-center"><?= $value['jum_sks'] ?></td>
-                                    <td><?= $value['nama_dosen'] ?></td>
-                                    <td class="text-center"><?= $value['kelas'] ?></td>
-                                    <td><?= $value['jadwal'] ?></td>
-                                    <td class="text-center"><?= $value['kapasitas'] ?></td>
-                                    <td class="text-center"><?= $value['Peserta'] ?></td>
-                                    <td class="text-center"><?= $value['CalonPeserta'] ?></td>
+                                    <td colspan="4">Total SKS yang akan ditempuh</td>
+                                    <td colspan="7" class="font-weight-bold"><?= $total_sks ?> SKS</td>
                                 </tr>
-                            <? } ?>
+                                <tr>
+                                    <td colspan="4">Status Persetujuan KRS</td>
+                                    <td colspan="7" class="font-weight-bold">
+                                        <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? 'Disetujui oleh Dosen Wali.' : 'FRS belum disetujui Dosen Wali.' ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">Sudah disetujui pada tanggal </td>
+                                    <td colspan="7">
+                                        <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? $tanggal_persetujuan_dw[0]['tgl_persetujuan'] : $tanggal_persetujuan_dw[0]['tgl_persetujuan'] ?>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
-                        <table>
-                            <tr>
-                                <td>Total SKS</td>
-                                <td>:</td>
-                                <td class="font-weight-bold"><?= $total_sks ?></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>:</td>
-                                <td></td>
-                            </tr>
-                        </table>
+                        <div class="group-persetujuan mt-3">
+                            <span>
+                                <?php
+                                if ($tanggal_persetujuan_k[0]['status'] == 1) {
+                                    echo '(+) Jika Anda ingin membatalkan seluruh Rencana Study Mahasiswa silakan Klik tombol Batalkan.';
+                                } else {
+                                    echo '(+) Jika Anda menyetujui Rencana Study Mahasiswa yang bersangkutan, silahkan Klik tombol Setujui.';
+                                }
+                                ?>
+                            </span>
+                            <button class="btn btn-warning btn-sm float-right">
+                                <?php
+                                if ($tanggal_persetujuan_k[0]['status'] == 1) {
+                                    echo 'Batalkan Formulir Rencana Studi';
+                                } else {
+                                    echo 'Setujui Formulir Rencana Studi';
+                                }
+                                ?>
+                                
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

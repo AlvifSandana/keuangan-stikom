@@ -63,7 +63,16 @@ class FRSController extends BaseController
             ->where('nim', $nim)
             ->groupBy('kode_thn')
             ->get();
+        // get tanggal persetujuan dosen wali dan keuangan
+        $query_tanggal_persetujuan_dw = $builder_frs_dosenwali
+            ->where('nim', $nim)
+            ->get();
+        $query_tanggal_persetujuan_k = $builder_frs
+            ->where('nim', $nim)
+            ->get();
         // set to view data
+        $data['tanggal_persetujuan_dw'] = $query_tanggal_persetujuan_dw->getResultArray();
+        $data['tanggal_persetujuan_k'] = $query_tanggal_persetujuan_k->getResultArray();
         $data['khs'] = $query_khs->getResultArray();
         $data['data_mhs'] = $query_mhs->getResultArray();
         $data['list_frs_dw'] = $query_frs_dosenwali->getResultArray();
@@ -78,7 +87,6 @@ class FRSController extends BaseController
         }
         $sum_ipk = $total_sks != 0 ? $total_nk / $total_sks : 0;
         $data['ipk'] = round($sum_ipk, 2);
-        $data['total_sks'] = $total_sks;
         // get beban sks
         if ($data['ipk'] >= 3) {
             $data['beban_sks'] = 24;
@@ -94,6 +102,11 @@ class FRSController extends BaseController
         // pass data frs to view data
         if ($query_frs) {
             $data['list_frs'] = $query_frs->getResultArray();
+            $tot_sks = 0;
+            foreach ($query_frs->getResultArray() as $value) {
+                $tot_sks += (int) $value['jum_sks'];
+            }
+            $data['total_sks'] = $tot_sks;
         } else {
             $data['list_frs'] = 'Data Perwalian kosong!';
         }
