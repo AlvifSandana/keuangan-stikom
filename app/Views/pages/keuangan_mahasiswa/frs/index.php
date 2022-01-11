@@ -178,7 +178,6 @@
                                     echo 'Setujui Formulir Rencana Studi';
                                 }
                                 ?>
-                                
                             </button>
                         </div>
                     </div>
