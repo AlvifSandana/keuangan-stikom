@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login Sistem Keuangan</title>
+  <title>Keuangan STIKOM </title>
   <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -19,7 +19,7 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="" class="h1"><b>Login</b> Portal</a>
+      <a href="" class="h1"><b>Login</b> Admin Keuangan</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Log in to start your session</p>
