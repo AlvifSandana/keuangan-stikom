@@ -132,7 +132,7 @@
                                         <td><?= $value['kode_mk'] ?></td>
                                         <td><?= $value['nama_mk'] ?></td>
                                         <td class="text-center"><?= $value['smtTempuh'] ?></td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center"><?= $value['sts_mk'] ?></td>
                                         <td class="text-center"><?= $value['jum_sks'] ?></td>
                                         <td><?= $value['nama_dosen'] ?></td>
                                         <td class="text-center"><?= $value['kelas'] ?></td>
@@ -153,8 +153,14 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colspan="4">Status Persetujuan Keuangan</td>
+                                    <td colspan="7" class="font-weight-bold">
+                                        <?= $tanggal_persetujuan_k && $tanggal_persetujuan_k[0]['status'] == 1 ? 'Disetujui oleh Bagian Keuangan.' : 'FRS belum disetujui.' ?>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td colspan="4">Sudah disetujui pada tanggal </td>
-                                    <td colspan="7">
+                                    <td class="font-weight-bold" colspan="7">
                                         <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? $tanggal_persetujuan_dw[0]['tgl_persetujuan'] : $tanggal_persetujuan_dw[0]['tgl_persetujuan'] ?>
                                     </td>
                                 </tr>
@@ -170,14 +176,12 @@
                                 }
                                 ?>
                             </span>
-                            <button class="btn btn-warning btn-sm float-right">
-                                <?php
-                                if ($tanggal_persetujuan_k[0]['status'] == 1) {
-                                    echo 'Batalkan Formulir Rencana Studi';
-                                } else {
-                                    echo 'Setujui Formulir Rencana Studi';
-                                }
-                                ?>
+                            <button class="btn btn-warning btn-sm float-right" onclick="<?= $tanggal_persetujuan_k[0]['status'] == 1 ? 'batalFRS()':'accFRS()'?>" <?= $tanggal_persetujuan_dw[0]['status'] == 1 ? '': 'disabled'?>>
+                                <?php if ($tanggal_persetujuan_k[0]['status'] == 1) {?>
+                                    Batalkan Formulir Rencana Studi
+                                <?php } else {?>
+                                    Setujui Formulir Rencana Studi
+                                <?php } ?>
                             </button>
                         </div>
                     </div>

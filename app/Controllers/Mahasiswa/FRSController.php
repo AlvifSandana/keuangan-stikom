@@ -38,7 +38,7 @@ class FRSController extends BaseController
         // query get data frs
         $query_frs = $builder_frs
             ->select("pw_tr_perwalian_header.nim, tbl_mahasiswa.nama_mhs, PesertaKelas.kode_mk, nama_mk, pw_tr_perwalian_header.semester as smtTempuh, semester as smtMK, jum_sks,jadwal,kapasitas, kode_dosen, nama_dosen, PesertaKelas.kelas, pw_tr_perwalian_header.status, pw_tr_perwalian_header.tgl_perwalian,PesertaKelas.Peserta, PesertaKelas.CalonPeserta")
-            ->join("(SELECT nim, tbl_mk.kode_mk, nama_mk, sts,jum_sks, kelas, tbl_dosen.kode_dosen,nama_dosen FROM pw_tr_perwalian_detail LEFT JOIN tbl_mk ON pw_tr_perwalian_detail.kode_mk=tbl_mk.kode_mk LEFT JOIN tbl_dosen ON pw_tr_perwalian_detail.kode_dosen=tbl_dosen.kode_dosen) AS kl", "pw_tr_perwalian_header.nim=kl.nim", "left")
+            ->join("(SELECT nim, tbl_mk.kode_mk, nama_mk, sts, jum_sks, kelas, tbl_dosen.kode_dosen,nama_dosen FROM pw_tr_perwalian_detail LEFT JOIN tbl_mk ON pw_tr_perwalian_detail.kode_mk=tbl_mk.kode_mk LEFT JOIN tbl_dosen ON pw_tr_perwalian_detail.kode_dosen=tbl_dosen.kode_dosen) AS kl", "pw_tr_perwalian_header.nim=kl.nim", "left")
             ->join("tbl_mahasiswa", "pw_tr_perwalian_header.nim=tbl_mahasiswa.nim", "left")
             ->join("(SELECT pw_tr_perwalian_header.nim,jadwal,kapasitas,  pw_tr_perwalian_detail.kode_mk,  pw_tr_perwalian_detail.kelas,  SUM(CASE pw_tr_perwalian_header.Status AND pw_tr_perwalian_header_dw.Status WHEN '1' THEN 1 ELSE 0 END) AS Peserta, SUM(CASE pw_tr_perwalian_header.Status AND pw_tr_perwalian_header_dw.Status WHEN '0' THEN 1 ELSE 0 END) AS CalonPeserta  FROM pw_tr_perwalian_header  LEFT JOIN pw_tr_perwalian_detail  ON pw_tr_perwalian_header.nim = pw_tr_perwalian_detail.nim LEFT JOIN pw_tr_perwalian_header_dw  ON pw_tr_perwalian_header.nim = pw_tr_perwalian_header_dw.nim	 GROUP BY kode_mk,kelas) PesertaKelas", "kl.kode_mk = PesertaKelas.kode_mk AND kl.kelas = PesertaKelas.kelas", "left")
             ->where('pw_tr_perwalian_header.nim', $nim)
@@ -90,11 +90,11 @@ class FRSController extends BaseController
         // get beban sks
         if ($data['ipk'] >= 3) {
             $data['beban_sks'] = 24;
-        } else if($data['ipk'] >= 2.75 && $data['ipk'] < 3) {
+        } else if ($data['ipk'] >= 2.75 && $data['ipk'] < 3) {
             $data['beban_sks'] = 22;
-        } else if($data['ipk'] >= 2.51 && $data['ipk'] < 2.75) {
+        } else if ($data['ipk'] >= 2.51 && $data['ipk'] < 2.75) {
             $data['beban_sks'] = 20;
-        } else if($data['ipk'] >= 2.00 && $data['ipk'] < 2.50) {
+        } else if ($data['ipk'] >= 2.00 && $data['ipk'] < 2.50) {
             $data['beban_sks'] = 18;
         } else {
             $data['beban_sks'] = 15;
@@ -102,6 +102,12 @@ class FRSController extends BaseController
         // pass data frs to view data
         if ($query_frs) {
             $data['list_frs'] = $query_frs->getResultArray();
+            foreach ($query_frs->getResultArray() as $key => $value) {
+                $q = $db_old->table('tbl_mk')->select('sts')->where('kode_mk', $value['kode_mk'])->get();
+                $sts = $q->getResultArray();
+                $data['list_frs'][$key]['sts_mk'] = $sts[0]['sts'];
+            }
+
             $tot_sks = 0;
             foreach ($query_frs->getResultArray() as $value) {
                 $tot_sks += (int) $value['jum_sks'];
@@ -117,12 +123,117 @@ class FRSController extends BaseController
     /**
      * method acc FRS
      */
-    public function acc_frs()
+    public function acc_frs($nim)
     {
         try {
-            
+            // create validator
+            $validator = \Config\Services::validation();
+            // set rules
+            $validator->setRules([
+                'status_frs' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create db & builder instance
+                $db_old = \Config\Database::connect('default_old');
+                $builder_frs_k = $db_old->table('pw_tr_perwalian_header');
+                // query for update status frs keuangan
+                $q_frs_k = $builder_frs_k->update([
+                    'status' => 1,
+                    'tgl_persetujuan' => date('d-m-Y'),
+                    'id_admin' => session()->get('id_user'),
+                ], "nim = $nim");
+                // check query
+                if ($q_frs_k) {
+                    // return JSON
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Berhasil ACC FRS!',
+                        'data' => []
+                    ]);
+                } else {
+                    // return JSON
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal ACC FRS!',
+                        'data' => []
+                    ]);
+                }
+            } else {
+                // return JSON
+                return json_encode([
+                    'status' => 'failed',
+                    'message'=> 'Gagal ACC FRS!',
+                    'data' => []
+                ]);
+            }
         } catch (\Throwable $th) {
-            
+            // return JSON
+            return json_encode([
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace(),
+            ]);
         }
     }
+
+    /**
+     * method acc FRS
+     */
+    public function batal_frs($nim)
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            // set rules
+            $validator->setRules([
+                'status_frs' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create db & builder instance
+                $db_old = \Config\Database::connect('default_old');
+                $builder_frs_k = $db_old->table('pw_tr_perwalian_header');
+                // query for update status frs keuangan
+                $q_frs_k = $builder_frs_k->update([
+                    'status' => 0,
+                    'tgl_persetujuan' => '-',
+                    'id_admin' => session()->get('id_user'),
+                ], "nim = $nim");
+                // check query
+                if ($q_frs_k) {
+                    // return JSON
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Berhasil membatalkan FRS!',
+                        'data' => []
+                    ]);
+                } else {
+                    // return JSON
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal ACC FRS!',
+                        'data' => []
+                    ]);
+                }
+            } else {
+                // return JSON
+                return json_encode([
+                    'status' => 'failed',
+                    'message'=> 'Gagal ACC FRS!',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            // return JSON
+            return json_encode([
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace(),
+            ]);
+        }
+    }
+
 }
