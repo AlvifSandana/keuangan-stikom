@@ -9,6 +9,7 @@
 - [x] (ection button) Proses FRS
 - [x] Menambah pembayaran baru
 - [ ] Ubah data pembayaran
+- [x] hapus data pembayaran
 - [x] Detail pembayaran per item tagihan
 - [ ] Print detail pembayaran
 - [ ] Print detail keuangan (pembayaran, tagihan, diskon)
