@@ -424,4 +424,47 @@ class PembayaranController extends BaseController
             ]);
         }
     }
+
+    /**
+     * Delete pembayaran item by 
+     * kode pembayaran
+     * 
+     */
+    public function delete_pembayaran($kode_transaksi = '')
+    {
+        try {
+            // validate kode transaksi
+            if ($kode_transaksi != '' || $kode_transaksi != null) {
+                // create model instance
+                $m_transaksi = new Transaksi();
+                // delete data transaksi (pembayaran) by kode_transaksi
+                $delete_transaksi = $m_transaksi->where('kode_transaksi', $kode_transaksi)->delete();
+                if ($delete_transaksi) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Berhasil menghapus pembayaran dengan kode transaksi '.$kode_transaksi,
+                        'data' => []
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal menghapus pembayaran dengan kode transaksi '.$kode_transaksi,
+                        'data' => []
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'error',
+                    'message' => 'Kode Transaksi tidak valid!',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace(),
+            ]);
+        }
+    }
 }
