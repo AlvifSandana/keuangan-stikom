@@ -108,7 +108,7 @@
      */
     function deletePembayaran(id_pembayaran) {
         Swal.fire({
-            title: 'Apakah Anda yakin ingin menghapus data ini?',
+            title: 'Apakah Anda yakin ingin menghapus data pembayaran ini?',
             text: "Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
@@ -118,7 +118,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url(); ?>' + '/pembayaran/delete/' + id_pembayaran,
+                    url: '<?php echo base_url(); ?>' + '/keuangan-mahasiswa/pembayaran/delete/' + id_pembayaran,
                     type: 'DELETE',
                     dataType: 'JSON',
                     success: function(data) {
@@ -126,6 +126,9 @@
                             showSWAL('error', data.message);
                         } else {
                             showSWAL('success', data.message);
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000);
                             // searchPembayaran();
                         }
                     },
@@ -204,7 +207,7 @@
                                 <div class="dropdown no-arrow">
                                     <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu">
-                                        <a target="_blank" href="<?php echo base_url('uploaded/bukti_transaksi').'/' ?>${element.bukti_transaksi == null ? '#bukti-pembayaran' : element.bukti_transaksi}" class="dropdown-item text-primary edit ${element.bukti_transaksi == null ? 'disabled' : ''}" 
+                                        <a target="_blank" href="<?php echo base_url('uploaded/bukti_transaksi') . '/' ?>${element.bukti_transaksi == null ? '#bukti-pembayaran' : element.bukti_transaksi}" class="dropdown-item text-primary edit ${element.bukti_transaksi == null ? 'disabled' : ''}" 
                                         data-toggle="" 
                                         data-target="#" 
                                         onclick="">
@@ -215,7 +218,7 @@
                                             <i class="fas fa-fw fa-edit "></i>
                                             Edit
                                         </a>
-                                        <a href="#hapus" class="dropdown-item text-danger edit" data-toggle="" data-target="#" onclick="">
+                                        <a href="#hapus" class="dropdown-item text-danger edit" data-toggle="" data-target="#" onclick="deletePembayaran('${element.kode_transaksi}')">
                                             <i class="fas fa-fw fa-trash "></i>
                                             Hapus
                                         </a>
