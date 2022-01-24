@@ -50,7 +50,6 @@ class ItemPaketController extends BaseController
             // create validator instance
             $validator = \Config\Services::validation();
             $validator->setRules([
-                'paket_id' => 'required',
                 'angkatan_id' => 'required',
                 'semester_id' => 'required',
                 'nama_item' => 'required',
@@ -62,7 +61,7 @@ class ItemPaketController extends BaseController
                 // create model instance
                 $m_itempaket = new ItemPaket();
                 // get last item
-                $last_item = $m_itempaket->builder()->orderBy('kode_item', 'DESC')->get()->getResultArray();
+                $last_item = $m_itempaket->builder()->orderBy('id_item', 'DESC')->get()->getResultArray();
                 $last_kode_item = explode('ITEM', $last_item[0]['kode_item']);
                 // insert new data
                 $update_item = $m_itempaket->insert([
@@ -70,7 +69,7 @@ class ItemPaketController extends BaseController
                     'nama_item' => $this->request->getPost('nama_item'),
                     'nominal_item' => $this->request->getPost('nominal_item'),
                     'keterangan_item' => $this->request->getPost('keterangan_item'),
-                    'paket_id' => $this->request->getPost('paket_id'),
+                    'paket_id' => $this->request->getPost('paket_id') == null ? null : $this->request->getPost('paket_id'),
                     'angkatan_id' => $this->request->getPost('angkatan_id'),
                     'semester_id' => $this->request->getPost('semester_id'),
                 ]);
