@@ -50,12 +50,22 @@ class PaketController extends BaseController
             // create model instance
             $m_itempaket = new ItemPaket();
             // get item paket by paket_id
-            $item_paket = $m_itempaket
-                ->where('paket_id', $paket_id)
-                ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'inner')
-                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'inner')
-                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'inner')
+            if ($paket_id == 'null') {
+                $item_paket = $m_itempaket
+                ->where('paket_id IS NULL', NULL)
+                ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
+                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
+                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
                 ->findAll();
+            } else {
+                $item_paket = $m_itempaket
+                ->where('paket_id', $paket_id)
+                ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
+                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
+                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
+                ->findAll();
+            }
+            
             if (sizeOf($item_paket) > 0) {
                 return json_encode([
                     'status' => 'success',
