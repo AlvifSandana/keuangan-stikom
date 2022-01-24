@@ -66,10 +66,10 @@
 - [x] Tampilan paket beserta item paket terkait
 - [x] Tambah paket baru
 - [x] Tambah item paket baru
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+- [x] Tambah item paket lain-lain (pembayaran lain-lain)
+- [x] Show paket
+- [x] Show item paket by paket
+- [x] Show item paket lain-lain
 - [ ] 
 - [ ] 
 - [ ] 
