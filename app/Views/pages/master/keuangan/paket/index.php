@@ -78,7 +78,7 @@
                 <div class="card">
                     <div class="card-body">
                     <h5 class="h5 mt-3 mb-4">Detail Item Tagihan Lain-lain</h5>
-                        <table class="table table-bordered tbl_master_paket" id="tbl_master_item_lain">
+                        <table class="table table-bordered table-hover tbl_master_paket" id="tbl_master_item_lain">
                             <thead class="text-center">
                                 <th>Kode Item Tagihan</th>
                                 <th>Nama Item</th>

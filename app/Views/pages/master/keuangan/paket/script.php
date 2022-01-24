@@ -1,4 +1,7 @@
 <script>
+    $(document).ready(function() {
+        getItemPaketLain();
+    })
     // DataTable
     $('table').DataTable({
         'columnDefs': [{
@@ -176,7 +179,12 @@
                 } else {
                     showSWAL('success', data.message);
                     $("#tbl_master_paket > tbody").empty();
-                    getItemPaket();
+                    console.log(data_item.paket_id);
+                    if (data_item.paket_id == '') {
+                        getItemPaketLain();
+                    } else {
+                        getItemPaket();
+                    }
                 }
             },
             error: function(jqXHR) {
@@ -248,6 +256,7 @@
                     showSWAL('success', data.message);
                     $("#tbl_master_paket > tbody").empty();
                     getItemPaket();
+
                 }
             },
             error: function(jqXHR) {
@@ -256,5 +265,41 @@
         });
     }
 
-    
+    /** 
+     * get item paket with NULL paket_id (item pembayaran lain-lain)
+     */
+    function getItemPaketLain() {
+        $("#tbl_master_item_lain > tbody").empty();
+        $.ajax({
+            url: "<?php echo base_url(); ?>" + "/master-keuangan/itempaket/null",
+            type: "GET",
+            dataType: "JSON",
+            success: function(data) {
+                var itempaket = data.data;
+                if (data.status != "success") {
+                    showSWAL('error', data.message);
+                } else {
+                    // total nominal item paket tagihan
+                    var total_tagihan = 0;
+                    // create number formatter
+                    var numformat = Intl.NumberFormat();
+                    // table
+                    var tbl = $('#tbl_master_item_lain').DataTable();
+                    // clear table
+                    tbl.clear().draw(false);
+                    // re-draw table with new data
+                    // iterate data
+                    itempaket.forEach(element => {
+                        // create new row data
+                        tbl.row.add([element.kode_item, element.nama_item, element.tahun_angkatan, element.nama_semester, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.id_item, element.kode_item)]).draw(false);
+                        // add total tagihan
+                        total_tagihan += parseInt(element.nominal_item);
+                    });
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR.statusText);
+            }
+        });
+    }
 </script>
