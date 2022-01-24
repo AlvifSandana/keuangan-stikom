@@ -89,6 +89,14 @@ class PembayaranController extends BaseController
                 ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'inner')
                 ->findAll();
 
+            // get item paket lain-lain
+            $item_paket_lain = $m_itempaket
+                ->where('paket_id IS NULL', NULL)
+                ->like('angkatan_id', $mahasiswa[0]['angkatan'])
+                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'inner')
+                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'inner')
+                ->findAll();
+
             // get semester 
             $semester = $m_semester->findAll();
 
@@ -97,7 +105,7 @@ class PembayaranController extends BaseController
             $data['dosen'] = $dosen;
             $data['tagihan'] = $tagihan;
             $data['pembayaran'] = $pembayaran;
-            $data['item_paket'] = $item_paket;
+            $data['item_paket'] = array_merge($item_paket, $item_paket_lain);
             $data['semester'] = $semester;
             // get uri segment for dynamic sidebar active item
             $data['uri_segment'] = $request->uri->getSegment(2);
