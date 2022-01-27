@@ -51,6 +51,10 @@ class CreateTransaksiTable extends Migration
             'tanggal_transaksi' => [
                 'type' => 'DATETIME',
             ],
+            'keterangan_transaksi' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
