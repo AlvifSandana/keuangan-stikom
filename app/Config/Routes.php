@@ -57,6 +57,7 @@ $routes->post('/keuangan-mahasiswa/frs/(:any)/batal', 'Mahasiswa\FRSController::
 
 // route for transaksi
 $routes->get('/transaksi/pemasukan', 'Transaksi/PemasukanController::index', ['filter' => 'auth']);
+$routes->post('/transaksi/pemasukan/create', 'Transaksi/PemasukanController::create_pemasukan', ['filter' => 'auth']);
 $routes->get('/transaksi/pengeluaran', 'Transaksi/PengeluaranController::index', ['filter' => 'auth']);
 
 // route for master mahasiswa
