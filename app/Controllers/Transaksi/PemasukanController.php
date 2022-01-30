@@ -7,7 +7,6 @@ use App\Models\AkunPemasukan;
 use App\Models\MetodePembayaran;
 use App\Models\Transaksi;
 
-use function PHPUnit\Framework\isType;
 
 class PemasukanController extends BaseController
 {
@@ -150,7 +149,7 @@ class PemasukanController extends BaseController
                     //     'message' => 'Berhasil menambahkan pemasukan!',
                     //     'data' => ''
                     // ]);
-                    return redirect()->to(base_url() . '/transaksi/pemasukan')->with('success', 'File type is not valid!');
+                    return redirect()->to(base_url() . '/transaksi/pemasukan')->with('success', 'Berhasil menambahkan transaksi baru!');
                 } else {
                     // return json_encode([
                     //     'status' => 'failed',

@@ -40,15 +40,16 @@
 <?= $this->section('content-body') ?>
 <section class="content">
     <div class="container-fluid">
+        <?= $this->include('layout/flash') ?>
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="h4">Input Pengeluaran</h4>
                         <hr>
-                        <form action="<?php echo base_url(); ?>/pembayaran/create" method="post" id="form_create_pembayaran" enctype="multipart/form-data">
+                        <form action="<?= base_url() ?>/transaksi/pengeluaran/create" method="post" id="form_create_pengeluaran" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="itempembayaran">Kategori Pengeluaran</label>
+                                <label for="itempengeluaran">Kategori Pengeluaran</label>
                                 <select class="form-control custom-select" name="kode_akun_pengeluaran" id="kode_akun_pengeluaran" style="width: 100%;">
                                     <?php foreach ($akun_pengeluaran as $p) {
                                         echo '<option value="' . $p["kode_akun"] . '">' . $p["kode_akun"] . ' - ' . $p["nama_akun"] . '</option>';
@@ -56,7 +57,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="tanggal_pembayaran">Tanggal Pengeluaran</label>
+                                <label for="tanggal_pengeluaran">Tanggal Pengeluaran</label>
                                 <input type="date" class="form-control" name="tanggal_pengeluaran" id="tanggal_pengeluaran">
                             </div>
                             <div class="form-group">
@@ -73,11 +74,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="itempembayaran">Metode Pembayaran</label>
-                                <select class="form-control custom-select" name="kode_metode_pembayaran" id="kode_metode_pembayaran" style="width: 100%;">
+                                <select class="form-control custom-select" name="metode_pembayaran" id="kode_metode_pembayaran" style="width: 100%;">
                                     <?php foreach ($metode_pembayaran as $mp) {
                                         echo '<option value="' . $mp["id_metode"] . '">' . $mp["id_metode"] . ' - ' . $mp["nama_metode_pembayaran"] . '</option>';
                                     } ?>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan_transaksi">Keterangan</label>
+                                <textarea class="form-control" name="keterangan_pengeluaran" id="keterangan_pemasukan" cols="30" rows="2"></textarea>
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
