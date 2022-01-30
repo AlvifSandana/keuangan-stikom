@@ -58,7 +58,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="tanggal_pembayaran">Tanggal Pemasukan</label>
-                                <input type="date" class="form-control" name="tanggal_pemasukan" id="tanggal_pemasukan">
+                                <input type="datetime-local" class="form-control" name="tanggal_pemasukan" id="tanggal_pemasukan">
                             </div>
                             <div class="form-group">
                                 <label for="">Nominal Pemasukan</label>
@@ -79,6 +79,10 @@
                                         echo '<option value="' . $mp["id_metode"] . '">' . $mp["id_metode"] . ' - ' . $mp["nama_metode_pembayaran"] . '</option>';
                                     } ?>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan_transaksi">Keterangan</label>
+                                <textarea class="form-control" name="keterangan_pemasukan" id="keterangan_pemasukan" cols="30" rows="2"></textarea>
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
