@@ -71,7 +71,7 @@ class PemasukanController extends BaseController
                 $tanggal_transaksi = explode('-', $this->request->getPost('tanggal_pemasukan'));
                 // get bukti transaksi if existed
                 $is_bukti_transaksi = $this->request->getPost('is_bukti_transaksi');
-                $bukti_transaksi = $this->request->getFile('file') ? $this->request->getFile('file') : false;
+                $bukti_transaksi = $this->request->getFile('bukti_transaksi') ? $this->request->getFile('bukti_transaksi') : false;
                 // find previous transaksi and get current kode transaksi
                 $current_kode_transaksi = $this->get_current_kode_transaksi($this->request->getPost('kode_akun_pemasukan'));
                 // check current kode transaksi and bukti pembayaran
@@ -141,7 +141,7 @@ class PemasukanController extends BaseController
                 $insert_data['tanggal_transaksi'] = $this->request->getPost('tanggal_pemasukan');
                 $insert_data['keterangan_transaksi'] = $this->request->getPost('keterangan_pemasukan');
                 // create new data transaksi
-                dd($insert_data);
+                // dd($insert_data);
                 $new_transaksi = $m_transaksi->insert($insert_data);
                 
                 if ($new_transaksi) {
