@@ -20,6 +20,7 @@
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
+        <?= $this->include('layout/flash') ?>
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0">Master Akun Pemasukan</h1>
@@ -63,7 +64,7 @@
                                                     <i class="fas fa-fw fa-info"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getAkunById(<?= $value['id_akun']?>)"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateAkunPemasukan" onclick="getAkunById(<?= $value['id_akun']?>)"><i class="fas fa-edit"></i> Edit</a>
                                                     <a class="dropdown-item text-danger" href="#" onclick="deleteAkun(<?= $value['id_akun'] ?>)"><i class="fas fa-trash"></i> Hapus</a>
                                                 </div>
                                             </div>

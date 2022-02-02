@@ -79,10 +79,10 @@ $routes->get('/master-keuangan/itempaket/(:any)', 'Master\PaketController::get_i
 
 // route for master akun pemasukan
 $routes->get('/master-keuangan/akun-pemasukan', 'Master\AkunPemasukanController::index', ['filter' => 'auth']);
-$routes->get('/master-keuangan/akun-pemasukan/create', 'Master\AkunPemasukanController::create_akun', ['filter' => 'auth']);
+$routes->post('/master-keuangan/akun-pemasukan/create', 'Master/AkunPemasukanController::create_akun', ['filter' => 'auth']);
 $routes->get('/master-keuangan/akun-pemasukan/find/(:any)', 'Master\AkunPemasukanController::get_akun_by_id/$1', ['filter' => 'auth']);
-$routes->get('/master-keuangan/akun-pemasukan/update', 'Master\AkunPemasukanController::update_akun', ['filter' => 'auth']);
-$routes->get('/master-keuangan/akun-pemasukan/delete/(:any)', 'Master\AkunPemasukanController::delete_akun/$1', ['filter' => 'auth']);
+$routes->post('/master-keuangan/akun-pemasukan/update', 'Master\AkunPemasukanController::update_akun', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/akun-pemasukan/delete/(:any)', 'Master\AkunPemasukanController::delete_akun/$1', ['filter' => 'auth']);
 
 // route for master pendukung
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);

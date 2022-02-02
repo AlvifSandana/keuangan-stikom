@@ -174,13 +174,25 @@ class AkunPemasukanController extends BaseController
                 $delete_data = $m_akun_pemasukan->delete($id_akun);
                 // check
                 if ($delete_data) {
-                    return redirect()->to(base_url().'/master-keuangan/akun-pemasukan')->with('success', 'Berhasil menghapus akun!');
+                    return json_encode([
+                        'status' => 'success',
+                        'message'=> 'Berhasil menghapus akun!',
+                        'data' => []
+                    ]);
                 } else {
-                    return redirect()->to(base_url().'/master-keuangan/akun-pemasukan')->with('failed', 'Gagal menghapus akun!');
+                    return json_encode([
+                        'status' => 'failed',
+                        'message'=> 'Gagal menghapus akun!',
+                        'data' => []
+                    ]);
                 }
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url().'/master-keuangan/akun-pemasukan')->with('error', $th->getMessage());
+            return json_encode([
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
         }
     }
 }
