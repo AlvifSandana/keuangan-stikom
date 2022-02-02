@@ -134,7 +134,7 @@ class PengeluaranController extends BaseController
                 // set insert data
                 $insert_data['kode_unit'] = $this->request->getPost('kode_akun_pengeluaran');
                 $insert_data['kategori_transaksi'] = 'K';
-                $insert_data['q_debit'] = $this->request->getPost('nominal_pengeluaran');
+                $insert_data['q_kredit'] = $this->request->getPost('nominal_pengeluaran');
                 $insert_data['kode_metode_pembayaran'] = $this->request->getPost('metode_pembayaran');
                 $insert_data['tanggal_transaksi'] = $this->request->getPost('tanggal_pengeluaran');
                 $insert_data['keterangan_transaksi'] = $this->request->getPost('keterangan_pengeluaran');
