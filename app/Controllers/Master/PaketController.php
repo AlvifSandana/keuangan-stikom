@@ -56,6 +56,7 @@ class PaketController extends BaseController
                 ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
                 ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
+                ->join('tbl_formula', 'item_kode = tbl_formula.item_kode', 'left')
                 ->findAll();
             } else {
                 $item_paket = $m_itempaket
@@ -63,9 +64,10 @@ class PaketController extends BaseController
                 ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
                 ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
+                ->join('tbl_formula', 'item_kode = tbl_formula.item_kode', 'left')
                 ->findAll();
             }
-            
+            // check
             if (sizeOf($item_paket) > 0) {
                 return json_encode([
                     'status' => 'success',

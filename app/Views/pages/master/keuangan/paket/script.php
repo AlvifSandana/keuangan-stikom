@@ -54,7 +54,7 @@
                     // iterate data
                     itempaket.forEach(element => {
                         // create new row data
-                        tbl.row.add([element.kode_item, element.nama_item, element.tahun_angkatan, element.nama_semester, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.id_item, element.kode_item)]).draw(false);
+                        tbl.row.add([element.kode_item, element.nama_item, element.tahun_angkatan, element.nama_semester, "Rp " + numformat.format(element.nominal_item), element.keterangan_item, generateActionButton(element.id_item, element.kode_item, element.kode_formula)]).draw(false);
                         // add total tagihan
                         total_tagihan += parseInt(element.nominal_item);
                     });
@@ -71,15 +71,16 @@
     /** 
      * generate Action Button
      */
-    function generateActionButton(id_item, kode_item) {
+    function generateActionButton(id_item, kode_item, kode_formula) {
         return `
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-info"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getItemPaketById(${id_item})"><i class="fas fa-edit"></i> Edit</a>
-                    <a class="dropdown-item text-danger" href="#" onclick="deleteItemPaket(${id_item})"><i class="fas fa-trash"></i> Hapus</a>
+                    <a class="dropdown-item text-${kode_formula == null ? 'success' : 'warning'}" href="#" data-toggle="modal" data-target="#modalEditItemPaketFormula" onclick="getItemPaketFormulaByKode('${kode_formula}')"><i class="fas fa-fw fa-percentage"></i> ${kode_formula == null ? 'Add Formula' : 'Edit Formula'}</a>
+                    <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getItemPaketById(${id_item})"><i class="fas fa-fw fa-edit"></i> Edit</a>
+                    <a class="dropdown-item text-danger" href="#" onclick="deleteItemPaket(${id_item})"><i class="fas fa-fw fa-trash"></i> Hapus</a>
                 </div>
             </div>`;
     }

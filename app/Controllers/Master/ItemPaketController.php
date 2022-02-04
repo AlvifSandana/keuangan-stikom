@@ -112,7 +112,7 @@ class ItemPaketController extends BaseController
             $validator = \Config\Services::validation();
             $validator->setRules([
                 'kode_item' => 'required',
-                'paket_id' => 'required',
+                // 'paket_id' => 'required',
                 'angkatan_id' => 'required',
                 'semester_id' => 'required',
                 'nama_item' => 'required',
