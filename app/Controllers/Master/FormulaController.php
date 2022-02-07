@@ -4,7 +4,7 @@ namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\Formula;
-use PhpParser\Node\Stmt\For_;
+use App\Models\ItemPaket;
 
 class FormulaController extends BaseController
 {
@@ -19,6 +19,50 @@ class FormulaController extends BaseController
         $data['formula'] = $m_formula->findAll();
         // get data akun pemasukan
         return view('pages/master/keuangan/formula/index', $data);
+    }
+
+    /**
+     * get item paket + formula by id_item
+     */
+    public function get_item_formula_by_id($id_item)
+    {
+        try {
+            if ($id_item != null) {
+                // create model
+                $m_item = new ItemPaket();
+                // get data
+                $item = $m_item
+                    ->where('id_item', $id_item)
+                    ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+                    ->first();
+                // check
+                if($item) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message'=> 'Data available!',
+                        'data' => $item
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'failed',
+                        'message'=> 'Data unavailable!',
+                        'data' => []
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message'=> 'Validasi gagal!',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
     }
 
     /**

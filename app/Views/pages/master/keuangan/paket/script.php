@@ -78,13 +78,46 @@
                     <i class="fas fa-info"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item text-${kode_formula == null ? 'success' : 'warning'}" href="#" data-toggle="modal" data-target="#modalEditItemPaketFormula" onclick="getItemPaketFormulaByKode('${kode_formula}')"><i class="fas fa-fw fa-percentage"></i> ${kode_formula == null ? 'Add Formula' : 'Edit Formula'}</a>
+                    <a class="dropdown-item text-${kode_formula == null ? 'success' : 'warning'}" href="#" data-toggle="modal" data-target="#modal${kode_formula == null ? 'Add' : 'Edit'}Formula" onclick="getItemPaketFormulaByIdItem('${id_item}')"><i class="fas fa-fw fa-percentage"></i> ${kode_formula == null ? 'Add Formula' : 'Edit Formula'}</a>
                     <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getItemPaketById(${id_item})"><i class="fas fa-fw fa-edit"></i> Edit</a>
                     <a class="dropdown-item text-danger" href="#" onclick="deleteItemPaket(${id_item})"><i class="fas fa-fw fa-trash"></i> Hapus</a>
                 </div>
             </div>`;
     }
 
+    /** 
+     * get item paket berdasarkan id_item
+     */
+    function getItemPaketFormulaByIdItem(id_item) {
+        $.ajax({
+            url: '<?php echo base_url(); ?>/master-keuangan/formula/find/' + id_item,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    // clean input
+                    $('#edit_id_item').val(0);
+                    $('#edit_kode_item').val('');
+                    $('#edit_paket_id').val('');
+                    $('#edit_angkatan_id').val('');
+                    $('#edit_semester_id').val('');
+                    $('#edit_nama_item').val('');
+                    $('#edit_nominal_item').val(0);
+                    $('#edit_keterangan_item').val('data.data.keterangan_item');
+                    // fill with data
+                    $('#edit_kode_item').val(data.data[0].kode_item);
+                    $('#edit_nama_item').val(data.data[0].nama_item);
+                    $('#edit_nominal_item').val(parseInt(data.data[0].nominal_item));
+                    $('#edit_formula').val(data.data[0].keterangan_item);
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR);
+            }
+        });
+    }
     /** 
      * get item paket berdasarkan id_item
      */

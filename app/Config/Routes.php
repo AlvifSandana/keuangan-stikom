@@ -93,6 +93,7 @@ $routes->delete('/master-keuangan/akun-pengeluaran/delete/(:any)', 'Master\AkunP
 
 // router for master formula
 $routes->get('/master-keuangan/formula', 'Master/FormulaController::index', ['filter' => 'auth']);
+$routes->get('/master-keuangan/formula/find/(:any)', 'Master/FormulaController::get_item_formula_by_id/$1', ['filter' => 'auth']);
 
 // route for master pendukung
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);

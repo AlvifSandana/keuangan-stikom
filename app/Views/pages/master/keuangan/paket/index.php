@@ -102,6 +102,10 @@
     <?= $this->include('pages/master/keuangan/paket/modal_add_item_paket') ?>
     <!-- Modal Edit Item Paket -->
     <?= $this->include('pages/master/keuangan/paket/modal_edit_item_paket') ?>
+    <!-- Modal Add formula -->
+    <?= $this->include('pages/master/keuangan/paket/modal_add_formula') ?>
+    <!-- Modal Edit formula -->
+    <?= $this->include('pages/master/keuangan/paket/modal_edit_formula') ?>
 </section>
 <?= $this->endSection() ?>
 
