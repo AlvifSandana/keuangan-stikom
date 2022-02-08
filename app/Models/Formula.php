@@ -9,12 +9,12 @@ class Formula extends Model
     protected $DBGroup          = 'default';
     protected $table            = 'tbl_formula';
     protected $primaryKey       = 'id_formula';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_formula', 'item_kode', 'persentase'];
+    protected $allowedFields    = ['id_formula', 'kode_formula', 'item_kode', 'persentase'];
 
     // Dates
     protected $useTimestamps = true;

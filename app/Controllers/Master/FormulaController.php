@@ -34,7 +34,7 @@ class FormulaController extends BaseController
                 $item = $m_item
                     ->where('id_item', $id_item)
                     ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
-                    ->first();
+                    ->findAll();
                 // check
                 if($item) {
                     return json_encode([
@@ -91,9 +91,10 @@ class FormulaController extends BaseController
                     $prev_kode_formula = explode('FORMULA', $prev_formula[0]['kode_formula']);
                     // insert new data
                     $insert_data = $m_formula->insert([
+                        'id_formula' => ((int)$prev_formula[0]['id_formula'] + 1),
                         'kode_formula' => 'FORMULA' . ((int)$prev_kode_formula[1] + 1),
                         'item_kode' => $this->request->getPost('item_kode'),
-                        'persentase' => $this->request->getPost('presentase')
+                        'persentase' => $this->request->getPost('persentase')
                     ]);
                     // check
                     if ($insert_data) {
@@ -112,9 +113,10 @@ class FormulaController extends BaseController
                 } else {
                     // insert new data
                     $insert_data = $m_formula->insert([
+                        'id_formula' => 1,
                         'kode_formula' => 'FORMULA1',
                         'item_kode' => $this->request->getPost('item_kode'),
-                        'persentase' => $this->request->getPost('presentase')
+                        'persentase' => $this->request->getPost('persentase')
                     ]);
                     // check
                     if ($insert_data) {
@@ -157,18 +159,17 @@ class FormulaController extends BaseController
             $validator = \Config\Services::validation();
             // set validator rules
             $validator->setRules([
-                'id_formula' => 'required',
                 'kode_formula' => 'required',
                 'item_kode' => 'required',
-                'presentase' => 'required',
+                'persentase' => 'required',
             ]);
             // begin validation
-            $isDataValid = $validator->withRequest($this->require)->run();
+            $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
                 // create model instance
                 $m_formula = new Formula();
                 // update data
-                $update_data = $m_formula->update($this->request->getPost('id_formula'), [
+                $update_data = $m_formula->update($this->request->getPost('kode_formula'), [
                     'persentase' => $this->request->getPost('persentase'),
                 ]);
                 // check

@@ -10,26 +10,51 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="nama_paket">Kode Item</label>
-                    <input type="text" name="edit_item_kode" id="edit_item_kode" class="form-control" disabled>
+                    <input type="text" name="editf_item_kode" id="editf_kode_formula" class="form-control" hidden>
+                    <input type="text" name="editf_item_kode" id="editf_item_kode" class="form-control" disabled>
                 </div>
                 <div class="form-group">
                     <label for="nama_paket">Nama Item</label>
-                    <input type="text" name="edit_nama_item" id="edit_nama_item" class="form-control" disabled>
+                    <input type="text" name="editf_nama_item" id="editf_nama_item" class="form-control" disabled>
                 </div>
                 <div class="form-group">
                     <label for="nama_paket">Nominal</label>
-                    <input type="text" name="edit_nominal_item" id="edit_nominal_item" class="form-control" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="formula">Formula</label>
                     <div class="input-group mb-3">
-                        <input type="number" class="form-control" name="edit_formula" id="edit_formula" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2">Rp</span>
+                        </div>
+                        <input type="text" name="editf_nominal_item" id="editf_nominal_item" class="form-control" disabled>
                         <div class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">%</span>
+                            <span class="input-group-text" id="basic-addon2">.00</span>
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success float-right" onclick="editFormula()">Perbarui</button>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="formula">Formula</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" name="editf_formula" id="editf_formula" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100" oninput="hitungNominalWithFormula()" onfocus="hitungNominalWithFormula()">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label for="formula">Nominal setelah formula</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" name="editf_nominal_after" id="editf_nominal_after" placeholder="0" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-info float-right" onclick="updateFormula()">Perbarui</button>
             </div>
         </div>
     </div>

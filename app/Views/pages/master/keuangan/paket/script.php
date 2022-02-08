@@ -78,15 +78,28 @@
                     <i class="fas fa-info"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item text-${kode_formula == null ? 'success' : 'warning'}" href="#" data-toggle="modal" data-target="#modal${kode_formula == null ? 'Add' : 'Edit'}Formula" onclick="getItemPaketFormulaByIdItem('${id_item}')"><i class="fas fa-fw fa-percentage"></i> ${kode_formula == null ? 'Add Formula' : 'Edit Formula'}</a>
+                    <a class="dropdown-item text-${kode_formula == null ? 'success' : 'info'}" href="#" data-toggle="modal" data-target="#modal${kode_formula == null ? 'Add' : 'Edit'}Formula" onclick="getItemPaketFormulaByIdItem('${id_item}')"><i class="fas fa-fw fa-percentage"></i> ${kode_formula == null ? 'Add Formula' : 'Edit Formula'}</a>
                     <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalEditItemPaket" onclick="getItemPaketById(${id_item})"><i class="fas fa-fw fa-edit"></i> Edit</a>
                     <a class="dropdown-item text-danger" href="#" onclick="deleteItemPaket(${id_item})"><i class="fas fa-fw fa-trash"></i> Hapus</a>
                 </div>
             </div>`;
     }
 
+    function hitungNominalWithFormula(type) {
+        var nominal = parseInt($('#add_nominal_item').val());
+        var formula = parseFloat($('#add_formula').val());
+        var nominalef = parseInt($('#editf_nominal_item').val());
+        var formulaef = parseFloat($('#editf_formula').val());
+        var nominal_after = 0;
+        var nominal_afteref = 0;
+        nominal_after = formula * nominal / 100;
+        nominal_afteref = formulaef * nominalef / 100;
+        $('#add_nominal_after').val(nominal_after);
+        $('#editf_nominal_after').val(nominal_afteref);
+    }
+
     /** 
-     * get item paket berdasarkan id_item
+     * get item paket + formula berdasarkan id_item
      */
     function getItemPaketFormulaByIdItem(id_item) {
         $.ajax({
@@ -97,24 +110,22 @@
                 if (data.status != 'success') {
                     showSWAL('error', data.message);
                 } else {
-                    // clean input
-                    $('#edit_id_item').val(0);
-                    $('#edit_kode_item').val('');
-                    $('#edit_paket_id').val('');
-                    $('#edit_angkatan_id').val('');
-                    $('#edit_semester_id').val('');
-                    $('#edit_nama_item').val('');
-                    $('#edit_nominal_item').val(0);
-                    $('#edit_keterangan_item').val('data.data.keterangan_item');
                     // fill with data
-                    $('#edit_kode_item').val(data.data[0].kode_item);
-                    $('#edit_nama_item').val(data.data[0].nama_item);
-                    $('#edit_nominal_item').val(parseInt(data.data[0].nominal_item));
-                    $('#edit_formula').val(data.data[0].keterangan_item);
+                    $('#editf_item_kode').val(data.data[0].kode_item);
+                    $('#editf_kode_formula').val(data.data[0].kode_formula);
+                    $('#editf_nama_item').val(data.data[0].nama_item);
+                    $('#editf_nominal_item').val(parseInt(data.data[0].nominal_item));
+                    $('#editf_formula').val(data.data[0].persentase);
+                    $('#add_item_kode').val(data.data[0].kode_item);
+                    $('#add_kode_formula').val(data.data[0].kode_formula);
+                    $('#add_nama_item').val(data.data[0].nama_item);
+                    $('#add_nominal_item').val(parseInt(data.data[0].nominal_item));
+                    $('#add_formula').val(data.data[0].persentase);
                 }
             },
             error: function(jqXHR) {
                 showSWAL('error', jqXHR);
+                console.log(jqXHR);
             }
         });
     }
@@ -152,6 +163,65 @@
             },
             error: function(jqXHR) {
                 showSWAL('error', jqXHR);
+            }
+        });
+    }
+
+    /** 
+     * tambah formula
+     */
+    function addFormula() {
+        var data_formula = {
+            item_kode: $('#add_item_kode').val(),
+            persentase: $('#add_formula').val(),
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>/master-keuangan/formula/create',
+            type: 'POST',
+            data: data_formula,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                    console.log(data.data);
+                } else {
+                    showSWAL('success', data.message);
+                    window.location.reload();
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
+            }
+        });
+    }
+
+    /** 
+     * update formula
+     */
+    function updateFormula() {
+        var data_formula = {
+            kode_formula: $('#editf_kode_formula').val(),
+            item_kode: $('#editf_item_kode').val(),
+            persentase: $('#editf_formula').val(),
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>/master-keuangan/formula/update',
+            type: 'POST',
+            data: data_formula,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                    console.log(data.data);
+                } else {
+                    showSWAL('success', data.message);
+                    window.location.reload();
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
             }
         });
     }
