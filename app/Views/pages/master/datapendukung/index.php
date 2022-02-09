@@ -1,5 +1,21 @@
 <?= $this->extend('layout/master') ?>
 
+<?= $this->section('custom-styles') ?>
+<style>
+    .select2-selection__rendered {
+        line-height: 30px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 35px !important;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('content-header') ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -41,6 +57,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#paket" role="tab" data-toggle="tab">Paket</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#diskon" role="tab" data-toggle="tab">Diskon</a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -56,6 +75,9 @@
                             <div role="tabpanel" class="tab-pane" id="paket">
                                 <?= $this->include('pages/master/datapendukung/card_paket') ?>
                             </div>
+                            <div role="tabpanel" class="tab-pane" id="diskon">
+                                <?= $this->include('pages/master/datapendukung/card_diskon') ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,10 +90,12 @@
 <?= $this->include('pages/master/datapendukung/modal/modal_create_jurusan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_paket') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_semester') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_create_diskon') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_angkatan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_jurusan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_paket') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_semester') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_update_diskon') ?>
 <!-- /Modals -->
 <?= $this->endSection() ?>
 

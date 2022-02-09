@@ -2,6 +2,26 @@
     // enable datatable
     $('table').DataTable();
 
+    $('#angkatan_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalCreateDiskon")
+    });
+    $('#semester_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalCreateDiskon")
+    });
+    $('#update_angkatan_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalUpdateDiskon")
+    });
+    $('#update_semester_id').select2({
+        width: 'resolve',
+        tags: true,
+        dropdownParent: $("#modalUpdateDiskon")
+    });
 
     function createAngkatan() {
         var data = {
