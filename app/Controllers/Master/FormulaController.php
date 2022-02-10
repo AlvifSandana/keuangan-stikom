@@ -5,6 +5,7 @@ namespace App\Controllers\Master;
 use App\Controllers\BaseController;
 use App\Models\Formula;
 use App\Models\ItemPaket;
+use PhpParser\Node\Stmt\TryCatch;
 
 class FormulaController extends BaseController
 {
@@ -200,5 +201,24 @@ class FormulaController extends BaseController
                 'data' => $th->getTrace()
             ]);
         }
-    }
+	}
+
+	public function delete_formula(){
+		try{
+			// create validator
+			$validator = \Config\Services::validation();
+			// set rules
+			$validator->setRules([
+				'id_formula' => 'required',
+			]);
+			// begin validation
+			$isDataValid = $validator->withRequest($this->request)->run();
+			if($isDataValid){
+			} else {
+
+			}
+		} catch (\Throwable $th){
+
+		}
+	}
 }

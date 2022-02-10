@@ -11,16 +11,13 @@ class DiskonController extends BaseController
         //
     }
 
-    public function create_diskon()
+    /**
+     * add diskon to mahasiswa by nim
+     */
+    public function add_diskon()
     {
         try {
-            // create validator 
-            $validator = \Config\Services::validation();
-            // set rules
-            $validator->setRules([
-                'nim' => 'required',
-                'nominal_diskon' => 'required'
-            ]);
+            
         } catch (\Throwable $th) {
             
         }
