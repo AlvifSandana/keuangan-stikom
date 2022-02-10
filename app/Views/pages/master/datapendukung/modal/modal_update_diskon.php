@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Diskon</h5>
+                <h5 class="modal-title">Perbarui Data Diskon</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -47,7 +47,7 @@
                     <label for="keterangan_item">KETERANGAN</label>
                     <textarea class="form-control" name="update_keterangan_item" id="update_keterangan_item" cols="30" rows="4"></textarea>
                 </div>
-                <button class="btn btn-success float-right mb-4" onclick="updateDiskon()">Tambah</button>
+                <button class="btn btn-warning float-right mb-4" onclick="updateDiskon()">Perbarui</button>
             </div>
         </div>
     </div>

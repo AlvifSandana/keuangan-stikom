@@ -16,8 +16,12 @@
                     echo '<tr>
                     <td>'.($i+1).'</td>
                     <td>' . $d['nama_item'] . '</td>
+                    <td>' . $d['tahun_angkatan'] . '</td>
+                    <td>' . $d['nama_semester'] . '</td>
+                    <td>' . $d['nominal_item'] . '</td>
+                    <td>' . $d['keterangan_item'] . '</td>
                     <td>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdateDiskon" onclick="fillUpdateField(' ."'". $d['id_semester'] ."'". ', ' . "'" . $d['nama_semester'] . "'" . ',' . "'" . 'semester' . "'" . ')">
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modalUpdateDiskon" onclick="fillUpdateDiskonField(' ."'". $d['id_item'] ."'". ', ' . "'" . $d['nama_item'] . "'" . ',' . "'" . $d['nominal_item'] . "'". ',' . "'" . $d['semester_id'] . "'". ',' . "'" . $d['angkatan_id'] . "'". ',' . "'" . $d['keterangan_item'] . "'" . ')">
                             <i class="fa fa-edit"></i>
                         </button>
                         <button class="btn btn-danger btn-sm ml-2" onclick="deleteDiskon('."'".$d['id_item']."'".')">

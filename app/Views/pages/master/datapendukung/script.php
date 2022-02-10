@@ -99,6 +99,35 @@
         });
     }
 
+    function createDiskon() {
+        var data = {
+            nama_item: $('#nama_item').val(),
+            angkatan_id: $('#angkatan_id').val(),
+            semester_id: $('#semester_id').val(),
+            nominal_item: $('#nominal_item').val(),
+            keterangan_item: $('#keterangan_item').val()
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>' + '/master-pendukung/create/diskon',
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR) {
+                console.log(jqXHR);
+            }
+        });
+    }
+
     /** 
      * tambah paket tagihan
      */
@@ -205,6 +234,35 @@
             },
             error: function(jqXHR) {
 
+            }
+        });
+    }
+
+    function updateDiskon() {
+        var data = {
+            nama_item: $('#update_nama_item').val(),
+            angkatan_id: $('#update_angkatan_id').val(),
+            semester_id: $('#update_semester_id').val(),
+            nominal_item: $('#update_nominal_item').val(),
+            keterangan_item: $('#update_keterangan_item').val()
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>/master-pendukung/update/diskon/' + $('#update_id_item').val(),
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR) {
+                console.log(jqXHR);
             }
         });
     }
@@ -338,6 +396,39 @@
         });
     }
 
+    function deleteDiskon(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin menghapus item ini?',
+            text: "Tindakan ini tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>' + '/master-pendukung/delete/diskon/' + id,
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.status != 'success') {
+                            showSWAL('error', data.message);
+                        } else {
+                            showSWAL('success', data.message);
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000)
+                        }
+                    },
+                    error: function(jqXHR) {
+                        showSWAL('error', jqXHR);
+                    }
+                });
+            }
+        });
+    }
+
     function deletePaket(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
@@ -403,5 +494,14 @@
         $('#update_sesi_id').val(sesi_id);
         $('#update_jalur_id').val(jalur_id);
         $('#update_keterangan_paket').val(keterangan_paket);
+    }
+
+    function fillUpdateDiskonField(id, nama_item, nominal_item, semester_id, angkatan_id, keterangan_item) {
+        $('#update_id_item').val(id);
+        $('#update_nama_item').val(nama_item);
+        $('#update_nominal_item').val(nominal_item);
+        $('#update_semester_id').val(semester_id).change();
+        $('#update_angkatan_id').val(angkatan_id).change();
+        $('#update_keterangan_item').val(keterangan_item);
     }
 </script>

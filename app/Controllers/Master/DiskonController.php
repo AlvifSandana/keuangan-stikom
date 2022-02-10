@@ -90,14 +90,13 @@ class DiskonController extends BaseController
     /**
      * update diskon by id_item
      */
-    public function update_diskon()
+    public function update_diskon($id_item)
     {
         try {
             // create validator 
             $validator = \Config\Services::validation();
             // set rules
             $validator->setRules([
-                'id_item' => 'required',
                 'nama_item' => 'required',
                 'angkatan_id' => 'required',
                 'semester_id' => 'required',
@@ -109,7 +108,7 @@ class DiskonController extends BaseController
                 // create model
                 $m_itempaket = new ItemPaket();
                 // insert data
-                $update_data = $m_itempaket->update($this->request->getPost('id_item'), [
+                $update_data = $m_itempaket->update($id_item, [
                     'nama_item' => $this->request->getPost('nama_item'),
                     'nominal_item' => $this->request->getPost('nominal_item'),
                     'keterangan_item' => $this->request->getPost('keterangan_item'),
@@ -156,22 +155,22 @@ class DiskonController extends BaseController
             // check
             if ($delete_data) {
                 return json_encode([
-                    'status' => '',
-                    'message'=> '',
+                    'status' => 'success',
+                    'message'=> 'Berhasil menghapus data diskon!',
                     'data' => []
                 ]);
             } else {
                 return json_encode([
-                    'status' => '',
-                    'message'=> '',
+                    'status' => 'failed',
+                    'message'=> 'Gagal menghapus data diskon!',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
-                'status' => '',
-                'message'=> '',
-                'data' => []
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace()
             ]);
         }
     }
