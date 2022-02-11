@@ -17,7 +17,7 @@ class DiskonController extends BaseController
     public function add_diskon()
     {
         try {
-            
+            // 
         } catch (\Throwable $th) {
             
         }

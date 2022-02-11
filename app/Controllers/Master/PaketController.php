@@ -57,6 +57,8 @@ class PaketController extends BaseController
                 ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
                 ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+                ->notLike('nama_item', 'Diskon')
+                ->notLike('nama_item', 'diskon')
                 ->findAll();
             } else {
                 $item_paket = $m_itempaket

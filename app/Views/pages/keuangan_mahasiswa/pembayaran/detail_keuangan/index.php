@@ -130,7 +130,7 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="#pembayaran-baru" data-toggle="modal" data-target="#modalCreatePembayaran">Tambah Pembayaran Baru</a>
                                             <a class="dropdown-item" href="#tagihan-baru" data-toggle="modal" data-target="#modalTambahTagihan">Tambah Tagihan Baru</a>
-                                            <a class="dropdown-item" href="#diskon-baru">Tambah Diskon</a>
+                                            <a class="dropdown-item" href="#diskon-baru" data-toggle="modal" data-target="#modalTambahDiskon">Tambah Diskon</a>
                                         </div>
                                     </div>
                                 </h4>
@@ -246,6 +246,8 @@
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modal_tambah_tagihan') ?>
 <!-- modal detail pembayaran per item  -->
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modaldetailitempembayaran') ?>
+<!-- modal add diskon -->
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/modal_tambah_diskon') ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
