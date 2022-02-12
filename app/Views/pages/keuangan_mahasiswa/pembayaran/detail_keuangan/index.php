@@ -151,7 +151,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row">
+                                            <div class="row mb-2">
                                                 <div class="col-md-6">
                                                     <h6 class="h6 font-weight-bold">Detail Tagihan</h6>
                                                     <table class="table table-hover table-bordered table-sm tagihan" id="tbl_detail_tagihan">
@@ -224,6 +224,40 @@
                                                             <tr class="font-weight-bold">
                                                                 <td class="text-center" colspan="2">Total Pembayaran</td>
                                                                 <td>Rp <?php echo number_format($total_pembayaran); ?></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
+                                                    <h6 class="h6 font-weight-bold">Detail Diskon</h6>
+                                                    <table class="table table-hover table-bordered table-sm tagihan" id="tbl_detail_tagihan">
+                                                        <thead class="text-center">
+                                                            <th>KODE ITEM</th>
+                                                            <th>NAMA ITEM</th>
+                                                            <th>NOMINAL</th>
+                                                        </thead>
+                                                        <tbody class="<?= $svalue['id_semester'] ?>">
+                                                            <?php 
+                                                            $total_diskon = 0;
+                                                            $tr_empty = '';
+                                                            foreach ($diskon as $kd => $vald) {
+                                                                if ($svalue['nama_semester'] == $vald['nama_semester']) { 
+                                                                    $total_diskon += (int)$vald['nominal_item']; ?>
+                                                                    <tr>
+                                                                        <td class="text-center"><?php echo $vald['kode_item']; ?></td>
+                                                                        <td><?php echo $vald['nama_item']; ?></td>
+                                                                        <td>Rp <?php echo number_format($vald['nominal_item']); ?></td>
+                                                                    </tr>
+                                                                <?php } else {
+                                                                    $tr_empty = '<tr><td class="text-center" colspan="3">Kosong!</td></tr>';
+                                                                }
+                                                            } ?>
+                                                            <?= $tr_empty ?>
+                                                            <tr class="font-weight-bold">
+                                                                <td class="text-center" colspan="2">Total Diskon</td>
+                                                                <td>Rp <?php echo number_format($total_diskon); ?></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

@@ -14,7 +14,7 @@ class Transaksi extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_transaksi', 'kode_unit', 'kategori_transaksi', 'item_kode', 'q_debit', 'q_kredit', 'kode_metode_pembayaran', 'bukti_transaksi', 'tanggal_transaksi'];
+    protected $allowedFields    = ['kode_transaksi', 'kode_unit', 'kategori_transaksi', 'item_kode', 'q_debit', 'q_kredit', 'kode_metode_pembayaran', 'bukti_transaksi', 'tanggal_transaksi', 'keterangan_transaksi'];
 
     // Dates
     protected $useTimestamps = true;

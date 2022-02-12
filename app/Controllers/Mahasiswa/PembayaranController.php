@@ -36,6 +36,7 @@ class PembayaranController extends BaseController
             $builder_pembayaran = $db->table('tbl_transaksi');
             $m_itempaket = new ItemPaket();
             $m_semester = new Semester();
+            $m_transaksi = new Transaksi();
 
             // query mahasiswa
             $query_mhs = $builder_mhs
@@ -78,8 +79,21 @@ class PembayaranController extends BaseController
                 ->join('tbl_semester', 'tbl_item_paket.semester_id = tbl_semester.id_semester', 'inner')
                 ->orderBy('kode_transaksi', 'ASC')
                 ->get();
+
+            // query data diskon
+            $query_diskon = $builder_pembayaran
+                ->select('tbl_transaksi.*, tbl_item_paket.*, tbl_semester.nama_semester')
+                ->where('kode_unit', $nim)
+                ->where('kategori_transaksi', 'D')
+                ->where('keterangan_transaksi', 'diskon')
+                ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'inner')
+                ->join('tbl_semester', 'tbl_item_paket.semester_id = tbl_semester.id_semester', 'inner')
+                ->orderBy('kode_transaksi', 'ASC')
+                ->get();
+
             // find data pembayaran
             $pembayaran = $query_pembayaran->getResultArray();
+            $diskon = $query_diskon->getResultArray();
 
             // get item paket by id_paket
             $item_paket = $m_itempaket
@@ -107,6 +121,7 @@ class PembayaranController extends BaseController
             $data['pembayaran'] = $pembayaran;
             $data['item_paket'] = array_merge($item_paket, $item_paket_lain);
             $data['semester'] = $semester;
+            $data['diskon'] = $diskon;
             // get uri segment for dynamic sidebar active item
             $data['uri_segment'] = $request->uri->getSegment(2);
             // show view
@@ -450,13 +465,13 @@ class PembayaranController extends BaseController
                 if ($delete_transaksi) {
                     return json_encode([
                         'status' => 'success',
-                        'message' => 'Berhasil menghapus pembayaran dengan kode transaksi '.$kode_transaksi,
+                        'message' => 'Berhasil menghapus pembayaran dengan kode transaksi ' . $kode_transaksi,
                         'data' => []
                     ]);
                 } else {
                     return json_encode([
                         'status' => 'failed',
-                        'message' => 'Gagal menghapus pembayaran dengan kode transaksi '.$kode_transaksi,
+                        'message' => 'Gagal menghapus pembayaran dengan kode transaksi ' . $kode_transaksi,
                         'data' => []
                     ]);
                 }
@@ -500,12 +515,12 @@ class PembayaranController extends BaseController
                 // get semester
                 $current_semester = explode('SMT', $this->request->getPost('semester_id'));
                 // get previous pembayaran
-                $prev_pembayaran = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'D', 'kode_transaksi', 'DESC');
+                $prev_pembayaran = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'D', 'id_transaksi', 'DESC');
                 if ($prev_pembayaran != 'Data tidak ditemukan!') {
                     $prev_kode_transaksi = explode('-', $prev_pembayaran[0]['kode_transaksi']);
-                    $current_kode_transaksi = 'BY-'.$this->request->getPost('kode_unit').'-D-'.number_format($current_semester[1]).(1 + (int)$prev_kode_transaksi[4]);
+                    $current_kode_transaksi = 'BY-' . $this->request->getPost('kode_unit') . '-D-' . number_format($current_semester[1]) . '-' . (1 + (int)$prev_kode_transaksi[4]);
                 } else {
-                    $current_kode_transaksi = 'BY-'.$this->request->getPost('kode_unit').'-D-'.number_format($current_semester[1]).'-1';
+                    $current_kode_transaksi = 'BY-' . $this->request->getPost('kode_unit') . '-D-' . number_format($current_semester[1]) . '-1';
                 }
                 // insert diskon
                 $insert_diskon = $m_transaksi->insert([
@@ -514,7 +529,8 @@ class PembayaranController extends BaseController
                     'kategori_transaksi' => 'D',
                     'item_kode' => $this->request->getPost('item_kode'),
                     'q_debit' => $this->request->getPost('q_debit'),
-                    'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi')
+                    'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi'),
+                    'keterangan_transaksi' => 'diskon'
                 ]);
                 // check
                 if ($insert_diskon) {
