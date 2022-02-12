@@ -3,6 +3,8 @@
 namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
+use App\Models\ItemPaket;
+use App\Models\Transaksi;
 
 class DiskonController extends BaseController
 {
@@ -11,15 +13,4 @@ class DiskonController extends BaseController
         //
     }
 
-    /**
-     * add diskon to mahasiswa by nim
-     */
-    public function add_diskon()
-    {
-        try {
-            // 
-        } catch (\Throwable $th) {
-            
-        }
-    }
 }

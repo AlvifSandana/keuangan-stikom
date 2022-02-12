@@ -32,7 +32,7 @@ class TagihanController extends BaseController
                 // create model instance
                 $m_transaksi = new Transaksi();
                 // get last tagihan by nim
-                $last_tagihan = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'K', 'kode_transaksi', 'DESC');
+                $last_tagihan = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'K', 'id_transaksi', 'DESC');
                 // get semester
                 $current_semester = explode('SMT', $this->request->getPost('semester_id'));
                 // get last kode_transaksi

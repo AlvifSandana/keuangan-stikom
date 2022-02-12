@@ -475,4 +475,74 @@ class PembayaranController extends BaseController
             ]);
         }
     }
+
+    /**
+     * add diskon to mahasiswa by nim
+     */
+    public function add_diskon()
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            // set validator rules
+            $validator->setRules([
+                'kode_unit' => 'required',
+                'item_kode' => 'required',
+                'q_debit' => 'required',
+                'tanggal_transaksi' => 'required',
+                'semester_id' => 'required'
+            ]);
+            // begin validation 
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create model
+                $m_transaksi = new Transaksi();
+                // get semester
+                $current_semester = explode('SMT', $this->request->getPost('semester_id'));
+                // get previous pembayaran
+                $prev_pembayaran = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'D', 'kode_transaksi', 'DESC');
+                if ($prev_pembayaran != 'Data tidak ditemukan!') {
+                    $prev_kode_transaksi = explode('-', $prev_pembayaran[0]['kode_transaksi']);
+                    $current_kode_transaksi = 'BY-'.$this->request->getPost('kode_unit').'-D-'.number_format($current_semester[1]).(1 + (int)$prev_kode_transaksi[4]);
+                } else {
+                    $current_kode_transaksi = 'BY-'.$this->request->getPost('kode_unit').'-D-'.number_format($current_semester[1]).'-1';
+                }
+                // insert diskon
+                $insert_diskon = $m_transaksi->insert([
+                    'kode_transaksi' => $current_kode_transaksi,
+                    'kode_unit' => $this->request->getPost('kode_unit'),
+                    'kategori_transaksi' => 'D',
+                    'item_kode' => $this->request->getPost('item_kode'),
+                    'q_debit' => $this->request->getPost('q_debit'),
+                    'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi')
+                ]);
+                // check
+                if ($insert_diskon) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Berhasil menambahkan diskon!',
+                        'data' => []
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal menambahkan diskon!',
+                        'data' => []
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Validasi gagal, mohon isi field dengan benar!',
+                    'data' => $validator->getErrors()
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
 }

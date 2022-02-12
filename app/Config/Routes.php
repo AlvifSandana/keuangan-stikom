@@ -49,6 +49,7 @@ $routes->get('/keuangan-mahasiswa/pembayaran/detail-pembayaran-item/(:any)/(:any
 $routes->post('/keuangan-mahasiswa/cari-mahasiswa', 'Mahasiswa/PembayaranController::search_mahasiswa', ['filter' => 'auth']);
 $routes->delete('/keuangan-mahasiswa/pembayaran/delete/(:any)', 'Mahasiswa\PembayaranController::delete_pembayaran/$1', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/tagihan/create', 'Mahasiswa/TagihanController::create_tagihan', ['filter' => 'auth']);
+$routes->post('/keuangan-mahasiswa/diskon/create', 'Mahasiswa\PembayaranController::add_diskon', ['filter' => 'auth']);
 
 // route for FRS
 $routes->get('/keuangan-mahasiswa/frs/(:any)', 'Mahasiswa/FRSController::index', ['filter' => 'auth']);
