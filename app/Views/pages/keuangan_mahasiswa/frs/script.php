@@ -13,16 +13,23 @@
                 $.ajax({
                     url: '<?php echo base_url();?>/keuangan-mahasiswa/frs/<?= $data_mhs[0]['nim']?>/acc',
                     type: 'POST',
-                    data: {status_frs: 1, p_soft: $('#p_soft').val(), p_hard: $('#p_hard').val()},
+                    data: {
+                        status_frs: 1, 
+                        p_soft: $('#p_soft').val(), 
+                        p_hard: $('#p_hard').val(), 
+                        angkatan: $('#angkatan').val(),
+                        semester: $('#next_semester').text(),
+                        },
                     dataType: 'JSON',
                     success: function(data) {
                         if (data.status != 'success') {
                             showSWAL('error', data.message);
                         } else {
                             showSWAL('success', data.message);
-                            setTimeout(function() {
-                                window.location.reload();
-                            }, 3000)
+                            console.log(data.data);
+                            // setTimeout(function() {
+                            //     window.location.reload();
+                            // }, 3000)
                         }
                     },
                     error: function(jqXHR) {

@@ -3,6 +3,8 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
+use App\Models\ItemPaket;
+use App\Models\Transaksi;
 
 class FRSController extends BaseController
 {
@@ -131,6 +133,8 @@ class FRSController extends BaseController
             // set rules
             $validator->setRules([
                 'status_frs' => 'required',
+                'p_soft' => 'required',
+                'p_hard' => 'required',
             ]);
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
@@ -146,6 +150,20 @@ class FRSController extends BaseController
                 ], "nim = $nim");
                 // check query
                 if ($q_frs_k) {
+                    // get semester, angkatan, p_soft, p_hard
+                    $semester = $this->request->getPost('semester');
+                    $angkatan = $this->request->getPost('angkatan');
+                    $p_soft = (int)$this->request->getPost('p_soft');
+                    $p_hard = (int)$this->request->getPost('p_hard');
+                    // create new tagihan praktikum
+                    if ($p_soft > 0) {
+                        $new_tagihan_soft = $this->addTagihan('software', $p_soft, $semester, $angkatan, $nim);
+                        // dd($new_tagihan_soft);
+                    }
+                    if ($p_hard > 0) {
+                        $new_tagihan_hard = $this->addTagihan('hardware', $p_hard, $semester, $angkatan, $nim);
+                        // dd($new_tagihan_hard);
+                    }
                     // return JSON
                     return json_encode([
                         'status' => 'success',
@@ -164,7 +182,7 @@ class FRSController extends BaseController
                 // return JSON
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> 'Gagal ACC FRS!',
+                    'message' => 'Gagal ACC FRS!',
                     'data' => []
                 ]);
             }
@@ -172,7 +190,7 @@ class FRSController extends BaseController
             // return JSON
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace(),
             ]);
         }
@@ -222,7 +240,7 @@ class FRSController extends BaseController
                 // return JSON
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> 'Gagal ACC FRS!',
+                    'message' => 'Gagal ACC FRS!',
                     'data' => []
                 ]);
             }
@@ -230,10 +248,116 @@ class FRSController extends BaseController
             // return JSON
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace(),
             ]);
         }
     }
 
+    /**
+     * create new tagihan for praktikum software & hardware
+     * 
+     */
+    public function addTagihan(String $type, String $n, String $semester, String $thnangkatan, String $nim)
+    {
+        try {
+            // create model
+            $m_item = new ItemPaket();
+            $m_transaksi = new Transaksi();
+            // get previous kode transaksi
+            $current_kode = '';
+            $prev_kode = $this->getPreviousKodeTransaksi($nim, 'K');
+            // dd($prev_kode);
+            if (is_string($prev_kode) || $prev_kode == 'first transaksi') {
+                $current_kode = 'BY-' . $nim . '-K-' . $semester . '1';
+                // dd($current_kode);
+            } else if (is_array($prev_kode)) {
+                $current_kode = $prev_kode[0] . '-' . $prev_kode[1] . '-' . $prev_kode[2] . '-' . $prev_kode[3] . '-' . ((int)$prev_kode[4] + 1);
+                // dd($current_kode);
+            } else {
+                return $prev_kode;
+            }
+            // check type of tagihan
+            // dd($type);
+            if ($type == 'software') {
+                // find item tagihan Praktikum Software
+                $item = $m_item
+                    ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan')
+                    ->join('tbl_semester', 'semester_id = tbl_semester.id_semester')
+                    ->like('angkatan_id', $thnangkatan)
+                    // ->like('semester_id', $semester)
+                    ->like('nama_item', 'Software')
+                    ->first();
+                // check 
+                dd($item, $semester, $thnangkatan);
+                if ($item != null) {
+                    // create new tagihan
+                    $new_tagihan = $m_transaksi->insert([
+                        'kode_transaksi' => $current_kode,
+                        'kode_unit' => $nim,
+                        'kategori_transaksi' => 'K',
+                        'item_kode' => $item['kode_item'],
+                        'q_kredit' => (int)$item['nominal'] * $n,
+                        'keterangan_transaksi' => $n
+                    ]);
+                    dd($new_tagihan);
+                    return 'success';
+                }
+            } else if ($type == 'hardware') {
+                // find item tagihan Praktikum Hardware
+                $item = $m_item
+                    ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan')
+                    ->join('tbl_semester', 'semester_id = tbl_semester.id_semester')
+                    ->like('angkatan_id', $thnangkatan)
+                    // ->like('semester_id', $semester)
+                    ->like('nama_item', 'Hardware')
+                    ->first();
+                // check 
+                dd($item, $semester, $thnangkatan);
+                if ($item != null) {
+                    // create new tagihan
+                    $new_tagihan = $m_transaksi->insert([
+                        'kode_transaksi' => $current_kode,
+                        'kode_unit' => $nim,
+                        'kategori_transaksi' => 'K',
+                        'item_kode' => $item['kode_item'],
+                        'q_kredit' => (int)$item['nominal'] * $n,
+                        'keterangan_transaksi' => $n
+                    ]);
+                    dd($new_tagihan);
+                    return 'success';
+                }
+            } else {
+                return 'error';
+            }
+        } catch (\Throwable $th) {
+            return 'nnnnn';
+        }
+    }
+
+    /**
+     * get previous kode transaksi
+     */
+    public function getPreviousKodeTransaksi(String $kode_unit, String $tipe_transaksi)
+    {
+        try {
+            // create model 
+            $m_transaksi = new Transaksi();
+            // get previous transasik
+            $prev_transaksi = $m_transaksi
+                ->where('kode_unit', $kode_unit)
+                ->where('kategori_transaksi', $tipe_transaksi)
+                ->orderBy('id_transaksi', 'DESC')
+                ->findAll();
+            // slice kode_transaksi
+            if (count($prev_transaksi) > 0) {
+                $sliced_kt = explode('-', $prev_transaksi[0]['kode_transaksi']);
+                return $sliced_kt;
+            } else {
+                return 'first transaksi';
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }

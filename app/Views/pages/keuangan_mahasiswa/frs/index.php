@@ -88,6 +88,7 @@
                                         <td>Semester yang akan ditempuh(*)</td>
                                         <td>:</td>
                                         <td id="next_semester"><?= $next_semester[0]['semester'] ?></td>
+                                        <input type="text" name="angkatan" id="angkatan" value="<?= $data_mhs[0]['angkatan']?>" hidden />
                                     </tr>
                                     <tr>
                                         <td>Beban Studi Maksimal</td>
