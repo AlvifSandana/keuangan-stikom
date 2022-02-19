@@ -13,7 +13,7 @@
                 $.ajax({
                     url: '<?php echo base_url();?>/keuangan-mahasiswa/frs/<?= $data_mhs[0]['nim']?>/acc',
                     type: 'POST',
-                    data: {status_frs: 1},
+                    data: {status_frs: 1, p_soft: $('#p_soft').val(), p_hard: $('#p_hard').val()},
                     dataType: 'JSON',
                     success: function(data) {
                         if (data.status != 'success') {
@@ -27,6 +27,7 @@
                     },
                     error: function(jqXHR) {
                         showSWAL('error', jqXHR);
+                        console.log(jqXHR);
                     }
                 });
             }
@@ -63,6 +64,7 @@
                     },
                     error: function(jqXHR) {
                         showSWAL('error', jqXHR);
+                        console.log(jqXHR);
                     }
                 });
             }

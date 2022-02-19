@@ -22,6 +22,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content-body') ?>
+<?php $p_soft = 0; $p_hard = 0; ?>
 <section class="content">
     <div class="container-fluid">
         <div class="row" mb-2>
@@ -86,7 +87,7 @@
                                     <tr>
                                         <td>Semester yang akan ditempuh(*)</td>
                                         <td>:</td>
-                                        <td><?= $next_semester[0]['semester'] ?></td>
+                                        <td id="next_semester"><?= $next_semester[0]['semester'] ?></td>
                                     </tr>
                                     <tr>
                                         <td>Beban Studi Maksimal</td>
@@ -127,7 +128,14 @@
                                 <th>Calon</th>
                             </thead>
                             <tbody>
-                                <?php foreach ($list_frs as $key => $value) { ?>
+                                <?php foreach ($list_frs as $key => $value) { 
+                                    if ($value['jenis'] == 'praktikum software') {
+                                        $p_soft += 1;
+                                    }
+                                    if ($value['jenis'] == 'praktikum hardware') {
+                                        $p_soft += 1;
+                                    }
+                                    ?>
                                     <tr class="<?= $tanggal_persetujuan_dw[0]['status'] != 1 && ((int)$value['kapasitas'] - 1) < (int)$value['Peserta'] ? 'bg-danger' : ''; ?>">
                                         <td><?= $value['kode_mk'] ?></td>
                                         <td><?= $value['nama_mk'] ?></td>
@@ -141,7 +149,7 @@
                                         <td class="text-center"><?= $value['Peserta'] ?></td>
                                         <td class="text-center"><?= $value['CalonPeserta'] ?></td>
                                     </tr>
-                                <? } ?>
+                                <?php } ?>
                                 <tr>
                                     <td colspan="4">Total SKS yang akan ditempuh</td>
                                     <td colspan="7" class="font-weight-bold"><?= $total_sks ?> SKS</td>
@@ -151,6 +159,8 @@
                                     <td colspan="7" class="font-weight-bold">
                                         <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? 'Disetujui oleh Dosen Wali.' : 'FRS belum disetujui Dosen Wali.' ?>
                                     </td>
+                                    <input type="text" name="p_soft" id="p_soft" value="<?= $p_soft ?>" hidden/>
+                                    <input type="text" name="p_hard" id="p_hard" value="<?= $p_hard ?>" hidden/>
                                 </tr>
                                 <tr>
                                     <td colspan="4">Status Persetujuan Keuangan</td>
@@ -173,8 +183,7 @@
                                     echo '(+) Jika Anda ingin membatalkan seluruh Rencana Study Mahasiswa silakan Klik tombol Batalkan.';
                                 } else {
                                     echo '(+) Jika Anda menyetujui Rencana Study Mahasiswa yang bersangkutan, silahkan Klik tombol Setujui.';
-                                }
-                                ?>
+                                }?>
                             </span>
                             <button class="btn btn-warning btn-sm float-right" onclick="<?= $tanggal_persetujuan_k[0]['status'] == 1 ? 'batalFRS()':'accFRS()'?>" <?= $tanggal_persetujuan_dw[0]['status'] == 1 ? '': 'disabled'?>>
                                 <?php if ($tanggal_persetujuan_k[0]['status'] == 1) {?>
