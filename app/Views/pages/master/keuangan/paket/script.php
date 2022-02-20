@@ -323,6 +323,8 @@
                             showSWAL('success', data.message);
                             $("#tbl_master_paket > tbody").empty();
                             getItemPaket();
+                            $("#tbl_master_item_lain > tbody").empty();
+                            getItemPaketLain();
                         }
                     },
                     error: function(jqXHR) {
@@ -358,9 +360,13 @@
                     showSWAL('error', data.message);
                 } else {
                     showSWAL('success', data.message);
-                    $("#tbl_master_paket > tbody").empty();
-                    getItemPaket();
-
+                    if (data_item.paket_id == '') {
+                        $("#tbl_master_item_lain > tbody").empty();
+                        getItemPaketLain();
+                    } else {
+                        $("#tbl_master_paket > tbody").empty();
+                        getItemPaket();
+                    }
                 }
             },
             error: function(jqXHR) {

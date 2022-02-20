@@ -129,7 +129,7 @@ class ItemPaketController extends BaseController
                     'nama_item' => $this->request->getPost('nama_item'),
                     'nominal_item' => $this->request->getPost('nominal_item'),
                     'keterangan_item' => $this->request->getPost('keterangan_item'),
-                    'paket_id' => $this->request->getPost('paket_id'),
+                    'paket_id' => $this->request->getPost('paket_id') == null ? null : $this->request->getPost('paket_id'),
                     'angkatan_id' => $this->request->getPost('angkatan_id'),
                     'semester_id' => $this->request->getPost('semester_id'),
                 ]);
