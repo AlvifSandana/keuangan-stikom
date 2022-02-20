@@ -3,8 +3,11 @@
 namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
+use App\Models\Angkatan;
 use App\Models\Formula;
 use App\Models\ItemPaket;
+use App\Models\Paket;
+use App\Models\Semester;
 use PhpParser\Node\Stmt\TryCatch;
 
 class FormulaController extends BaseController
@@ -13,11 +16,15 @@ class FormulaController extends BaseController
     {
         // create request and model instance
         $request = \Config\Services::request();
-        $m_formula = new Formula();
+        $m_paket = new Paket();
+        $m_semester = new Semester();
+        $m_angkatan = new Angkatan();
         // get uri segment for dynamic sidebar active item
         $data['uri_segment'] = $request->uri->getSegment(2);
-        // get data formula
-        $data['formula'] = $m_formula->findAll();
+        // get data paket, semester, formula
+        $data['paket'] = $m_paket->findAll();
+        $data['semester'] = $m_semester->findAll();
+        $data['angkatan'] = $m_angkatan->findAll();
         // get data akun pemasukan
         return view('pages/master/keuangan/formula/index', $data);
     }
