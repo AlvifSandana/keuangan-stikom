@@ -27,9 +27,9 @@
                         } else {
                             showSWAL('success', data.message);
                             console.log(data.data);
-                            // setTimeout(function() {
-                            //     window.location.reload();
-                            // }, 3000)
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000)
                         }
                     },
                     error: function(jqXHR) {
