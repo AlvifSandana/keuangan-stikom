@@ -19,12 +19,19 @@ class FormulaController extends BaseController
         $m_paket = new Paket();
         $m_semester = new Semester();
         $m_angkatan = new Angkatan();
+        $m_item = new ItemPaket();
         // get uri segment for dynamic sidebar active item
         $data['uri_segment'] = $request->uri->getSegment(2);
         // get data paket, semester, formula
         $data['paket'] = $m_paket->findAll();
         $data['semester'] = $m_semester->findAll();
         $data['angkatan'] = $m_angkatan->findAll();
+        $data['formula'] = $m_item
+            ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+            ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
+            ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
+            ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
+            ->findAll();
         // get data akun pemasukan
         return view('pages/master/keuangan/formula/index', $data);
     }
@@ -32,42 +39,76 @@ class FormulaController extends BaseController
     /**
      * get item paket + formula by id_item
      */
-    public function get_item_formula_by_id($id_item)
+    public function get_item_formula_by_filter()
     {
         try {
-            if ($id_item != null) {
-                // create model
-                $m_item = new ItemPaket();
-                // get data
-                $item = $m_item
-                    ->where('id_item', $id_item)
-                    ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
-                    ->findAll();
-                // check
-                if($item) {
-                    return json_encode([
-                        'status' => 'success',
-                        'message'=> 'Data available!',
-                        'data' => $item
-                    ]);
-                } else {
-                    return json_encode([
-                        'status' => 'failed',
-                        'message'=> 'Data unavailable!',
-                        'data' => []
-                    ]);
-                }
+            // get filter from request data
+            $paket_id = $this->request->getPost('paket_id');
+            $semester_id = $this->request->getPost('semester_id');
+            $angkatan_id = $this->request->getPost('angkatan_id');
+            // create model
+            $m_item = new ItemPaket();
+            // get data
+            $item = $m_item
+                ->where('paket_id', $paket_id)
+                ->where('semester_id', $semester_id)
+                ->where('angkatan_id', $angkatan_id)
+                ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+                ->findAll();
+            // check
+            if ($item) {
+                return json_encode([
+                    'status' => 'success',
+                    'message' => 'Data available!',
+                    'data' => $item
+                ]);
             } else {
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> 'Validasi gagal!',
+                    'message' => 'Data unavailable!',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
+
+    /**
+     * get item paket + formula by id_item
+     */
+    public function get_item_formula_by_id_item($id_item)
+    {
+        try {
+            // create model
+            $m_item = new ItemPaket();
+            // get data
+            $item = $m_item
+                ->where('id_item', $id_item)
+                ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+                ->findAll();
+            // check
+            if ($item) {
+                return json_encode([
+                    'status' => 'success',
+                    'message' => 'Data available!',
+                    'data' => $item
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Data unavailable!',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
         }
@@ -184,48 +225,47 @@ class FormulaController extends BaseController
                 if ($update_data) {
                     return json_encode([
                         'status' => 'success',
-                        'message'=> 'Berhasil memperbarui data formula!',
+                        'message' => 'Berhasil memperbarui data formula!',
                         'data' => $update_data
                     ]);
                 } else {
                     return json_encode([
                         'status' => 'failed',
-                        'message'=> 'Gagal memperbarui data formula!',
+                        'message' => 'Gagal memperbarui data formula!',
                         'data' => []
                     ]);
                 }
             } else {
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> 'Validasi gagal, mohon isi form dengan benar!',
+                    'message' => 'Validasi gagal, mohon isi form dengan benar!',
                     'data' => $validator->getErrors()
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
         }
-	}
+    }
 
-	public function delete_formula(){
-		try{
-			// create validator
-			$validator = \Config\Services::validation();
-			// set rules
-			$validator->setRules([
-				'id_formula' => 'required',
-			]);
-			// begin validation
-			$isDataValid = $validator->withRequest($this->request)->run();
-			if($isDataValid){
-			} else {
-
-			}
-		} catch (\Throwable $th){
-
-		}
-	}
+    public function delete_formula()
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            // set rules
+            $validator->setRules([
+                'id_formula' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+            } else {
+            }
+        } catch (\Throwable $th) {
+        }
+    }
 }
