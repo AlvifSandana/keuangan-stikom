@@ -251,21 +251,41 @@ class FormulaController extends BaseController
         }
     }
 
-    public function delete_formula()
+    public function delete_formula($id_formula)
     {
         try {
-            // create validator
-            $validator = \Config\Services::validation();
-            // set rules
-            $validator->setRules([
-                'id_formula' => 'required',
-            ]);
-            // begin validation
-            $isDataValid = $validator->withRequest($this->request)->run();
-            if ($isDataValid) {
+            if ($id_formula != null) {
+                // create model
+                $m_formula = new Formula();
+                // delete formula by id_formula
+                $delete_formula = $m_formula->delete($id_formula);
+                // check
+                 if ($delete_formula) {
+                     return json_encode([
+                         'status' => 'success',
+                         'message'=> 'Berhasil menghapus formula!',
+                         'data' => ''
+                     ]);
+                 } else {
+                     return json_encode([
+                         'status' => 'failed',
+                         'message'=> 'Gagal menghapus formula!',
+                         'data' => ''
+                     ]);
+                 }
             } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message'=> 'Validasi gagal!',
+                    'data' => ''
+                ]);
             }
         } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message'=> $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
         }
     }
 }

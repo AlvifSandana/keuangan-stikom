@@ -177,4 +177,41 @@
             }
         });
     }
+
+    /** 
+     * hapus formula
+     */
+    function deleteFormula(id_formula) {
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin menghapus formula item ini?',
+            text: "Tindakan ini tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>/master-keuangan/formula/delete/' + id_formula,
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.status != 'success') {
+                            showSWAL('error', data.message);
+                        } else {
+                            showSWAL('success', data.message);
+                            // $("#tbl_master_paket > tbody").empty();
+                            // getItemPaket();
+                            // $("#tbl_master_item_lain > tbody").empty();
+                            // getItemPaketLain();
+                        }
+                    },
+                    error: function(jqXHR) {
+                        showSWAL('error', jqXHR);
+                    }
+                });
+            }
+        });
+    }
 </script>
