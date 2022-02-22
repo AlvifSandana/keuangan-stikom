@@ -51,6 +51,9 @@ $routes->delete('/keuangan-mahasiswa/pembayaran/delete/(:any)', 'Mahasiswa\Pemba
 $routes->post('/keuangan-mahasiswa/tagihan/create', 'Mahasiswa/TagihanController::create_tagihan', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/diskon/create', 'Mahasiswa\PembayaranController::add_diskon', ['filter' => 'auth']);
 
+// route for keuangan mahasiswa (pembayaran VA)
+$routes->get('/keuangan-mahasiswa/pembayaran-va', 'Mahasiswa\PembayaranVAController::index', ['filter' => 'auth']);
+
 // route for FRS
 $routes->get('/keuangan-mahasiswa/frs/(:any)', 'Mahasiswa/FRSController::index', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/frs/(:any)/acc', 'Mahasiswa\FRSController::acc_frs/$1', ['filter' => 'auth']);
