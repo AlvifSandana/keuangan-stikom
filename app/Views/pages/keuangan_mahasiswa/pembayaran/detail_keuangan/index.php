@@ -173,7 +173,7 @@
                                                                     </tr>
                                                                 <?php } ?>
                                                             <?php } ?>
-                                                            <tr class="font-weight-bold">
+                                                            <tr class="font-weight-bold bg-danger">
                                                                 <td class="text-center" colspan="2">Total Tagihan</td>
                                                                 <td>Rp <?php echo number_format($total_tagihan); ?></td>
                                                             </tr>
@@ -221,7 +221,7 @@
                                                                 $total_pembayaran += $current_nominal_item_pembayaran;
                                                                 $current_nominal_item_pembayaran = 0;
                                                             } ?>
-                                                            <tr class="font-weight-bold">
+                                                            <tr class="font-weight-bold bg-success">
                                                                 <td class="text-center" colspan="2">Total Pembayaran</td>
                                                                 <td>Rp <?php echo number_format($total_pembayaran); ?></td>
                                                             </tr>
@@ -255,7 +255,7 @@
                                                                 }
                                                             } ?>
                                                             <?= $tr_empty ?>
-                                                            <tr class="font-weight-bold">
+                                                            <tr class="font-weight-bold bg-success">
                                                                 <td class="text-center" colspan="2">Total Diskon</td>
                                                                 <td>Rp <?php echo number_format($total_diskon); ?></td>
                                                             </tr>
