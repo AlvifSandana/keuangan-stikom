@@ -59,6 +59,15 @@
                             </li>
                         </ul>-->
                     </li>
+                    <li class="nav-item<?php //if ($uri_segment == "pembayaran" || $uri_segment == "tagihan") {echo " menu-is-opening menu-open";} ?>">
+                        <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran-va" class="nav-link<?php $uri_segment == "pembayaran-va" || $uri_segment == "keuangan-mahasiswa"? print(" active") : print("") ?>">
+                            <i class="nav-icon fas fa-file-invoice"></i>
+                            <p>
+                                Pembayaran VA
+                                <!--<i class="fas fa-angle-left right"></i>-->
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-header">OPERASIONAL</li>
                     <li class="nav-item<?php if ($uri_segment == "pemasukan" || $uri_segment == "pengeluaran") {
                                             echo " menu-is-opening menu-open";
