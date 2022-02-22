@@ -11,15 +11,16 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url();?>/keuangan-mahasiswa/frs/<?= $data_mhs[0]['nim']?>/acc',
+                    url: '<?php echo base_url(); ?>/keuangan-mahasiswa/frs/<?= $data_mhs[0]['nim'] ?>/acc',
                     type: 'POST',
                     data: {
-                        status_frs: 1, 
-                        p_soft: $('#p_soft').val(), 
-                        p_hard: $('#p_hard').val(), 
+                        status_frs: 1,
+                        p_soft: $('#p_soft').val(),
+                        p_hard: $('#p_hard').val(),
                         angkatan: $('#angkatan').val(),
                         semester: $('#next_semester').text(),
-                        },
+                        n_sks: $('#n_sks').text()
+                    },
                     dataType: 'JSON',
                     success: function(data) {
                         if (data.status != 'success') {
@@ -53,10 +54,11 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: '<?php echo base_url();?>/keuangan-mahasiswa/frs/<?= $data_mhs[0]['nim']?>/batal',
+                    url: '<?php echo base_url(); ?>/keuangan-mahasiswa/frs/<?= $data_mhs[0]['nim'] ?>/batal',
                     type: 'POST',
                     data: {
-                        status_frs: 0
+                        status_frs: 0,
+                        semester: $('#next_semester').text(),
                     },
                     dataType: 'JSON',
                     success: function(data) {

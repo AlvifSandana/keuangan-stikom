@@ -155,8 +155,10 @@ class FRSController extends BaseController
                     $angkatan = (int)$this->request->getPost('angkatan');
                     $p_soft = (int)$this->request->getPost('p_soft');
                     $p_hard = (int)$this->request->getPost('p_hard');
+                    $n_sks = (int)$this->request->getPost('n_sks');
                     $new_tagihan_hard = null;
                     $new_tagihan_soft = null;
+                    $new_tagihan_sks = null;
                     // create new tagihan praktikum
                     if ($p_soft > 0) {
                         $new_tagihan_soft = $this->addTagihan('software', $p_soft, $semester, $angkatan, $nim);
@@ -176,6 +178,17 @@ class FRSController extends BaseController
                             return json_encode([
                                 'status' => 'failed',
                                 'message' => 'Gagal ACC FRS! Mohon cek master item tagihan untuk praktikum di menu MASTER DATA > Keuangan > Paket (Mahasiswa).',
+                                'data' => []
+                            ]);
+                        }
+                    }
+                    // check new tagihan SKS
+                    if ($n_sks > 0) {
+                        $new_tagihan_sks = $this->addTagihan('sks', $n_sks, $semester, $angkatan, $nim);
+                        if ($new_tagihan_sks != 'success') {
+                            return json_encode([
+                                'status' => 'failed',
+                                'message' => 'Gagal ACC FRS! Mohon cek master item tagihan untuk SKS di menu MASTER DATA > Keuangan > Paket (Mahasiswa).',
                                 'data' => []
                             ]);
                         }
@@ -238,6 +251,12 @@ class FRSController extends BaseController
                 ], "nim = $nim");
                 // check query
                 if ($q_frs_k) {
+                    // get current semester from post data
+                    $semester = $this->request->getPost('semester');
+                    // delete tagihan praktikum hardware, software, and SKS
+                    $del_p_h = $this->removeTagihan('hardware', $semester, $nim);
+                    $del_p_s = $this->removeTagihan('software', $semester, $nim);
+                    $del_sks = $this->removeTagihan('sks', $semester, $nim);
                     // return JSON
                     return json_encode([
                         'status' => 'success',
@@ -271,7 +290,7 @@ class FRSController extends BaseController
     }
 
     /**
-     * create new tagihan for praktikum software & hardware
+     * create new tagihan for SKS, praktikum software & hardware
      * 
      */
     public function addTagihan(String $type, String $n, int $semester, int $thnangkatan, String $nim)
@@ -309,7 +328,7 @@ class FRSController extends BaseController
                         'kategori_transaksi' => 'K',
                         'item_kode' => $item['kode_item'],
                         'q_kredit' => (int)$item['nominal_item'] * $n,
-                        'keterangan_transaksi' => $n
+                        'keterangan_transaksi' => $n.' praktikum_s'
                     ]);
                     if ($new_tagihan) {
                         return 'success';
@@ -335,13 +354,98 @@ class FRSController extends BaseController
                         'kategori_transaksi' => 'K',
                         'item_kode' => $item['kode_item'],
                         'q_kredit' => (int)$item['nominal_item'] * $n,
-                        'keterangan_transaksi' => $n
+                        'keterangan_transaksi' => $n.' praktikum_h'
                     ]);
                     if ($new_tagihan) {
                         return 'success';
                     } else {
                         return 'failed';
                     }
+                }
+            } else if ($type == 'sks'){
+                // find item tagihan SKS
+                $item = $m_item
+                    ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan')
+                    ->join('tbl_semester', 'semester_id = tbl_semester.id_semester')
+                    ->like('angkatan_id', $thnangkatan)
+                    ->like('semester_id', $semester)
+                    ->like('nama_item', 'SKS')
+                    ->first();
+                // check 
+                if ($item != null) {
+                    // create new tagihan
+                    $new_tagihan = $m_transaksi->insert([
+                        'kode_transaksi' => $current_kode,
+                        'kode_unit' => $nim,
+                        'kategori_transaksi' => 'K',
+                        'item_kode' => $item['kode_item'],
+                        'q_kredit' => (int)$item['nominal_item'] * $n,
+                        'keterangan_transaksi' => $n.' SKS'
+                    ]);
+                    if ($new_tagihan) {
+                        return 'success';
+                    } else {
+                        return 'failed';
+                    }
+                }
+            } else {
+                return 'error';
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    /**
+     * Remove tagihan of SKS, praktikum hardware & software
+     */
+    public function removeTagihan(String $type, int $semester, String $nim)
+    {
+        try {
+            // create model
+            $m_transaksi = new Transaksi();
+            // check type of tagihan
+            if ($type == 'hardware') {
+                // get tagihan by kode_transaksi and keterangan transaksi
+                $tagihan = $m_transaksi
+                    ->like('kode_transaksi', 'BY-'.$nim.'-K-'.$semester)
+                    ->like('keterangan_transaksi', 'praktikum_h')
+                    ->first();
+                // delete tagihan by kode_transaksi and keterangan transaksi
+                $delete_tagihan = $m_transaksi->delete($tagihan['id_transaksi']);
+                // check
+                if ($delete_tagihan) {
+                    return 'success';
+                } else {
+                    return 'failed';
+                }
+            } else if($type == 'software'){
+                // get tagihan by kode_transaksi and keterangan transaksi
+                $tagihan = $m_transaksi
+                    ->like('kode_transaksi', 'BY-'.$nim.'-K-'.$semester)
+                    ->like('keterangan_transaksi', 'praktikum_s')
+                    ->first();
+                // delete tagihan by kode_transaksi and keterangan transaksi
+                $delete_tagihan = $m_transaksi->delete($tagihan['id_transaksi']);
+                // check
+                if ($delete_tagihan) {
+                    return 'success';
+                } else {
+                    return 'failed';
+                }
+            } else if($type == 'sks'){
+                // get tagihan by kode_transaksi and keterangan transaksi
+                $tagihan = $m_transaksi
+                    ->like('kode_transaksi', 'BY-'.$nim.'-K-'.$semester)
+                    ->like('keterangan_transaksi', 'SKS')
+                    ->first();
+                // delete tagihan by kode_transaksi and keterangan transaksi
+                $delete_tagihan = $m_transaksi->delete($tagihan['id_transaksi']);
+                // check
+                if ($delete_tagihan) {
+                    return 'success';
+                } else {
+                    return 'failed';
                 }
             } else {
                 return 'error';

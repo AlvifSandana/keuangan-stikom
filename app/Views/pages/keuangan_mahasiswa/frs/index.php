@@ -153,7 +153,7 @@
                                 <?php } ?>
                                 <tr>
                                     <td colspan="4">Total SKS yang akan ditempuh</td>
-                                    <td colspan="7" class="font-weight-bold"><?= $total_sks ?> SKS</td>
+                                    <td colspan="7" class="font-weight-bold"><span id="n_sks"><?= $total_sks ?></span> SKS</td>
                                 </tr>
                                 <tr>
                                     <td colspan="4">Status Persetujuan KRS</td>

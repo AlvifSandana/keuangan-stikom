@@ -6,15 +6,6 @@
             "targets": [0, 1, 4, 5]
         }],
     });
-    // DataTable
-    // $(document).ready(function() {
-    // $('table').DataTable({
-    //     'columnDefs': [{
-    //         className: "text-center",
-    //         "targets": [0, 1, 4, 5]
-    //     }],
-    // });
-    // });
 
     // select2
     $('.custom-select').select2({
@@ -201,10 +192,6 @@
                             showSWAL('error', data.message);
                         } else {
                             showSWAL('success', data.message);
-                            // $("#tbl_master_paket > tbody").empty();
-                            // getItemPaket();
-                            // $("#tbl_master_item_lain > tbody").empty();
-                            // getItemPaketLain();
                         }
                     },
                     error: function(jqXHR) {
