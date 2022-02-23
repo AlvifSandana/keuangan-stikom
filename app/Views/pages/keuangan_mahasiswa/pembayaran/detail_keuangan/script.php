@@ -64,6 +64,25 @@
         $('#add_nama_item').val(textSelected);
     });
 
+    /** 
+     * DataTable
+     */
+    $('.tbl-detail-keuangan-semester').DataTable({
+        'columnDefs': [{
+            className: "text-center",
+            "targets": [0, 1]
+        }, {
+            className: "text-right",
+            "targets": [2, 3, 4]
+        },{
+            className: "text-danger",
+            "targets": [2,]
+        },{
+            className: "text-success",
+            "targets": [3,]
+        },],
+    });
+
     /**
      * create a new pembayaran
      */
@@ -286,5 +305,43 @@
                 console.log(jqXHR);
             }
         })
+    }
+
+    /**
+     * get detail keuangan semester 
+     */
+    function getDetailKeuangan(nim) {
+        $.ajax({
+            url: '<?= base_url() ?>/keuangan-mahasiswa/detail-keuangan-semester/' + nim,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    var counter = 0;
+                    var tbl = $('.tbl-detail-keuangan-semester').DataTable();
+                    // clear table
+                    tbl.clear().draw(false);
+                    // re-draw table with new data
+                    data.data.forEach(element => {
+                        counter += 1;
+                        if (element.detail[0].total_tagihan != null) {
+                            tbl.row.add([
+                                counter,
+                                'Semester ' + element.detail.semester,
+                                num_format.format(parseInt(element.detail[0].total_tagihan)),
+                                element.detail[1].total_pembayaran == null ? 0 : num_format.format(parseInt(element.detail[1].total_pembayaran)),
+                                num_format.format(parseInt(element.detail[0].total_tagihan) - (element.detail[1].total_pembayaran == null ? 0 : parseInt(element.detail[1].total_pembayaran)))
+                            ]).draw(false);
+                        }
+                    });
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR.responseText);
+                console.log(jqXHR);
+            }
+        });
     }
 </script>

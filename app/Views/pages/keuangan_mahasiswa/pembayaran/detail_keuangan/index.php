@@ -131,6 +131,7 @@
                                             <a class="dropdown-item" href="#pembayaran-baru" data-toggle="modal" data-target="#modalCreatePembayaran">Tambah Pembayaran Baru</a>
                                             <a class="dropdown-item" href="#tagihan-baru" data-toggle="modal" data-target="#modalTambahTagihan">Tambah Tagihan Baru</a>
                                             <a class="dropdown-item" href="#diskon-baru" data-toggle="modal" data-target="#modalTambahDiskon">Tambah Diskon</a>
+                                            <a class="dropdown-item" href="#detail-keuangan" data-toggle="modal" data-target="#modalDetailKeuangan" onclick="getDetailKeuangan('<?= $mahasiswa[0]['nim'] ?>')">Detail Keuangan</a>
                                         </div>
                                     </div>
                                 </h4>
@@ -282,6 +283,8 @@
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modaldetailitempembayaran') ?>
 <!-- modal add diskon -->
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modal_tambah_diskon') ?>
+<!-- modal detail keuangan -->
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/detail_keuangan/modal_detail_keuangan') ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
