@@ -66,9 +66,7 @@
                                         Action
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                        <a class="dropdown-item" href="#"><i class="fas fa-dollar-sign"></i> Detail Keuangan</a>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Perbarui Data Mahasiswa</a>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-trash"></i> Hapus Data Mahasiswa</a>
+                                        <a class="dropdown-item" target="_blank" href="'.base_url().'/keuangan-mahasiswa/pembayaran/detail/'.$m['nim'].'"><i class="fas fa-dollar-sign"></i> Detail Keuangan</a>
                                         </div>
                                     </div>
                                     </td></tr>';
