@@ -6,6 +6,7 @@
             "targets": [0, 1, 4, 5]
         }],
     });
+    $('#tbl_master_formula_m').DataTable();
 
     // select2
     $('.custom-select').select2({
