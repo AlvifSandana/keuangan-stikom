@@ -103,7 +103,7 @@
                     </a>
                 </li>
                 <li class="nav-header">MASTER DATA</li>
-                <li class="nav-item<?php if ($uri_segment == "paket" || $uri_segment == "akun-pemasukan") {
+                <li class="nav-item<?php if ($uri_segment == "paket" || $uri_segment == "akun-pemasukan" || $uri_segment == "formula" || $uri_segment == "akun-pengeluaran") {
                                             echo " menu-is-opening menu-open";
                                         } ?>">
                     <a href="#" class="nav-link<?php $uri_segment == "master-keuangan" ? print(" active") : print("") ?>">
