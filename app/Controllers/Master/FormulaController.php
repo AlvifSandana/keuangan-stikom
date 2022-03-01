@@ -8,7 +8,7 @@ use App\Models\Formula;
 use App\Models\ItemPaket;
 use App\Models\Paket;
 use App\Models\Semester;
-use PhpParser\Node\Stmt\TryCatch;
+use App\Models\MasterFormula;
 
 class FormulaController extends BaseController
 {
@@ -20,12 +20,14 @@ class FormulaController extends BaseController
         $m_semester = new Semester();
         $m_angkatan = new Angkatan();
         $m_item = new ItemPaket();
+        $m_Formula = new MasterFormula();
         // get uri segment for dynamic sidebar active item
         $data['uri_segment'] = $request->uri->getSegment(2);
         // get data paket, semester, formula
         $data['paket'] = $m_paket->findAll();
         $data['semester'] = $m_semester->findAll();
         $data['angkatan'] = $m_angkatan->findAll();
+        $data['formulaM'] = $m_Formula->findAll();
         $data['formula'] = $m_item
             ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
             ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
