@@ -1,5 +1,5 @@
 <h5 class="h5 mt-2 mb-3">Data Formula
-    <button class="btn btn-primary float-right btn-sm"><i class="fas fa-plus fa-fw"></i> Formula Baru</button>
+    <button class="btn btn-primary float-right btn-sm" data-toggle="modal" data-target="#modalAddMasterFormula"><i class="fas fa-plus fa-fw"></i> Formula Baru</button>
 </h5>
 <table class="table table-bordered table-hover tbl_master_formula_m" id="tbl_master_formula_m">
     <thead class="text-center">

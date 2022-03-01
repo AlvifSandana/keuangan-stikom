@@ -68,8 +68,10 @@
     </div>
     <!-- Modal Add formula -->
     <?= $this->include('pages/master/keuangan/formula/modal_add_formula') ?>
+    <?= $this->include('pages/master/keuangan/formula/modal_add_master_formula') ?>
     <!-- Modal Edit formula -->
     <?= $this->include('pages/master/keuangan/formula/modal_edit_formula') ?>
+    <?= $this->include('pages/master/keuangan/formula/modal_edit_master_formula') ?>
 </section>
 <?= $this->endSection() ?>
 
