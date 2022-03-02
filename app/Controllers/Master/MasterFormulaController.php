@@ -142,6 +142,9 @@ class MasterFormulaController extends BaseController
         }
     }
 
+    /**
+     * Delete master formula by kode_mformula
+     */
     public function delete_master_formula(String $kode_mformula)
     {
         try {
