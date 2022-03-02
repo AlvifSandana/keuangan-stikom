@@ -12,11 +12,21 @@
     <tbody class="">
         <?php foreach ($formulaM as $key => $value) { ?>
             <tr>
-               <td><?= $key ?></td>
-               <td><?= $value['kode_mformula'] ?></td>
-               <td><?= $value['persentase_tw'] ?></td>
-               <td><?= $value['persentase_tb'] ?></td>
-               <td></td>
+                <td><?= $key + 1 ?></td>
+                <td><?= $value['kode_mformula'] ?></td>
+                <td><?= $value['persentase_tw'] ?></td>
+                <td><?= $value['persentase_tb'] ?></td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownActionMenu" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-info" href="#" data-toggle="modal" data-target="#modalEditMasterFormula" onclick="fillUpdateMasterFormula('<?= $value['kode_mformula'] ?>', '<?= $value['persentase_tw'] ?>', '<?= $value['persentase_tb'] ?>')"><i class="fas fa-fw fa-percentage"></i>Edit Formula</a>
+                            <a class="dropdown-item text-danger" href="#" onclick="deleteMasterFormula('<?= $value['kode_mformula'] ?>')"><i class="fas fa-fw fa-trash"></i> Hapus</a>
+                        </div>
+                    </div>
+                </td>
             </tr>
         <?php } ?>
     </tbody>

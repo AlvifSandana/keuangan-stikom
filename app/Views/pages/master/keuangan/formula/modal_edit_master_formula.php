@@ -13,7 +13,8 @@
                         <div class="col-6">
                             <label for="formula">Formula TW (Tagihan Wajib)</label>
                             <div class="input-group mb-3">
-                                <input type="number" class="form-control" name="add_tw" id="add_tw" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100" oninput="">
+                                <input type="text" class="form-control" name="edit_kode_mformula" id="edit_id_mformula" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" hidden/>
+                                <input type="number" class="form-control" name="edit_tw" id="edit_tw" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100" oninput="EdithitungPersentase('tw')">
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">%</span>
                                 </div>
@@ -22,7 +23,7 @@
                         <div class="col-6">
                             <label for="formula">Formula TB (Tagihan Baru)</label>
                             <div class="input-group mb-3">
-                                <input type="number" class="form-control" name="add_tb" id="add_tb" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100" oninput="">
+                                <input type="number" class="form-control" name="edit_tb" id="edit_tb" placeholder="0 - 100" aria-label="0 - 100" aria-describedby="basic-addon2" min="0" max="100" oninput="EdithitungPersentase('tb')">
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">%</span>
                                 </div>
@@ -30,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-warning float-right" onclick="editMasterFormula()">Perbarui</button>
+                <button class="btn btn-warning float-right" onclick="updateMasterFormula()">Perbarui</button>
             </div>
         </div>
     </div>

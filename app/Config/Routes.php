@@ -103,6 +103,11 @@ $routes->post('/master-keuangan/formula/update', 'Master\FormulaController::upda
 $routes->delete('/master-keuangan/formula/delete/(:any)', 'Master\FormulaController::delete_formula/$1', ['filter' => 'auth']);
 $routes->get('/master-keuangan/formula/find/(:any)', 'Master\FormulaController::get_item_formula_by_id_item/$1', ['filter' => 'auth']);
 $routes->post('/master-keuangan/formula/find', 'Master\FormulaController::get_item_formula_by_filter', ['filter' => 'auth']);
+// --------------------------
+$routes->post('/master-keuangan/master-formula/create', 'Master\MasterFormulaController::create_master_formula', ['filter' => 'auth']);
+$routes->get('/master-keuangan/master-formula/find/(:any)', 'Master\MasterFormulaController::find_master_formula/$1', ['filter' => 'auth']);
+$routes->post('/master-keuangan/master-formula/update/(:any)', 'Master\MasterFormulaController::update_master_formula/$1', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/master-formula/delete/(:any)', 'Master\MasterFormulaController::delete_master_formula/$1', ['filter' => 'auth']);
 
 // route for master pendukung
 $routes->get('/master-pendukung', 'Master/PendukungController::index', ['filter' => 'auth']);

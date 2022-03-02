@@ -6,7 +6,12 @@
             "targets": [0, 1, 4, 5]
         }],
     });
-    $('#tbl_master_formula_m').DataTable();
+    $('#tbl_master_formula_m').DataTable({
+        'columnDefs': [{
+            className: "text-center",
+            "targets": [0, 1, 2, 3, 4]
+        }],
+    });
 
     // select2
     $('.custom-select').select2({
@@ -43,6 +48,12 @@
                 console.log(jqXHR);
             }
         });
+    }
+
+    function fillUpdateMasterFormula(id_mformula, persentase_tw, persentese_tb) {
+        $('#edit_id_mformula').val(id_mformula);
+        $('#edit_tw').val(persentase_tw);
+        $('#edit_tb').val(persentese_tb);
     }
 
     function getFormulaByFilter() {
@@ -109,6 +120,26 @@
         nominal_afteref = formulaef * nominalef / 100;
         $('#add_nominal_after').val(nominal_after);
         $('#editf_nominal_after').val(nominal_afteref);
+    }
+
+    function hitungPersentase(tipe) {
+        if (tipe == 'tw') {
+            var ftw = parseFloat($('#add_tw').val());
+            var ftb = $('#add_tb').val(100 - ftw);
+        } else {
+            var ftb = parseFloat($('#add_tb').val());
+            var ftw = $('#add_tw').val(100 - ftb);
+        }
+    }
+
+    function EdithitungPersentase(tipe) {
+        if (tipe == 'tw') {
+            var ftw = parseFloat($('#edit_tw').val());
+            var ftb = $('#edit_tb').val(100 - ftw);
+        } else {
+            var ftb = parseFloat($('#edit_tb').val());
+            var ftw = $('#edit_tw').val(100 - ftb);
+        }
     }
 
     /** 
@@ -193,6 +224,106 @@
                             showSWAL('error', data.message);
                         } else {
                             showSWAL('success', data.message);
+                        }
+                    },
+                    error: function(jqXHR) {
+                        showSWAL('error', jqXHR);
+                    }
+                });
+            }
+        });
+    }
+
+    /** 
+     * tambah Master formula
+     */
+    function addMasterFormula() {
+        var data_formula = {
+            formula_tw: $('#add_tw').val(),
+            formula_tb: $('#add_tb').val(),
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>/master-keuangan/master-formula/create',
+            type: 'POST',
+            data: data_formula,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                    console.log(data.data);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function() {
+                        window.location.reload()
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
+            }
+        });
+    }
+
+    /** 
+     * update Master formula
+     */
+    function updateMasterFormula() {
+        var data_formula = {
+            id_mformula: $('#edit_id_mformula').val(),
+            formula_tw: $('#edit_tw').val(),
+            formula_tb: $('#edit_tb').val(),
+        };
+        console.log(data_formula);
+        $.ajax({
+            url: '<?php echo base_url(); ?>/master-keuangan/master-formula/update/' + data_formula.id_mformula,
+            type: 'POST',
+            data: data_formula,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                    console.log(data.data);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function() {
+                        window.location.reload()
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR);
+                console.log(jqXHR)
+            }
+        });
+    }
+
+    /** 
+     * hapus Master formula
+     */
+    function deleteMasterFormula(kode_formula) {
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin menghapus formula item ini?',
+            text: "Tindakan ini tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>/master-keuangan/master-formula/delete/' + kode_formula,
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.status != 'success') {
+                            showSWAL('error', data.message);
+                        } else {
+                            showSWAL('success', data.message);
+                            setTimeout(function() {
+                                window.location.reload()
+                            }, 3000);
                         }
                     },
                     error: function(jqXHR) {
