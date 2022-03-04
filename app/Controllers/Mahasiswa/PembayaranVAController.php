@@ -34,7 +34,11 @@ class PembayaranVAController extends BaseController
                     ->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')
                     ->with('error', $file->getErrorString() . '(' . $file->getError() . ')');
             } else {
-                if (! $file->hasMoved()) {
+                if (!$file->hasMoved()) {
+                    // random filename
+                    $fn = $file->getRandomName();
+                    // move file to uploaded folder
+                    $path = $file->store('va/', $fn);
                     // create reader
                     if ($file->getClientExtension() == 'xls') {
                         $reader = new Xls();
@@ -42,12 +46,14 @@ class PembayaranVAController extends BaseController
                         $reader = new Xlsx();
                     }
                     // read file
-                    $spreadsheet = $reader->load($file);
+                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/' . $path);
                     
+                } else {
+                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', 'File has been moved!');
                 }
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url().'/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage());
         }
     }
 }
