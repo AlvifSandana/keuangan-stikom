@@ -31,11 +31,11 @@
                     <div class="card-body">
                         <h4 class="h4">Input Dokumen Pembayaran Virtual Account</h4>
                         <p>Pilih file .csv lalu tekan tombol <b class="text-primary">Upload</b>.</p>
-                        <form action="<?php echo base_url(); ?>/keuangan-mahasiswa/pembayaran-va/upload" method="post" enctype="multipart/form-data">
+                        <form action="<?php echo base_url(); ?>/keuangan-mahasiswa/pembayaran-va/upload-va" method="post" enctype="multipart/form-data">
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="file_va" id="file_va" accept=".csv">
-                                    <label class="custom-file-label" for="file_va">Choose file (.csv)</label>
+                                    <input type="file" class="custom-file-input" name="file_va" id="file_va" accept=".csv, .xls">
+                                    <label class="custom-file-label" for="file_va">Choose file (.csv .xls)</label>
                                 </div>
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit"><i class="fas fa-upload"></i> Upload</button>

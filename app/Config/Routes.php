@@ -54,6 +54,7 @@ $routes->get('/keuangan-mahasiswa/detail-keuangan-semester/(:any)', 'Mahasiswa\D
 
 // route for keuangan mahasiswa (pembayaran VA)
 $routes->get('/keuangan-mahasiswa/pembayaran-va', 'Mahasiswa\PembayaranVAController::index', ['filter' => 'auth']);
+$routes->post('/keuangan-mahasiswa/pembayaran-va/upload-va', 'Mahasiswa\PembayaranVAController::upload_va', ['filter' => 'auth']);
 
 // route for FRS
 $routes->get('/keuangan-mahasiswa/frs/(:any)', 'Mahasiswa/FRSController::index', ['filter' => 'auth']);

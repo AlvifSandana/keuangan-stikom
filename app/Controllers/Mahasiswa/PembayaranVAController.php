@@ -4,7 +4,7 @@ namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
 
 class PembayaranVAController extends BaseController
 {
@@ -34,26 +34,25 @@ class PembayaranVAController extends BaseController
                     ->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')
                     ->with('error', $file->getErrorString() . '(' . $file->getError() . ')');
             } else {
-                if (!$file->hasMoved()) {
-                    // random filename
-                    $fn = $file->getRandomName();
-                    // move file to uploaded folder
-                    $path = $file->store('va/', $fn);
-                    // create reader
-                    if ($file->getClientExtension() == 'xls') {
-                        $reader = new Xls();
-                    } else {
-                        $reader = new Xlsx();
-                    }
-                    // read file
-                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/' . $path);
-                    
+                // random filename
+                $fn = $file->getRandomName();
+                // move file to uploaded folder
+                $path = $file->move(WRITEPATH . 'uploads/va/', $fn);
+                // dd($file, $fn, $path);
+                // create reader
+                if ($file->getClientExtension() == 'xls') {
+                    $reader = new Xls();
+                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $path);
+                    $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                 } else {
-                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', 'File has been moved!');
+                    $reader = new Csv();
+                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $path);
+                    $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                 }
+                dd($active_sheet);
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage().'\n'.$th->getTraceAsString());
         }
     }
 }
