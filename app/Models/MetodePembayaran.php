@@ -14,7 +14,7 @@ class MetodePembayaran extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_metode_pembayaran'];
+    protected $allowedFields    = ['id_metode', 'nama_metode_pembayaran'];
 
     // Dates
     protected $useTimestamps = true;

@@ -60,6 +60,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#diskon" role="tab" data-toggle="tab">Diskon</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#mp" role="tab" data-toggle="tab">Metode Pembayaran</a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -78,6 +81,9 @@
                             <div role="tabpanel" class="tab-pane" id="diskon">
                                 <?= $this->include('pages/master/datapendukung/card_diskon') ?>
                             </div>
+                            <div role="tabpanel" class="tab-pane" id="mp">
+                                <?= $this->include('pages/master/datapendukung/card_metode_pembayaran') ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,11 +94,13 @@
 <!-- Modals -->
 <?= $this->include('pages/master/datapendukung/modal/modal_create_angkatan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_jurusan') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_create_mp') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_paket') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_semester') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_diskon') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_angkatan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_jurusan') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_update_mp') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_paket') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_semester') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_diskon') ?>
