@@ -41,18 +41,32 @@ class PembayaranVAController extends BaseController
                 // dd($file, $fn, $path);
                 // create reader
                 if ($file->getClientExtension() == 'xls') {
+                    // create obj reader
                     $reader = new Xls();
-                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $path);
+                    // load file xlsx
+                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $fn);
+                    // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                 } else {
+                    // create obj reader
                     $reader = new Csv();
-                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $path);
+                    // config for CSV
+                    $reader->setInputEncoding('CP1252');
+                    // set delimiter
+                    $reader->setDelimiter(';');
+                    // set enclosure
+                    $reader->setEnclosure('');
+                    // set default sheet index
+                    $reader->setSheetIndex(0);
+                    // load file CSV
+                    $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $fn);
+                    // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                 }
                 dd($active_sheet);
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage().'\n'.$th->getTraceAsString());
+            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
         }
     }
 }
