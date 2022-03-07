@@ -48,7 +48,7 @@ class PembayaranVAController extends BaseController
                     // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                 } else {
-                    // create obj reader
+                    // create obj reader & model
                     $reader = new Csv();
                     // config for CSV
                     $reader->setInputEncoding('CP1252');
@@ -62,8 +62,15 @@ class PembayaranVAController extends BaseController
                     $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $fn);
                     // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                    // iterate rows in active sheet
+                    foreach ($active_sheet as $idx => $data) {
+                        // skip first row
+                        if ($idx == 1) {
+                            continue;
+                        }
+
+                    }
                 }
-                dd($active_sheet);
             }
         } catch (\Throwable $th) {
             return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
