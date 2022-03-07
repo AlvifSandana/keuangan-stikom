@@ -3,6 +3,8 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
+use App\Models\Mahasiswa;
+use App\Models\Transaksitmp;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 
@@ -10,10 +12,12 @@ class PembayaranVAController extends BaseController
 {
     public function index()
     {
-        // create request instance
+        // create request instance & model
         $request = \Config\Services::request();
+        $m_temptr = new Transaksitmp();
         // get uri segment for dynamic sidebar active item
         $data['uri_segment'] = $request->uri->getSegment(2);
+        $data['temp_tr'] = $m_temptr->findAll();
         // show view
         return view('pages/keuangan_mahasiswa/pembayaran-va/index', $data);
     }
@@ -50,6 +54,8 @@ class PembayaranVAController extends BaseController
                 } else {
                     // create obj reader & model
                     $reader = new Csv();
+                    $m_temptr = new Transaksitmp();
+                    $m_mhs = new Mahasiswa();
                     // config for CSV
                     $reader->setInputEncoding('CP1252');
                     // set delimiter
@@ -63,13 +69,27 @@ class PembayaranVAController extends BaseController
                     // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                     // iterate rows in active sheet
+                    dd($active_sheet);
                     foreach ($active_sheet as $idx => $data) {
                         // skip first row
-                        if ($idx == 1) {
+                        if ($idx == 1 || $data['A'] == null) {
                             continue;
                         }
-
+                        // dd($data, date('d-m-Y h:i:s', strtotime($data['T'])));
+                        // get nim by nama mhs
+                        $mhs = $m_mhs->like('nama_mhs', $data['K'])->first();
+                        if ($mhs) {
+                            // insert data into tbl_temp_transaksi
+                            $insert_data = $m_temptr->insert([
+                                'kode_temp_transaksi' => 'BY-' . $mhs['nim'] . '-D-0-' . $idx,
+                                'kode_unit' => $mhs['nim'],
+                                'kategori_transaksi' => 'D',
+                                'q_debit' => floatval(str_replace(',', '',$data['P'])),
+                                'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($data['T'])),
+                            ]);
+                        }
                     }
+                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('success', 'Berhasil upload file VA!');
                 }
             }
         } catch (\Throwable $th) {

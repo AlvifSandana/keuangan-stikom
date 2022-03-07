@@ -59,7 +59,17 @@
                                 <th>Opsi</th>
                                 <th>Action</th>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                                <?php if ($temp_tr != null) { foreach ($temp_tr as $key => $value) { ?>
+                                    <tr>
+                                        <td class="text-center"><?= $value['kode_unit'] ?></td>
+                                        <td class="text-center"><?= $value['tanggal_transaksi'] ?></td>
+                                        <td><?= $value['q_debit'] ?></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                <?php }} ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
