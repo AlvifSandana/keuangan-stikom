@@ -69,13 +69,14 @@ class PembayaranVAController extends BaseController
                     // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
                     // iterate rows in active sheet
-                    dd($active_sheet);
                     foreach ($active_sheet as $idx => $data) {
                         // skip first row
                         if ($idx == 1 || $data['A'] == null) {
                             continue;
                         }
-                        // dd($data, date('d-m-Y h:i:s', strtotime($data['T'])));
+                        // fix datetime format
+                        $split_date = explode('/', $data['T']);
+                        $fixed_date = $split_date[1].'/'.$split_date[0].'/'.$split_date[2];
                         // get nim by nama mhs
                         $mhs = $m_mhs->like('nama_mhs', $data['K'])->first();
                         if ($mhs) {
@@ -85,7 +86,7 @@ class PembayaranVAController extends BaseController
                                 'kode_unit' => $mhs['nim'],
                                 'kategori_transaksi' => 'D',
                                 'q_debit' => floatval(str_replace(',', '',$data['P'])),
-                                'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($data['T'])),
+                                'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($fixed_date)),
                             ]);
                         }
                     }

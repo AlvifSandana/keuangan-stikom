@@ -60,15 +60,20 @@
                                 <th>Action</th>
                             </thead>
                             <tbody>
-                                <?php if ($temp_tr != null) { foreach ($temp_tr as $key => $value) { ?>
-                                    <tr>
-                                        <td class="text-center"><?= $value['kode_unit'] ?></td>
-                                        <td class="text-center"><?= $value['tanggal_transaksi'] ?></td>
-                                        <td><?= $value['q_debit'] ?></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                <?php }} ?>
+                                <?php if ($temp_tr != null) {
+                                    foreach ($temp_tr as $key => $value) {
+                                        $dt_tgl = new DateTime($value['tanggal_transaksi']);
+                                        $tgl = $dt_tgl->format('D, d M Y H:i:s');
+                                        $nom = number_format($value['q_debit']); ?>
+                                        <tr>
+                                            <td class="text-center"><?= $value['kode_unit'] ?></td>
+                                            <td class="text-center"><?= $tgl ?></td>
+                                            <td><span class="text-left">Rp. </span><span class="float-right"><?= $nom ?></span></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                <?php }
+                                } ?>
                             </tbody>
                         </table>
                     </div>
