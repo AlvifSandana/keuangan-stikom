@@ -100,8 +100,12 @@
                                                             <div class="form-group">
                                                                 <label for="">Pilih Formula</label><br>
                                                                 <?php foreach ($formula as $idf => $f) { ?>
-                                                                    <input type="radio" name="<?= $f['kode_mformula'] ?>" id="<?= $f['kode_mformula'] ?>" value="<?= $f['kode_mformula'] . '-' . $f['persentase_tw'] . '-' . $f['persentase_tb'] ?>">
-                                                                    <label for="<?= $f['kode_mformula'] ?>"><?= $f['kode_mformula'] ?></label><br>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="radio" name="rad<?= $f['kode_mformula']?>" id="rad<?= $f['kode_mformula']?>" value="<?= $f['kode_mformula'].'-'.$f['persentase_tw'].'-'.$f['persentase_tb'] ?> ">
+                                                                        <label class="form-check-label" for="rad<?= $f['kode_mformula']?>">
+                                                                            <?= $f['kode_mformula']?>
+                                                                        </label>
+                                                                    </div>
                                                                 <?php } ?>
                                                                 TW = <span></span>&Tab;TB = <span></span>
                                                             </div>
