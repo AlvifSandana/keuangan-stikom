@@ -1,5 +1,26 @@
 <?= $this->extend('layout/master') ?>
 
+<?= $this->section('custom-styles') ?>
+<style>
+    .select2-selection__rendered {
+        line-height: 30px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 35px !important;
+    }
+
+    .dropdown-menu-opsi {
+        width: 300px !important;
+        height: 450px !important;
+    }
+</style>
+<?= $this->endSection() ?>
+
 <?= $this->section('content-header') ?>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -69,8 +90,59 @@
                                             <td class="text-center"><?= $value['kode_unit'] ?></td>
                                             <td class="text-center"><?= $tgl ?></td>
                                             <td><span class="text-left">Rp. </span><span class="float-right"><?= $nom ?></span></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td class="text-center">
+                                                <div class="btn-group dropleft">
+                                                    <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="true">
+                                                        <i class="fas fa-fw fa-bars"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-opsi">
+                                                        <form class="px-3 py-2">
+                                                            <div class="form-group">
+                                                                <label for="">Pilih Formula</label><br>
+                                                                <?php foreach ($formula as $idf => $f) { ?>
+                                                                    <input type="radio" name="<?= $f['kode_mformula'] ?>" id="<?= $f['kode_mformula'] ?>" value="<?= $f['kode_mformula'] . '-' . $f['persentase_tw'] . '-' . $f['persentase_tb'] ?>">
+                                                                    <label for="<?= $f['kode_mformula'] ?>"><?= $f['kode_mformula'] ?></label><br>
+                                                                <?php } ?>
+                                                                TW = <span></span>&Tab;TB = <span></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="semester">Pilih semester</label><br />
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <?php foreach ($semester as $ids => $s) {
+                                                                            if ($ids < 8) { ?>
+                                                                                <input type="checkbox" name="<?= $s['id_semester'] ?>" id="<?= $s['id_semester'] ?>" value="<?= $s['id_semester'] ?>">
+                                                                                <label for="<?= $s['id_semester'] ?>"><?= $s['nama_semester'] ?></label><br>
+                                                                        <?php }
+                                                                        } ?>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <?php foreach ($semester as $ids => $s) {
+                                                                            if ($ids >= 8) { ?>
+                                                                                <input type="checkbox" name="<?= $s['id_semester'] ?>" id="<?= $s['id_semester'] ?>" value="<?= $s['id_semester'] ?>">
+                                                                                <label for="<?= $s['id_semester'] ?>"><?= $s['nama_semester'] ?></label><br>
+                                                                        <?php }
+                                                                        } ?>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="actionBtn">
+                                                        <a class="dropdown-item text-success" target="_blank" href=""><i class="fas fa-check fa-fw"></i> Acc</a>
+                                                        <a class="dropdown-item text-warning" target="_blank" href=""><i class="fas fa-edit fa-fw"></i> Edit</a>
+                                                        <a class="dropdown-item text-danger" target="_blank" href=""><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                 <?php }
                                 } ?>

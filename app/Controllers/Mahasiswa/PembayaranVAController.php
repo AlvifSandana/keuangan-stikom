@@ -3,7 +3,10 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
+use App\Models\Formula;
 use App\Models\Mahasiswa;
+use App\Models\MasterFormula;
+use App\Models\Semester;
 use App\Models\Transaksitmp;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
@@ -15,9 +18,13 @@ class PembayaranVAController extends BaseController
         // create request instance & model
         $request = \Config\Services::request();
         $m_temptr = new Transaksitmp();
+        $m_formula = new MasterFormula();
+        $m_semester = new Semester();
         // get uri segment for dynamic sidebar active item
         $data['uri_segment'] = $request->uri->getSegment(2);
         $data['temp_tr'] = $m_temptr->findAll();
+        $data['formula'] = $m_formula->findAll();
+        $data['semester'] = $m_semester->findAll();
         // show view
         return view('pages/keuangan_mahasiswa/pembayaran-va/index', $data);
     }
