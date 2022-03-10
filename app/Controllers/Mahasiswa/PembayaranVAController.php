@@ -104,4 +104,90 @@ class PembayaranVAController extends BaseController
             return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
         }
     }
+
+    /**
+     * update temp transaksi VA
+     */
+    public function update_temp_va($id_temp_transaksi)
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            // set rules
+            $validator->setRules([
+                'q_debit' => 'required',
+                'tanggal_transaksi' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create model
+                $m_temptr = new Transaksitmp();
+                // update data
+                $update_data = $m_temptr->update($id_temp_transaksi, [
+                    'q_debit' => $this->request->getPost('q_debit'),
+                    'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi'),
+                ]);
+                // check
+                if ($update_data) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Data berhasil diperbarui!',
+                        'data' => [],
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal memperbarui data!',
+                        'data' => [],
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed', 
+                    'message' => 'Validasi gagal, data invalid!',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error', 
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
+
+    /**
+     * delete temp transaksi va
+     */
+    public function delete_temp_va($id_temp_transaksi)
+    {
+        try {
+            // create model
+            $m_temptr = new Transaksitmp();
+            // delete temp va
+            $delete_data = $m_temptr->delete($id_temp_transaksi);
+            // check
+            if ($delete_data) {
+                return json_encode([
+                    'status' => 'success', 
+                    'message' => 'Berhasil menghapus data!', 
+                    'data' => []
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 'failed', 
+                    'message' => 'Gagal menghapus data!', 
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error', 
+                'message' => $th->getMessage(), 
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
 }
