@@ -124,6 +124,7 @@ class PembayaranController extends BaseController
             $data['diskon'] = $diskon;
             // get uri segment for dynamic sidebar active item
             $data['uri_segment'] = $request->uri->getSegment(2);
+            // dd($data);
             // show view
             return view('pages/keuangan_mahasiswa/pembayaran/detail_keuangan/index', $data);
         } catch (\Throwable $th) {

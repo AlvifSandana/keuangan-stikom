@@ -10,7 +10,8 @@
     $(document).ready(function() {
         var tbl = $('.tagihan > tbody')
         for (let i = 0; i < tbl.length; i++) {
-            if (tbl[i].childElementCount == 1) {
+            console.log(tbl[i]);
+            if (tbl[i].childElementCount == 0) {
                 $(`.card .${tbl[i].className}`).remove();
             }
         }
