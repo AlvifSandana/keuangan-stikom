@@ -105,6 +105,41 @@ class PembayaranVAController extends BaseController
         }
     }
 
+    public function acc_va()
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            // set rules
+            $validator->setRules([
+                '' => 'required',
+                '' => 'required',
+                '' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create models
+                // check total tagihan by NIM
+                // get value of formula
+                // insert new transaksi (pembayaran) by NIM
+                // check
+            } else {
+                return json_encode([
+                    'status' => '',
+                    'message'=> '',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => '',
+                'message'=> '',
+                'data' => []
+            ]);
+        }
+    }
+
     /**
      * update temp transaksi VA
      */
