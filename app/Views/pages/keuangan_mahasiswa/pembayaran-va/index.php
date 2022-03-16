@@ -107,7 +107,10 @@
                                                                         </label>
                                                                     </div>
                                                                 <?php } ?>
-                                                                TW = <span></span>&Tab;TB = <span></span>
+                                                                <div class="row">
+                                                                    <div class="col-6">TW = <span id="tw"></span></div>
+                                                                    <div class="col-6">TB = <span id="tb"></span></div>
+                                                                </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="semester">Pilih semester</label><br />
