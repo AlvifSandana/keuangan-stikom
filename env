@@ -14,13 +14,14 @@
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
-# CI_ENVIRONMENT = production
+# CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
 
-# app.baseURL = ''
+# app.baseURL = 'http://keuanganstikom.local/'
+# app.baseURL = 'http://192.168.102.13/keuangan-stikom/public/'
 # app.forceGlobalSecureRequests = false
 
 # app.sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler'
@@ -37,11 +38,18 @@
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
+# database.default.hostname = 127.0.0.1
+# database.default.database = db_stikom_keuangan
+# database.default.username = 
+# database.default.password = 
 # database.default.DBDriver = MySQLi
+# database.default.DBPrefix =
+
+# database.default_old.hostname = 127.0.0.1
+# database.default_old.database = stikom
+# database.default_old.username = 
+# database.default_old.password = 
+# database.default_old.DBDriver = MySQLi
 # database.default.DBPrefix =
 
 # database.tests.hostname = localhost
