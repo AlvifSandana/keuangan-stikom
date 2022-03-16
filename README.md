@@ -17,6 +17,7 @@
 
 2. Konfigurasi *Virtual Server* **Apache** maupun **Nginx** (sesuai kebutuhan) dengan membuat file konfigurasi baru dengan `DocumentRoot` **Apache** atau `root` **Nginx** diarahkan ke folder ***public*** mengingat file `index.php` pada CI4 terletak di folder ***public***.
 
+3. Jika ingin menggunakan *Docker*, Anda bisa membuat *Dockerfile* seperti pada repositori berikut https://github.com/AlvifSandana/keuangan-stikom-ci4.1.5-dockerfile.git
 
 **Please** read the user guide for a better explanation of how CI4 works!
 
