@@ -98,4 +98,41 @@
             }
         });
     }
+
+    /** 
+     * delete akun pengeluaran (reset)
+     */
+    function resetTempVA() {
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin reset DATA TRANSAKSI SEMENTARA?',
+            text: "Semua data transaksi sementara akan dihapus. Tindakan ini tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran-va/reset-tbl',
+                    method: 'DELETE',
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.status == 'success') {
+                            showSWAL('success', data.message);
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 2500);
+                        } else {
+                            showSWAL('error', data.message);
+                        }
+                    },
+                    error: function(jqXHR) {
+                        console.log(jqXHR);
+                        showSWAL('error', jqXHR.responseText)
+                    }
+                });
+            }
+        });
+    }
 </script>

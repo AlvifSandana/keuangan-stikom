@@ -57,6 +57,7 @@ $routes->get('/keuangan-mahasiswa/pembayaran-va', 'Mahasiswa\PembayaranVAControl
 $routes->post('/keuangan-mahasiswa/pembayaran-va/upload-va', 'Mahasiswa\PembayaranVAController::upload_va', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/pembayaran-va/update/(:any)', 'Mahasiswa\PembayaranVAController::update_temp_va/$1', ['filter' => 'auth']);
 $routes->delete('/keuangan-mahasiswa/pembayaran-va/delete/(:any)', 'Mahasiswa\PembayaranVAController::delete_temp_va/$1', ['filter' => 'auth']);
+$routes->delete('/keuangan-mahasiswa/pembayaran-va/reset-tbl', 'Mahasiswa\PembayaranVAController::reset_temp_va/', ['filter' => 'auth']);
 
 // route for FRS
 $routes->get('/keuangan-mahasiswa/frs/(:any)', 'Mahasiswa/FRSController::index', ['filter' => 'auth']);

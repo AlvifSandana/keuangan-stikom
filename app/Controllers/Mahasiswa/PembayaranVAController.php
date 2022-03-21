@@ -3,7 +3,6 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
-use App\Models\Formula;
 use App\Models\Mahasiswa;
 use App\Models\MasterFormula;
 use App\Models\Semester;
@@ -214,6 +213,40 @@ class PembayaranVAController extends BaseController
                 return json_encode([
                     'status' => 'failed', 
                     'message' => 'Gagal menghapus data!', 
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error', 
+                'message' => $th->getMessage(), 
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
+
+    /**
+     * reset temp transaksi va
+     */
+    public function reset_temp_va()
+    {
+        try {
+            // create db builder
+            $db = \Config\Database::connect('default');
+            $builder_temptr = $db->table('tbl_temp_transaksi');
+            // delete ALL temp va
+            $delete_all = $builder_temptr->emptyTable();
+            // check
+            if ($delete_all) {
+                return json_encode([
+                    'status' => 'success', 
+                    'message' => 'Berhasil reset tabel data!', 
+                    'data' => []
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 'failed', 
+                    'message' => 'Gagal reset tabel data!', 
                     'data' => []
                 ]);
             }

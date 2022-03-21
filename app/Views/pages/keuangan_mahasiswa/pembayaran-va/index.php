@@ -71,7 +71,9 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Data Transaksi Sementara (dari VA)</h4>
+                        <h4 class="h4">Data Transaksi Sementara (dari VA) 
+                            <button class="btn btn-danger btn-sm float-right" onclick="resetTempVA()"><i class="fas fa-fw fa-trash"></i> Reset</button>
+                        </h4>
                         <table class="table table-hover table-sm tbl-temp-transaksi">
                             <thead class="text-center">
                                 <th>NIM</th>
