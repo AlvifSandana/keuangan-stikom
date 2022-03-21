@@ -71,7 +71,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Data Transaksi Sementara (dari VA) 
+                        <h4 class="h4">Data Transaksi Sementara (dari VA)
                             <button class="btn btn-danger btn-sm float-right" onclick="resetTempVA()"><i class="fas fa-fw fa-trash"></i> Reset</button>
                         </h4>
                         <table class="table table-hover table-sm tbl-temp-transaksi">
@@ -101,18 +101,11 @@
                                                         <form class="px-3 py-2">
                                                             <div class="form-group">
                                                                 <label for="">Pilih Formula</label><br>
-                                                                <?php foreach ($formula as $idf => $f) { ?>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="radio" name="rad<?= $f['kode_mformula']?>" id="rad<?= $f['kode_mformula']?>" value="<?= $f['kode_mformula'].'-'.$f['persentase_tw'].'-'.$f['persentase_tb'] ?> ">
-                                                                        <label class="form-check-label" for="rad<?= $f['kode_mformula']?>">
-                                                                            <?= $f['kode_mformula']?>
-                                                                        </label>
-                                                                    </div>
-                                                                <?php } ?>
-                                                                <div class="row">
-                                                                    <div class="col-6">TW = <span id="tw"></span></div>
-                                                                    <div class="col-6">TB = <span id="tb"></span></div>
-                                                                </div>
+                                                                <select class="form-control" name="mformula" id="mformula">
+                                                                    <?php foreach ($formula as $idf => $f) { ?>
+                                                                        <option value="<?= $f['kode_mformula']?>"><?= $f['kode_mformula']?>-<?= $f['persentase_tw']?>-<?= $f['persentase_tb']?></option>
+                                                                    <?php } ?>
+                                                                </select>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="semester">Pilih semester</label><br />
@@ -120,7 +113,7 @@
                                                                     <div class="col-6">
                                                                         <?php foreach ($semester as $ids => $s) {
                                                                             if ($ids < 8) { ?>
-                                                                                <input type="checkbox" name="<?= $s['id_semester'] ?>" id="<?= $s['id_semester'] ?>" value="<?= $s['id_semester'] ?>">
+                                                                                <input type="checkbox" name="semester" id="<?= $s['id_semester'] ?>" value="<?= $s['id_semester'] ?>">
                                                                                 <label for="<?= $s['id_semester'] ?>"><?= $s['nama_semester'] ?></label><br>
                                                                         <?php }
                                                                         } ?>
@@ -146,9 +139,9 @@
                                                         Action
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                                        <a class="dropdown-item text-success" href="#" onclick=""><i class="fas fa-check fa-fw"></i> Acc</a>
-                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value['id_temp_transaksi']?>', <?= $value['q_debit'] ?>, '<?= $value['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value['id_temp_transaksi']?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                                                        <a class="dropdown-item text-success" href="#" onclick="acc_temp_tr('<?= $value['id_temp_transaksi']?>')"><i class="fas fa-check fa-fw"></i> Acc</a>
+                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value['id_temp_transaksi'] ?>', <?= $value['q_debit'] ?>, '<?= $value['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
+                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -162,7 +155,7 @@
             </div>
         </div>
     </div>
-    <?= $this->include('pages/keuangan_mahasiswa/pembayaran-va/modal_update_temp_tr')?>
+    <?= $this->include('pages/keuangan_mahasiswa/pembayaran-va/modal_update_temp_tr') ?>
 </section>
 <?= $this->endSection() ?>
 

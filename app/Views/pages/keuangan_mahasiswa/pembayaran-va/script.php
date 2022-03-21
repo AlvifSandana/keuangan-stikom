@@ -13,19 +13,48 @@
         $(this).next('.custom-file-label').html(filename);
     });
 
-    // get detail of master formula
-    function getDetailSelectedMasterFormula(id_mformula) {
-        try {
-            $.ajax({
-                url: ''
-            });
-        } catch (err) {
+    // get data from semester checkbox
+    function getDataFromCheckBox() {
+        let cbs = document.querySelectorAll('input[name="semester"]:checked');
+        let val = [];
+        cbs.forEach((cb) => {
+            val.push(cb.value);
+        });
+        return val;
+    }
 
-        }
+    // acc temp transaksi
+    function acc_temp_tr(id_temp_tr) {
+        // get data
+        var data = {
+            id_tmp_tr: id_temp_tr,
+            id_mf: $('#mformula').val(),
+            smts: getDataFromCheckBox()
+        };
+        // ajax req
+        $.ajax({
+            url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran-va/acc',
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status == 'success') {
+                    setTimeout(function() {
+                        showSWAL('success', data.message);
+                    }, 2500);
+                } else {
+                    showSWAL('error', data.message);
+                }
+            },
+            error: function(jqXHR) {
+                showSWAL('error', jqXHR.responseText);
+                console.log(jqXHR.responseText);
+            }
+        });
     }
 
     // fill update filed
-    function fillUpdateField(id_temp_transaksi, q_debit, tanggal_transaksi){
+    function fillUpdateField(id_temp_transaksi, q_debit, tanggal_transaksi) {
         // var tgl = tanggal_transaksi.split(' ');
         // var tgl_split = tgl[0].split('-');
         // var swap_d_m = `${tgl_split[0]}-${tgl_split[2]}-${tgl_split[1]}T${tgl[1]}`;
@@ -42,7 +71,7 @@
                 tanggal_transaksi: $('#tanggal_transaksi').val(),
             };
             $.ajax({
-                url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran-va/update/'+$('#id_temp_transaksi').val(),
+                url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran-va/update/' + $('#id_temp_transaksi').val(),
                 type: 'POST',
                 data: update_data,
                 dataType: 'JSON',
