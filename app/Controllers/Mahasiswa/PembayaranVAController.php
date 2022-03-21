@@ -111,14 +111,15 @@ class PembayaranVAController extends BaseController
             $validator = \Config\Services::validation();
             // set rules
             $validator->setRules([
-                '' => 'required',
-                '' => 'required',
-                '' => 'required',
+                'id_tmp_tr' => 'required',
+                'id_mf' => 'required',
+                'smts' => 'required',
             ]);
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
                 // create models
+                dd($this->request->getPost('id_tmp_tr'),$this->request->getPost('id_mf'),$this->request->getPost('smts'));
                 // check total tagihan by NIM
                 // get value of formula
                 // insert new transaksi (pembayaran) by NIM
