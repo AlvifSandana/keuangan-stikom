@@ -24,11 +24,13 @@
     }
 
     // acc temp transaksi
-    function acc_temp_tr(id_temp_tr) {
+    function acc_temp_tr(id_temp_tr, nim, q_debit) {
         // get data
         var data = {
             id_tmp_tr: id_temp_tr,
             id_mf: $('#mformula').val(),
+            nim: nim,
+            q_debit: q_debit,
             smts: getDataFromCheckBox()
         };
         // ajax req
@@ -44,11 +46,13 @@
                     }, 2500);
                 } else {
                     showSWAL('error', data.message);
+                    $('input[name="semester"]:checked').prop("checked", false);
                 }
             },
             error: function(jqXHR) {
                 showSWAL('error', jqXHR.responseText);
                 console.log(jqXHR.responseText);
+                $('input[name="semester"]:checked').prop("checked", false);
             }
         });
     }

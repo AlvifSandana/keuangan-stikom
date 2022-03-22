@@ -3,9 +3,12 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
+use App\Models\Formula;
+use App\Models\ItemPaket;
 use App\Models\Mahasiswa;
 use App\Models\MasterFormula;
 use App\Models\Semester;
+use App\Models\Transaksi;
 use App\Models\Transaksitmp;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
@@ -113,28 +116,56 @@ class PembayaranVAController extends BaseController
             $validator->setRules([
                 'id_tmp_tr' => 'required',
                 'id_mf' => 'required',
+                'q_debit' => 'required',
+                'nim' => 'required',
                 'smts' => 'required',
             ]);
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
+                // get data from post
+                $nim = $this->request->getPost('nim');
+                $id_mf = $this->request->getPost('id_mf');
+                $id_temp_tr = $this->request->getPost('id_tmp_tr');
+                $nom_tmp_tr = (int)$this->request->getPost('q_debit');
+                $semester = $this->request->getPost('smts');
                 // create models
-                dd($this->request->getPost('id_tmp_tr'),$this->request->getPost('id_mf'),$this->request->getPost('smts'));
+                $m_transaksi = new Transaksi();
+                $m_temptr = new Transaksitmp();
+                $m_mformula = new MasterFormula();
                 // check total tagihan by NIM
-                // get value of formula
-                // insert new transaksi (pembayaran) by NIM
-                // check
+                $total_tagihan = $m_transaksi->getTotalTransaksiMhs($this->request->getPost('nim'), 'K', '', '');
+                // get all tagihan by NIM
+                $all_tagihan = $m_transaksi->findTransaksi($this->request->getPost('nim'), 'K', 'id_transaksi', 'ASC');
+                // validate all tagihan & total tagihan
+                if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
+                    // get value of master formula
+                    $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
+                    // set ratio TW & TB
+                    $TW = (int)$master_formula[0]['persentase_tw'] / 100;
+                    $TB = (int)$master_formula[0]['persentase_tb'] / 100;
+                    // set nominal TW
+                    $nom_TW = $nom_tmp_tr * $TW;
+                    $nom_TB = $nom_tmp_tr * $TB;
+                    // 
+                    dd($TW, $TB, $nom_TW, $nom_TB);
+                    // insert new transaksi (pembayaran) by NIM
+                    // check
+                } else {
+
+                }
+                // dd($this->request->getPost('id_tmp_tr'),$this->request->getPost('id_mf'),$this->request->getPost('smts'),$this->request->getPost('nim'), $total_tagihan);
             } else {
                 return json_encode([
-                    'status' => '',
-                    'message'=> '',
+                    'status' => 'failed',
+                    'message'=> 'Validasi gagal! Mohon pilih minimal 1 semester.',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
-                'status' => '',
-                'message'=> '',
+                'status' => 'error',
+                'message'=> $th->getMessage(),
                 'data' => []
             ]);
         }

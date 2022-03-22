@@ -139,7 +139,7 @@
                                                         Action
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                                        <a class="dropdown-item text-success" href="#" onclick="acc_temp_tr('<?= $value['id_temp_transaksi']?>')"><i class="fas fa-check fa-fw"></i> Acc</a>
+                                                        <a class="dropdown-item text-success" href="#" onclick="acc_temp_tr('<?= $value['id_temp_transaksi']?>', '<?= $value['kode_unit']?>', <?= $value['q_debit'] ?>)"><i class="fas fa-check fa-fw"></i> Acc</a>
                                                         <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value['id_temp_transaksi'] ?>', <?= $value['q_debit'] ?>, '<?= $value['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
                                                         <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
                                                     </div>
