@@ -52,6 +52,8 @@ class Transaksi extends Model
             $query = $this->builder()
                 ->like('kode_unit', $kode_unit, 'both')
                 ->like('kategori_transaksi', $kategori_transaksi)
+                ->join('tbl_item_paket', "tbl_transaksi.item_kode = tbl_item_paket.kode_item", 'left')
+                ->join('tbl_formula', "tbl_transaksi.item_kode = tbl_formula.item_kode", 'left')
                 ->orderBy($orderBy, $direction)
                 ->get();
             // check query, when query success with data, 
@@ -76,6 +78,8 @@ class Transaksi extends Model
             // set query
             $query = $this->builder()
                 ->where('item_kode', $item_kode)
+                ->join('tbl_item_paket', "$item_kode = tbl_item_paket.kode_item", 'left')
+                ->join('tbl_formula', "$item_kode = tbl_formula.item_kode", 'left')
                 ->like('kode_unit', $kode_unit, 'both')
                 ->like('kategori_transaksi', $kategori_transaksi)
                 ->orderBy($orderBy, $direction)
@@ -83,6 +87,30 @@ class Transaksi extends Model
             // check query, when query success with data, 
             // set to result
             if ($query->getResultArray()) {
+                $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    /**
+     * get total transaksi mahasiswa 
+     */
+    public function getTotalTransaksiMhs(String $nim, String $ks, String $orderBy, String $direction)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder()
+                ->selectSum($ks == 'D' ? 'q_debit':'q_kredit')
+                ->where('kode_unit', $nim)
+                ->where('kategori_transaksi', $ks)
+                ->get();
+            // check query, when query success with data then set to result
+            if($query->getResultArray()){
                 $result = $query->getResultArray();
             }
             return $result;
