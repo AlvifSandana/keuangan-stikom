@@ -39,4 +39,50 @@ class MasterFormula extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    // Methods
+    
+    /**
+     * get master formula by id
+     */
+    public function getById(String $id_mformula)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder()
+                ->where('id_mformula', $id_mformula)
+                ->get();
+            // check the query
+            if($query->getResultArray()){
+                $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    /**
+     * get master formula by kode 
+     */
+    public function getByKodeMFormula(String $kode)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder()
+                ->where('kode_mformula', $kode)
+                ->get();
+            // check the query
+            if($query->getResultArray()){
+                $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }
