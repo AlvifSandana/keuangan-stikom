@@ -144,10 +144,11 @@ class PembayaranVAController extends BaseController
                     // set ratio TW & TB
                     $TW = (int)$master_formula[0]['persentase_tw'] / 100;
                     $TB = (int)$master_formula[0]['persentase_tb'] / 100;
-                    // set nominal TW
+                    // set nominal TW & TB
                     $nom_TW = $nom_tmp_tr * $TW;
                     $nom_TB = $nom_tmp_tr * $TB;
-                    // 
+                    // check keuangan mhs
+                    $keuangan_mhs = $m_transaksi->getInfoKeuanganMhs($nim);
                     dd($TW, $TB, $nom_TW, $nom_TB);
                     // insert new transaksi (pembayaran) by NIM
                     // check
