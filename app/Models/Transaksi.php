@@ -118,4 +118,29 @@ class Transaksi extends Model
             return $th->getMessage();
         }
     }
+
+    /**
+     * get total tagihan, pembayaran, sisa tagihan
+     */
+    public function getInfoKeuanganMhs(String $nim)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder()
+                ->selectSum('q_debit', 'total_tagihan')
+                ->selectSum('q_kredit', 'total_pembayaran')
+                ->select('(SUM(q_kredit) - SUM(q_debit)) as sisa_tagihan')
+                ->where('kode_unit', $nim)
+                ->get();
+            // check query, when success with data then set to result
+            if ($query->getResultArray()) {
+                $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }
