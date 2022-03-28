@@ -132,6 +132,8 @@ $routes->delete('/master-pendukung/delete/mp/(:any)', 'Master\MetodePembayaranCo
 $routes->delete('/master-pendukung/delete/semester/(:any)', 'Master\SemesterController::delete_semester/$1', ['filter' => 'auth']);
 $routes->delete('/master-pendukung/delete/diskon/(:any)', 'Master\DiskonController::delete_diskon/$1', ['filter' => 'auth']);
 
+// route for laporan
+$routes->get('/master-laporan', 'Laporan\LaporanController::index', ['filter', 'auth']);
 
 // route for master backup restore database
 $routes->get('/backup-restore', 'Master/BackupRestoreController::index');
