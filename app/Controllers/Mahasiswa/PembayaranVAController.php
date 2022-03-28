@@ -85,7 +85,7 @@ class PembayaranVAController extends BaseController
                         }
                         // fix datetime format
                         $split_date = explode('/', $data['T']);
-                        $fixed_date = $split_date[1].'/'.$split_date[0].'/'.$split_date[2];
+                        $fixed_date = $split_date[1] . '/' . $split_date[0] . '/' . $split_date[2];
                         // get nim by nama mhs
                         $mhs = $m_mhs->like('nama_mhs', $data['K'])->first();
                         if ($mhs) {
@@ -94,7 +94,7 @@ class PembayaranVAController extends BaseController
                                 'kode_temp_transaksi' => 'BY-' . $mhs['nim'] . '-D-0-' . $idx,
                                 'kode_unit' => $mhs['nim'],
                                 'kategori_transaksi' => 'D',
-                                'q_debit' => floatval(str_replace(',', '',$data['P'])),
+                                'q_debit' => floatval(str_replace(',', '', $data['P'])),
                                 'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($fixed_date)),
                             ]);
                         }
@@ -123,6 +123,8 @@ class PembayaranVAController extends BaseController
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
+                $item_tagihan_wajib = [];
+                $item_tagihan_baru = [];
                 // get data from post
                 $nim = $this->request->getPost('nim');
                 $id_mf = $this->request->getPost('id_mf');
@@ -134,11 +136,21 @@ class PembayaranVAController extends BaseController
                 $m_temptr = new Transaksitmp();
                 $m_mformula = new MasterFormula();
                 // check total tagihan by NIM
-                $total_tagihan = $m_transaksi->getTotalTransaksiMhs($this->request->getPost('nim'), 'K', '', '');
+                $total_tagihan = $m_transaksi->getTotalTransaksiMhs($this->request->getPost('nim'), 'K');
                 // get all tagihan by NIM
                 $all_tagihan = $m_transaksi->findTransaksi($this->request->getPost('nim'), 'K', 'id_transaksi', 'ASC');
                 // validate all tagihan & total tagihan
                 if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
+                    // split item tagihan (TW & TB) 
+                    for ($i=0; $i < count($semester); $i++) { 
+                        foreach ($all_tagihan as $t => $value) {
+                            if ($value['jenis'] == 'TW' && $value['semester_id'] == $semester[$i]) {
+                                array_push($item_tagihan_wajib, [$semester[$i] => $value]);
+                            } else if ($value['jenis'] == 'TB' && $value['semester_id'] == $semester[$i]) {
+                                array_push($item_tagihan_baru, [$semester[$i] => $value]);
+                            }
+                        }
+                    }
                     // get value of master formula
                     $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
                     // set ratio TW & TB
@@ -149,24 +161,32 @@ class PembayaranVAController extends BaseController
                     $nom_TB = $nom_tmp_tr * $TB;
                     // check keuangan mhs
                     $keuangan_mhs = $m_transaksi->getInfoKeuanganMhs($nim);
-                    dd($TW, $TB, $nom_TW, $nom_TB);
+                    $total_tagihan = $keuangan_mhs[0]['total_tagihan'] == null ? 0 : (int)$keuangan_mhs[0]['total_tagihan'];
+                    $total_pembayaran = $keuangan_mhs[0]['total_pembayaran'] == null ? 0 : (int)$keuangan_mhs[0]['total_pembayaran'];
+                    $sisa_tagihan = $keuangan_mhs[0]['sisa_tagihan'] == null ? $total_tagihan - $total_pembayaran : (int)$keuangan_mhs[0]['sisa_tagihan'];
+                    // do insert new pembayaran
+                    dd($TW, $TB, $nom_TW, $nom_TB, $semester, $total_tagihan, $total_pembayaran, $sisa_tagihan, $item_tagihan_wajib, $item_tagihan_baru);
                     // insert new transaksi (pembayaran) by NIM
                     // check
                 } else {
-
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Data Keuangan tidak ditemukan! Mohon cek data.',
+                        'data' => []
+                    ]);
                 }
                 // dd($this->request->getPost('id_tmp_tr'),$this->request->getPost('id_mf'),$this->request->getPost('smts'),$this->request->getPost('nim'), $total_tagihan);
             } else {
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> 'Validasi gagal! Mohon pilih minimal 1 semester.',
+                    'message' => 'Validasi gagal! Mohon pilih minimal 1 semester.',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
                 'data' => []
             ]);
         }
@@ -211,14 +231,14 @@ class PembayaranVAController extends BaseController
                 }
             } else {
                 return json_encode([
-                    'status' => 'failed', 
+                    'status' => 'failed',
                     'message' => 'Validasi gagal, data invalid!',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
-                'status' => 'error', 
+                'status' => 'error',
                 'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
@@ -238,21 +258,21 @@ class PembayaranVAController extends BaseController
             // check
             if ($delete_data) {
                 return json_encode([
-                    'status' => 'success', 
-                    'message' => 'Berhasil menghapus data!', 
+                    'status' => 'success',
+                    'message' => 'Berhasil menghapus data!',
                     'data' => []
                 ]);
             } else {
                 return json_encode([
-                    'status' => 'failed', 
-                    'message' => 'Gagal menghapus data!', 
+                    'status' => 'failed',
+                    'message' => 'Gagal menghapus data!',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
-                'status' => 'error', 
-                'message' => $th->getMessage(), 
+                'status' => 'error',
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
         }
@@ -272,21 +292,21 @@ class PembayaranVAController extends BaseController
             // check
             if ($delete_all) {
                 return json_encode([
-                    'status' => 'success', 
-                    'message' => 'Berhasil reset tabel data!', 
+                    'status' => 'success',
+                    'message' => 'Berhasil reset tabel data!',
                     'data' => []
                 ]);
             } else {
                 return json_encode([
-                    'status' => 'failed', 
-                    'message' => 'Gagal reset tabel data!', 
+                    'status' => 'failed',
+                    'message' => 'Gagal reset tabel data!',
                     'data' => []
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
-                'status' => 'error', 
-                'message' => $th->getMessage(), 
+                'status' => 'error',
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
         }

@@ -33,6 +33,7 @@
             q_debit: q_debit,
             smts: getDataFromCheckBox()
         };
+        console.log(data);
         // ajax req
         $.ajax({
             url: '<?= base_url() ?>/keuangan-mahasiswa/pembayaran-va/acc',

@@ -98,7 +98,7 @@ class Transaksi extends Model
     /**
      * get total transaksi mahasiswa 
      */
-    public function getTotalTransaksiMhs(String $nim, String $ks, String $orderBy, String $direction)
+    public function getTotalTransaksiMhs(String $nim, String $ks)
     {
         try {
             // set result
@@ -129,8 +129,8 @@ class Transaksi extends Model
             $result = "Data tidak ditemukan!";
             // set query
             $query = $this->builder()
-                ->selectSum('q_debit', 'total_tagihan')
-                ->selectSum('q_kredit', 'total_pembayaran')
+                ->selectSum('q_debit', 'total_pembayaran')
+                ->selectSum('q_kredit', 'total_tagihan')
                 ->select('(SUM(q_kredit) - SUM(q_debit)) as sisa_tagihan')
                 ->where('kode_unit', $nim)
                 ->get();
