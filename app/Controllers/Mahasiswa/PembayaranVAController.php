@@ -131,7 +131,7 @@ class PembayaranVAController extends BaseController
                 $id_temp_tr = $this->request->getPost('id_tmp_tr');
                 $nom_tmp_tr = (int)$this->request->getPost('q_debit');
                 $semester = $this->request->getPost('smts');
-                // create models
+                // create modelshgdjyr
                 $m_transaksi = new Transaksi();
                 $m_temptr = new Transaksitmp();
                 $m_mformula = new MasterFormula();
