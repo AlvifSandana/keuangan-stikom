@@ -142,15 +142,7 @@ class PembayaranVAController extends BaseController
                 // validate all tagihan & total tagihan
                 if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
                     // split item tagihan (TW & TB) 
-                    for ($i=0; $i < count($semester); $i++) { 
-                        foreach ($all_tagihan as $t => $value) {
-                            if ($value['jenis'] == 'TW' && $value['semester_id'] == $semester[$i]) {
-                                array_push($item_tagihan_wajib, [$semester[$i] => $value]);
-                            } else if ($value['jenis'] == 'TB' && $value['semester_id'] == $semester[$i]) {
-                                array_push($item_tagihan_baru, [$semester[$i] => $value]);
-                            }
-                        }
-                    }
+                    
                     // get value of master formula
                     $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
                     // set ratio TW & TB
