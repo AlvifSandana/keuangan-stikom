@@ -131,7 +131,7 @@ class PembayaranVAController extends BaseController
                 $id_temp_tr = $this->request->getPost('id_tmp_tr');
                 $nom_tmp_tr = (int)$this->request->getPost('q_debit');
                 $semester = $this->request->getPost('smts');
-                // create modelshgdjyr
+                // create model
                 $m_transaksi = new Transaksi();
                 $m_temptr = new Transaksitmp();
                 $m_mformula = new MasterFormula();
@@ -141,8 +141,6 @@ class PembayaranVAController extends BaseController
                 $all_tagihan = $m_transaksi->findTransaksi($this->request->getPost('nim'), 'K', 'id_transaksi', 'ASC');
                 // validate all tagihan & total tagihan
                 if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
-                    // split item tagihan (TW & TB) 
-                    
                     // get value of master formula
                     $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
                     // set ratio TW & TB

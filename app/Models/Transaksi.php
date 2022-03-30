@@ -143,4 +143,16 @@ class Transaksi extends Model
             return $th->getMessage();
         }
     }
+
+    public function getItemTagihan(String $status)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder();
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }
