@@ -15,4 +15,31 @@ class LaporanController extends BaseController
         // show view
         return view('pages/master/laporan/index', $data);
     }
+
+    public function generate_laporan_pemasukan_dari_mhs()
+    {
+        try {
+            
+        } catch (\Throwable $th) {
+            
+        }
+    }
+    
+    public function generate_laporan_pemasukan_lain()
+    {
+        try {
+            
+        } catch (\Throwable $th) {
+            
+        }
+    }
+
+    public function generate_laporan_pengeluaran()
+    {
+        try {
+            
+        } catch (\Throwable $th) {
+            
+        }
+    }
 }

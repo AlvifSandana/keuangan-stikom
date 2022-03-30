@@ -29,7 +29,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Laporan Tagihan</h4>
+                        <h4 class="h4">Laporan Pemasukan</h4>
                         <p class="mb-3">Meliputi nominal <b>Total Tagihan</b> dan <b>Sisa Tagihan</b> dari seluruh mahasiswa. <br>
 						<a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_tagihan_all_mhs"><i class="fas fa-arrow-down"></i> Generate</a>
                             Tekan tombol <b class="text-success">Generate</b> berikut.
