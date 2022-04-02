@@ -30,10 +30,57 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="h4">Laporan Pemasukan</h4>
-                        <p class="mb-3">Meliputi nominal <b>Total Tagihan</b> dan <b>Sisa Tagihan</b> dari seluruh mahasiswa. <br>
-						<a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_tagihan_all_mhs"><i class="fas fa-arrow-down"></i> Generate</a>
-                            Tekan tombol <b class="text-success">Generate</b> berikut.
+                        <p class="mb-3">Meliputi data pemasukan dari seluruh mahasiswa dan data pemasukan lainnya. <br>
+                            Atur <b>Waktu Mulai</b> dan <b>Waktu Berakhir</b>, lalu tekan tombol <b class="text-success">Generate</b> berikut.
                         </p>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="waktu_mulai">Waktu Mulai</label>
+                                    <input type="date" name="waktu_mulai" id="waktu_mulai" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="waktu_mulai">Waktu Berakhir</label>
+                                    <input type="date" name="waktu_mulai" id="waktu_mulai" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_tagihan_all_mhs" style="margin-top: 30px;">
+                                <i class="fas fa-fw fa-arrow-down"></i> Generate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="h4">Laporan Pengeluaran</h4>
+                        <p class="mb-3">Meliputi semua data pengeluaran. <br>
+                            Atur <b>Waktu Mulai</b> dan <b>Waktu Berakhir</b>, lalu tekan tombol <b class="text-success">Generate</b> berikut.
+                        </p>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="waktu_mulai">Waktu Mulai</label>
+                                    <input type="date" name="waktu_mulai_income" id="waktu_mulai_income" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="waktu_mulai">Waktu Berakhir</label>
+                                    <input type="date" name="waktu_mulai_outcome" id="waktu_mulai_outcome" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_tagihan_all_mhs" style="margin-top: 30px;">
+                                <i class="fas fa-fw fa-arrow-down"></i> Generate</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,7 +109,7 @@
                     <div class="card-body">
                         <h4 class="h4">Laporan Pembayaran</h4>
                         <p class="mb-3">Meliputi <b>Nama Item Pembayaran</b>, nominal <b>Total Tagihan per Item</b> dan <b>Sisa Tagihan per Item</b> dari seluruh mahasiswa. <br>
-						<a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_pembayaran_all_mhs"><i class="fas fa-arrow-down"></i> Generate</a>
+                            <a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_pembayaran_all_mhs"><i class="fas fa-arrow-down"></i> Generate</a>
                             Tekan tombol <b class="text-success">Generate</b> berikut.
                         </p>
                     </div>
@@ -93,7 +140,7 @@
                     <div class="card-body">
                         <h4 class="h4">Laporan Rekam Pembayaran</h4>
                         <p class="mb-3">Meliputi <b>Nama Item Pembayaran</b> dan <b>Tanggal Pembayaran</b> dari seluruh mahasiswa. <br>
-						<a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_rekam_pembayaran_all_mhs"><i class="fas fa-arrow-down"></i> Generate</a>
+                            <a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_rekam_pembayaran_all_mhs"><i class="fas fa-arrow-down"></i> Generate</a>
                             Tekan tombol <b class="text-success">Generate</b> berikut.
                         </p>
                     </div>
