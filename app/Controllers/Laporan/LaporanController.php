@@ -21,17 +21,18 @@ class LaporanController extends BaseController
     {
         try {
             // get data pemasukan
-            $pemasukan_dari_mhs = $this->generate_data_pemasukan_dari_mhs();
-            $pemasukan_lain = $this->generate_data_pemasukan_lain();
+            $pemasukan_dari_mhs = $this->generate_data_pemasukan("MHS");
+            $pemasukan_lain = $this->generate_data_pemasukan("LAIN");
+            dd($pemasukan_dari_mhs, $pemasukan_lain);
             // check
-            if (count($pemasukan_dari_mhs) > 0 || count($pemasukan_lain) > 0) {
-            } else {
-            }
+            // if (count($pemasukan_dari_mhs) > 0 || count($pemasukan_lain) > 0) {
+            // } else {
+            // }
         } catch (\Throwable $th) {
         }
     }
 
-    public function generate_data_pemasukan_dari_mhs()
+    public function generate_data_pemasukan(String $type)
     {
         try {
             // result
@@ -39,24 +40,13 @@ class LaporanController extends BaseController
             // create model
             $m_transaksi = new Transaksi();
             // get data pemasukan
-            $pemasukan = $m_transaksi->findTransaksi('', 'D', 'kode_unit', 'ASC');
+            $pemasukan = $m_transaksi->findTransaksi($type, 'D', 'id_transaksi', 'ASC', '2021-12-01', '2022-12-12');
             // check
-            if(count($pemasukan) > 0){
+            if(is_string($pemasukan)){
                 $result = $pemasukan;
             }else{
                 $result = "Data tidak ditemukan!";
             }
-            return $result;
-        } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
-    }
-
-    public function generate_data_pemasukan_lain()
-    {
-        try {
-            // result
-            $result = [];
             return $result;
         } catch (\Throwable $th) {
             return $th->getMessage();
