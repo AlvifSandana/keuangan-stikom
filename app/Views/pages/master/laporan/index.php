@@ -37,13 +37,13 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="waktu_mulai">Waktu Mulai</label>
-                                    <input type="date" name="waktu_mulai" id="waktu_mulai" class="form-control">
+                                    <input type="date" name="waktu_mulai_income" id="waktu_mulai_income" class="form-control">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="waktu_mulai">Waktu Berakhir</label>
-                                    <input type="date" name="waktu_mulai" id="waktu_mulai" class="form-control">
+                                    <input type="date" name="waktu_akhir_income" id="waktu_akhir_income" class="form-control">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -67,13 +67,13 @@
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="waktu_mulai">Waktu Mulai</label>
-                                    <input type="date" name="waktu_mulai_income" id="waktu_mulai_income" class="form-control">
+                                    <input type="date" name="waktu_mulai_outcome" id="waktu_mulai_outcome" class="form-control">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="waktu_mulai">Waktu Berakhir</label>
-                                    <input type="date" name="waktu_mulai_outcome" id="waktu_mulai_outcome" class="form-control">
+                                    <input type="date" name="waktu_akhir_outcome" id="waktu_akhir_outcome" class="form-control">
                                 </div>
                             </div>
                             <div class="col-4">
