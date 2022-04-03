@@ -76,16 +76,19 @@ class Transaksi extends Model
                     ->notLike('kode_transaksi', 'BY-')
                     ->orderBy($orderBy, $direction)
                     ->get();
-            }// } else {
-            //     // set query
-            //     $query = $this->builder()
-            //         ->like('kode_unit', $kode_unit, 'both')
-            //         ->like('kategori_transaksi', $kategori_transaksi)
-            //         ->join('tbl_item_paket', "tbl_transaksi.item_kode = tbl_item_paket.kode_item", 'left')
-            //         ->join('tbl_formula', "tbl_transaksi.item_kode = tbl_formula.item_kode", 'left')
-            //         ->orderBy($orderBy, $direction)
-            //         ->get();
-            // }
+            } else if($kode_unit == 'PENGELUARAN') {
+                $query = $this->builder()
+                    ->get();
+            } else {
+                // set query
+                $query = $this->builder()
+                    ->like('kode_unit', $kode_unit, 'both')
+                    ->like('kategori_transaksi', $kategori_transaksi)
+                    ->join('tbl_item_paket', "tbl_transaksi.item_kode = tbl_item_paket.kode_item", 'left')
+                    ->join('tbl_formula', "tbl_transaksi.item_kode = tbl_formula.item_kode", 'left')
+                    ->orderBy($orderBy, $direction)
+                    ->get();
+            }
             // check query, when query success with data, 
             // set to result
             if ($query->getResultArray()) {
