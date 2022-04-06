@@ -134,6 +134,7 @@ $routes->delete('/master-pendukung/delete/diskon/(:any)', 'Master\DiskonControll
 
 // route for laporan
 $routes->get('/master-laporan', 'Laporan\LaporanController::index', ['filter', 'auth']);
+$routes->get('/master-laporan/gendata-pemasukan/(:any)', 'Laporan\LaporanController::generate_data_pemasukan/$1', ['filter', 'auth']);
 $routes->get('/master-laporan/pemasukan', 'Laporan\LaporanController::laporan_pemasukan', ['filter', 'auth']);
 $routes->get('/master-laporan/pengeluaran', 'Laporan\LaporanController::laporan_pengeluaran', ['filter', 'auth']);
 $routes->get('/master-laporan/tagihan-mhs', 'Laporan\LaporanController::laporan_tagihan_mhs', ['filter', 'auth']);
