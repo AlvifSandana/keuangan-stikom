@@ -35,9 +35,9 @@ class LaporanController extends BaseController
             $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
                 // get data pemasukan
-                $pemasukan_dari_mhs = $this->generate_data_pemasukan("MHS");
-                $pemasukan_lain = $this->generate_data_pemasukan("LAIN");
-                dd($pemasukan_dari_mhs, $pemasukan_lain);
+                $pemasukan_dari_mhs = $this->generate_data_pemasukan("MHS", $this->request->getPost('waktu_mulai_income'), $this->request->getPost('waktu_akhir_income'));
+                $pemasukan_lain = $this->generate_data_pemasukan("LAIN", $this->request->getPost('waktu_mulai_income'), $this->request->getPost('waktu_akhir_income'));
+                // dd($pemasukan_dari_mhs, $pemasukan_lain);
                 // check
                 if (!is_string($pemasukan_dari_mhs) || !is_string($pemasukan_lain)) {
                     return json_encode([
@@ -227,7 +227,7 @@ class LaporanController extends BaseController
     /**
      * generate data pemasukan by type (MHS, LAIN)
      */
-    public function generate_data_pemasukan(String $type)
+    public function generate_data_pemasukan(String $type, String $from = '', String $to = '')
     {
         try {
             // result
@@ -235,14 +235,14 @@ class LaporanController extends BaseController
             // create model
             $m_transaksi = new Transaksi();
             // get data pemasukan
-            $pemasukan = $m_transaksi->findTransaksi($type, 'D', 'id_transaksi', 'ASC', '2021-12-01', '2022-12-12');
+            $pemasukan = $m_transaksi->findTransaksi($type, 'D', 'id_transaksi', 'ASC', '2021-12-21', '2022-01-01');
             // check
-            if (!is_string($pemasukan)) {
-                $result = $pemasukan;
-            } else {
+            if (is_string($pemasukan)) {
                 $result = "Data tidak ditemukan!";
+            } else {
+                $result = $pemasukan;
             }
-            return $result;
+            return json_encode($result);
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
