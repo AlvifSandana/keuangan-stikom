@@ -13,7 +13,7 @@ class Transaksi extends Model
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
+    protected $protectFields    = false;
     protected $allowedFields    = ['kode_transaksi', 'kode_unit', 'kategori_transaksi', 'item_kode', 'q_debit', 'q_kredit', 'kode_metode_pembayaran', 'bukti_transaksi', 'tanggal_transaksi', 'keterangan_transaksi'];
 
     // Dates
@@ -52,32 +52,26 @@ class Transaksi extends Model
             if ($kode_unit == 'MHS') {
                 // set query
                 $query = $this->builder()
-                    //->select("SELECT * FROM `tbl_transaksi` LEFT JOIN tbl_item_paket ON item_kode = tbl_item_paket.kode_item WHERE (tbl_transaksi.created_at BETWEEN '$from' AND '$to') AND (kategori_transaksi LIKE '%$kategori_transaksi%') ORDER BY id_transaksi ASC")
-                    // ->join('tbl_item_paket', "tbl_transaksi.item_kode = tbl_item_paket.kode_item", 'left')
-                    // ->where("(created_at BETWEEN $from AND $to) AND (kategori transaksi LIKE '%$kategori_transaksi%')")
-                    ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'left')
-                    ->where("tbl_transaksi.created_at >=", $from)
-                    ->where("tbl_transaksi.created_at <=", $to)
-                    ->like('kategori_transaksi', $kategori_transaksi)
+                    ->join('tbl_item_paket', 'tbl_transaksi.item_kode = tbl_item_paket.kode_item', 'left')
+                    ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
                     ->orderBy($orderBy, $direction)
                     ->get();
             } else if ($kode_unit == 'LAIN') {
                 // set query
                 $query = $this->builder()
-                    //->select("SELECT * FROM `tbl_transaksi` LEFT JOIN tbl_item_paket ON item_kode = tbl_item_paket.kode_item WHERE (tbl_transaksi.created_at BETWEEN '$from' AND '$to') AND (kategori_transaksi LIKE '%$kategori_transaksi%') AND kode_transaksi NOT LIKE 'BY-%' ORDER BY id_transaksi ASC")
-                    // ->where("(created_at BETWEEN $from AND $to) AND (kategori transaksi LIKE '%$kategori_transaksi%')")
-                    // ->notLike('kode_transaksi', 'BY-', 'both')
-                    // ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'left')
-                    // ->where("(tbl_transaksi.created_at >= '$from' AND tbl_transaksi.created_at <= '$to') AND (kategori_transaksi LIKE '%$kategori_transaksi%') AND (kode_transaksi NOT LIKE 'BY-%')")
                     ->join('tbl_item_paket', 'item_kode = tbl_item_paket.kode_item', 'left')
-                    ->where("tbl_transaksi.created_at >=", $from)
-                    ->where("tbl_transaksi.created_at <=", $to)
-                    ->like('kategori_transaksi', $kategori_transaksi)
+                    ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
                     ->notLike('kode_transaksi', 'BY-')
                     ->orderBy($orderBy, $direction)
                     ->get();
-            } else if($kode_unit == 'PENGELUARAN') {
+            } else if ($kode_unit == 'PENGELUARAN') {
                 $query = $this->builder()
+                    ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
+                    ->notLike('kode_transaksi', 'BY-')
+                    ->orderBy($orderBy, $direction)
                     ->get();
             } else {
                 // set query
@@ -91,10 +85,13 @@ class Transaksi extends Model
             }
             // check query, when query success with data, 
             // set to result
-            if ($query->getResultArray()) {
+            // dd($query->getResultArray());
+            if (count($query->getResultArray()) > 0) {
                 $result = $query->getResultArray();
             }
+            // $result = $query->getResultArray();
             return $result;
+            // return $query->getResultArray();
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
