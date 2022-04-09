@@ -209,7 +209,7 @@ class PembayaranController extends BaseController
                 $db = \Config\Database::connect('default');
                 $m_transaksi = new Transaksi($db);
                 // get data transaksi (kredit) by nim
-                $pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'kode_transaksi', 'ASC');
+                $pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'kode_transaksi', 'ASC', '', '');
                 if (!is_string($pembayaran)) {
                     return json_encode([
                         'status' => 'success',
@@ -274,8 +274,10 @@ class PembayaranController extends BaseController
                 $m_semester = new Semester();
                 // get kode transaksi pembayaran mahasiswa
                 // where kode_transaksi like '%nim%'
-                $kode_transaksi_pembayaran = $m_transaksi->findTransaksi($req_data['kode_unit'], 'D', 'kode_transaksi', 'DESC');
-                $split_kode_transaksi_pembayaran = explode('-', $kode_transaksi_pembayaran[0]['kode_transaksi']);
+                $kode_transaksi_pembayaran = $m_transaksi->findTransaksi($req_data['kode_unit'], 'D', 'kode_transaksi', 'DESC', '', '');
+                // dd($req_data, $kode_transaksi_pembayaran);
+                $split_kode_transaksi_pembayaran = $kode_transaksi_pembayaran != 'Data tidak ditemukan!' ? explode('-', $kode_transaksi_pembayaran[0]['kode_transaksi']) : array('BY', 'D',$req_data['kode_unit'], 1, 0);
+                // dd($split_kode_transaksi_pembayaran);
                 /**
                  * validating pembayaran:
                  * 
@@ -300,7 +302,7 @@ class PembayaranController extends BaseController
                     $total_tagihan_item = (int) $item_tagihan[0]['q_kredit'];
                     $total_pembayaran_item = 0;
                     // menghitung total pembayaran item jika record tersedia
-                    if ($semua_pembayaran_item != "Data tidak ditemukan!") {
+                    if (!is_string($semua_pembayaran_item)) {
                         foreach ($semua_pembayaran_item as $value) {
                             $total_pembayaran_item += $value['q_debit'];
                         }
@@ -516,7 +518,7 @@ class PembayaranController extends BaseController
                 // get semester
                 $current_semester = explode('SMT', $this->request->getPost('semester_id'));
                 // get previous pembayaran
-                $prev_pembayaran = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'D', 'id_transaksi', 'DESC');
+                $prev_pembayaran = $m_transaksi->findTransaksi($this->request->getPost('kode_unit'), 'D', 'id_transaksi', 'DESC', '', '');
                 if ($prev_pembayaran != 'Data tidak ditemukan!') {
                     $prev_kode_transaksi = explode('-', $prev_pembayaran[0]['kode_transaksi']);
                     $current_kode_transaksi = 'BY-' . $this->request->getPost('kode_unit') . '-D-' . number_format($current_semester[1]) . '-' . (1 + (int)$prev_kode_transaksi[4]);
