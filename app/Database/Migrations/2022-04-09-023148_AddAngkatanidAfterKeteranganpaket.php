@@ -9,7 +9,7 @@ class AddAngkatanidAfterKeteranganpaket extends Migration
     public function up()
     {
         $field = [
-            'angkatan_id' => ['type' => 'VARCHAR', 'constraint' => 10,'null' => true],
+            'angkatan_id' => ['type' => 'VARCHAR', 'constraint' => 10,'null' => true, 'after' => 'keterangan_paket'],
             'CONSTRAINT tbl_paket_angkatan_id_foreign FOREIGN KEY(`angkatan_id`) REFERENCES `tbl_angkatan`(`id_angkatan`)'
         ];
         $this->forge->addColumn('tbl_paket', $field);
