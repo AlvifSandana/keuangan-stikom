@@ -54,7 +54,7 @@ class PaketController extends BaseController
                 $item_paket = $m_itempaket
                 ->where('paket_id IS NULL', NULL)
                 ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
-                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
+                ->join('tbl_angkatan', 'tbl_paket.angkatan_id = tbl_angkatan.id_angkatan', 'left')
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
                 ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
                 ->notLike('nama_item', 'Diskon')
@@ -64,7 +64,7 @@ class PaketController extends BaseController
                 $item_paket = $m_itempaket
                 ->where('paket_id', $paket_id)
                 ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
-                ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan', 'left')
+                ->join('tbl_angkatan', 'tbl_paket.angkatan_id = tbl_angkatan.id_angkatan', 'left')
                 ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
                 ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
                 ->findAll();
@@ -123,6 +123,7 @@ class PaketController extends BaseController
                         'id_paket' => 'PKT'.(1 + (int)$last_id[1]),
                         'nama_paket' => $this->request->getPost('nama_paket'),
                         'keterangan_paket' => $this->request->getPost('keterangan_paket'),
+                        'angkatan_id' => $this->request->getPost('angkatan_id'),
                         'jurusan_id' => $this->request->getPost('jurusan_id'),
                         'sesi_id' => $this->request->getPost('sesi_id'),
                         'jalur_id' => $this->request->getPost('jalur_id'),
@@ -181,6 +182,7 @@ class PaketController extends BaseController
                     ->update( $this->request->getPost('id_paket'), [
                         'nama_paket' => $this->request->getPost('nama_paket'),
                         'keterangan_paket' => $this->request->getPost('keterangan_paket'),
+                        'angkatan_id' => $this->request->getPost('angkatan_id'),
                         'jurusan_id' => $this->request->getPost('jurusan_id'),
                         'sesi_id' => $this->request->getPost('sesi_id'),
                         'jalur_id' => $this->request->getPost('jalur_id'),

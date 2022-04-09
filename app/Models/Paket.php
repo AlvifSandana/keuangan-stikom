@@ -14,7 +14,7 @@ class Paket extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_paket', 'nama_paket', 'keterangan_paket', 'jurusan_id', 'sesi_id', 'jalur_id'];
+    protected $allowedFields    = ['id_paket', 'nama_paket', 'keterangan_paket', 'angkatan_id', 'jurusan_id', 'sesi_id', 'jalur_id'];
 
     // Dates
     protected $useTimestamps = true;

@@ -161,6 +161,7 @@
         var data_paket = {
             nama_paket: $('#add_nama_paket').val(),
             keterangan_paket: $('#add_keterangan_paket').val(),
+            angkatan_id: $('#add_angkatanp_id').val(),
             jurusan_id: $('#add_jurusan_id').val(),
             sesi_id: $('#add_sesi_id').val(),
             jalur_id: $('#add_jalur_id').val(),
@@ -323,6 +324,7 @@
             id_paket: $('#update_id_paket').val(),
             nama_paket: $('#update_nama_paket').val(),
             keterangan_paket: $('#update_keterangan_paket').val(),
+            angkatan_id: $('#update_angkatanp_id').val(),
             jurusan_id: $('#update_jurusan_id').val(),
             sesi_id: $('#update_sesi_id').val(),
             jalur_id: $('#update_jalur_id').val(),
@@ -576,9 +578,10 @@
         }
     }
 
-    function fillUpdatePaketField(id, nama_paket, jurusan_id, jalur_id, sesi_id, keterangan_paket) {
+    function fillUpdatePaketField(id, nama_paket, angkatan_id, jurusan_id, jalur_id, sesi_id, keterangan_paket) {
         $('#update_id_paket').val(id);
         $('#update_nama_paket').val(nama_paket);
+        $('#update_angkatanp_id').val(angkatan_id);
         $('#update_jurusan_id').val(jurusan_id);
         $('#update_sesi_id').val(sesi_id);
         $('#update_jalur_id').val(jalur_id);

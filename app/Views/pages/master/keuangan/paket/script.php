@@ -233,6 +233,7 @@
         var data_paket = {
             nama_paket: $('#add_nama_paket').val(),
             keterangan_paket: $('#add_keterangan_paket').val(),
+            angkatan_id: $('#add_angkatan_id').val(),
             jurusan_id: $('#add_jurusan_id').val(),
             sesi_id: $('#add_sesi_id').val(),
             jalur_id: $('#add_jalur_id').val(),
