@@ -57,10 +57,35 @@ class PembayaranVAController extends BaseController
                 if ($file->getClientExtension() == 'xlsx') {
                     // create obj reader
                     $reader = new Xlsx();
+                    $m_temptr = new Transaksitmp();
+                    $m_mhs = new Mahasiswa();
                     // load file xlsx
                     $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $fn);
                     // get active sheet
                     $active_sheet = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                    // iterate rows in active sheet
+                    foreach ($active_sheet as $idx => $data) {
+                        // skip first row
+                        if ($idx == 1 || $data['A'] == null) {
+                            continue;
+                        }
+                        // fix datetime format
+                        $split_date = explode('/', $data['T']);
+                        $fixed_date = $split_date[1] . '/' . $split_date[0] . '/' . $split_date[2];
+                        // get nim by nama mhs
+                        $mhs = $m_mhs->like('nama_mhs', $data['K'])->first();
+                        if ($mhs) {
+                            // insert data into tbl_temp_transaksi
+                            $insert_data = $m_temptr->insert([
+                                'kode_temp_transaksi' => 'BY-' . $mhs['nim'] . '-D-0-' . $idx,
+                                'kode_unit' => $mhs['nim'],
+                                'kategori_transaksi' => 'D',
+                                'q_debit' => floatval(str_replace(',', '', $data['P'])),
+                                'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($fixed_date)),
+                            ]);
+                        }
+                    }
+                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('success', 'Berhasil upload file VA!');
                 } else {
                     // create obj reader & model
                     $reader = new Csv();
