@@ -12,6 +12,7 @@ use App\Models\Transaksi;
 use App\Models\Transaksitmp;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class PembayaranVAController extends BaseController
 {
@@ -53,9 +54,9 @@ class PembayaranVAController extends BaseController
                 $path = $file->move(WRITEPATH . 'uploads/va/', $fn);
                 // dd($file, $fn, $path);
                 // create reader
-                if ($file->getClientExtension() == 'xls') {
+                if ($file->getClientExtension() == 'xlsx') {
                     // create obj reader
-                    $reader = new Xls();
+                    $reader = new Xlsx();
                     // load file xlsx
                     $spreadsheet = $reader->load(WRITEPATH . 'uploads/va/' . $fn);
                     // get active sheet
@@ -138,7 +139,7 @@ class PembayaranVAController extends BaseController
                 // check total tagihan by NIM
                 $total_tagihan = $m_transaksi->getTotalTransaksiMhs($this->request->getPost('nim'), 'K');
                 // get all tagihan by NIM
-                $all_tagihan = $m_transaksi->findTransaksi($this->request->getPost('nim'), 'K', 'id_transaksi', 'ASC');
+                $all_tagihan = $m_transaksi->findTransaksi($this->request->getPost('nim'), 'K', 'id_transaksi', 'ASC', '', '');
                 // validate all tagihan & total tagihan
                 if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
                     // get value of master formula
