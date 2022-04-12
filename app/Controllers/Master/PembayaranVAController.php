@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Mahasiswa;
+namespace App\Controllers\Master;
 
 use App\Controllers\BaseController;
 use App\Models\Formula;
@@ -29,7 +29,7 @@ class PembayaranVAController extends BaseController
         $data['formula'] = $m_formula->findAll();
         $data['semester'] = $m_semester->findAll();
         // show view
-        return view('pages/keuangan_mahasiswa/pembayaran-va/index', $data);
+        return view('pages/master/keuangan/pembayaran-va/index', $data);
     }
 
     /**
@@ -45,7 +45,7 @@ class PembayaranVAController extends BaseController
                 // throw error 
                 throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
                 return redirect()
-                    ->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')
+                    ->to(base_url() . '/master-keuangan/pembayaran-va')
                     ->with('error', $file->getErrorString() . '(' . $file->getError() . ')');
             } else {
                 // random filename
@@ -89,7 +89,7 @@ class PembayaranVAController extends BaseController
                             ]);
                         }
                     }
-                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('success', 'Berhasil upload file VA!');
+                    return redirect()->to(base_url() . '/master-keuangan/pembayaran-va')->with('success', 'Berhasil upload file VA!');
                 } else {
                     // create obj reader & model
                     $reader = new Csv();
@@ -135,11 +135,11 @@ class PembayaranVAController extends BaseController
                             ]);
                         }
                     }
-                    return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('success', 'Berhasil upload file VA!');
+                    return redirect()->to(base_url() . '/master-keuangan/pembayaran-va')->with('success', 'Berhasil upload file VA!');
                 }
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/keuangan-mahasiswa/pembayaran-va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
+            return redirect()->to(base_url() . '/master-keuangan/pembayaran-va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
         }
     }
 
@@ -336,5 +336,12 @@ class PembayaranVAController extends BaseController
                 'data' => $th->getTrace()
             ]);
         }
+    }
+
+    public function testt()
+    {
+        $m_tr = new Transaksi();
+        $tr = $m_tr->getStatusItemTransaksi('1120101838');
+        return json_encode($tr);
     }
 }

@@ -14,7 +14,7 @@ class Transaksitmp extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_temp_transaksi', 'kode_unit', 'kategori_transaksi', 'q_debit', 'q_kredit', 'tanggal_transaksi'];
+    protected $allowedFields    = ['kode_temp_transaksi', 'kode_bayar', 'kode_unit', 'kategori_transaksi', 'kode_metode_pembayaran', 'q_debit', 'q_kredit', 'tanggal_transaksi', 'dest_transaksi', 'status'];
 
     // Dates
     protected $useTimestamps = true;

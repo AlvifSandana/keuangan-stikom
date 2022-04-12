@@ -116,7 +116,7 @@ class Transaksi extends Model
                 ->get();
             // check query, when query success with data, 
             // set to result
-            if ($query->getResultArray()) {
+            if (count($query->getResultArray()) > 0) {
                 $result = $query->getResultArray();
             }
             return $result;
@@ -140,7 +140,7 @@ class Transaksi extends Model
                 ->where('kategori_transaksi', $ks)
                 ->get();
             // check query, when query success with data then set to result
-            if ($query->getResultArray()) {
+            if (count($query->getResultArray()) > 0) {
                 $result = $query->getResultArray();
             }
             return $result;
@@ -165,7 +165,7 @@ class Transaksi extends Model
                 ->where('kode_unit', $nim)
                 ->get();
             // check query, when success with data then set to result
-            if ($query->getResultArray()) {
+            if (count($query->getResultArray()) > 0) {
                 $result = $query->getResultArray();
             }
             return $result;
@@ -174,13 +174,48 @@ class Transaksi extends Model
         }
     }
 
-    public function getItemTagihan(String $status)
+
+    public function getStatusItemTransaksi(String $kode_unit)
     {
         try {
             // set result
-            $result = "Data tidak ditemukan!";
+            $result = [];
             // set query
-            $query = $this->builder();
+            $query_k = $this->builder()
+                ->like('kode_unit', $kode_unit, 'both')
+                ->like('kategori_transaksi', 'K')
+                ->join('tbl_item_paket', "tbl_transaksi.item_kode = tbl_item_paket.kode_item", 'left')
+                ->join('tbl_formula', "tbl_transaksi.item_kode = tbl_formula.item_kode", 'left')
+                ->get();
+            // check query
+            // dd($query_k->getResultArray());
+            if (count($query_k->getResultArray()) > 0) {
+                // tagihan
+                $tagihan = $query_k->getResultArray();
+                // loop tagihan
+                foreach ($tagihan as $key => $value) {
+                    // set query pembayaran by item
+                    $query_d = $this->builder()
+                        ->select('(SUM(q_kredit) - SUM(q_debit)) as sisa_tagihan')
+                        ->where('item_kode', $value['kode_item'])
+                        ->like('kode_unit', $kode_unit, 'both')
+                        ->get();
+                    // check
+                    if (count($query_d->getResultArray()) > 0) {
+                        $pembayaran = $query_d->getResultArray();
+                        // dd($pembayaran);
+                        // check sisa tagihan, when 0 then "lunas"
+                        if ((int)$pembayaran[0]['sisa_tagihan'] == 0) {
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['nama_item'], 'lunas']);
+                        } else if ($pembayaran[0]['sisa_tagihan'] == null) {
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['nama_item'], 'belum_lunas']);
+                        } else {
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['nama_item'], 'belum_lunas']);
+                        }
+                    }
+                }
+            }
+            return $result;
         } catch (\Throwable $th) {
             return $th->getMessage();
         }

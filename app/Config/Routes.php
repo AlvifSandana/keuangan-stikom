@@ -55,10 +55,6 @@ $routes->get('/keuangan-mahasiswa/detail-keuangan-semester/(:any)', 'Mahasiswa\D
 // route for keuangan mahasiswa (pembayaran VA)
 $routes->get('/keuangan-mahasiswa/pembayaran-va', 'Mahasiswa\PembayaranVAController::index', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/pembayaran-va/acc', 'Mahasiswa\PembayaranVAController::acc_va', ['filter' => 'auth']);
-$routes->post('/keuangan-mahasiswa/pembayaran-va/upload-va', 'Mahasiswa\PembayaranVAController::upload_va', ['filter' => 'auth']);
-$routes->post('/keuangan-mahasiswa/pembayaran-va/update/(:any)', 'Mahasiswa\PembayaranVAController::update_temp_va/$1', ['filter' => 'auth']);
-$routes->delete('/keuangan-mahasiswa/pembayaran-va/delete/(:any)', 'Mahasiswa\PembayaranVAController::delete_temp_va/$1', ['filter' => 'auth']);
-$routes->delete('/keuangan-mahasiswa/pembayaran-va/reset-tbl', 'Mahasiswa\PembayaranVAController::reset_temp_va/', ['filter' => 'auth']);
 
 // route for FRS
 $routes->get('/keuangan-mahasiswa/frs/(:any)', 'Mahasiswa/FRSController::index', ['filter' => 'auth']);
@@ -131,6 +127,14 @@ $routes->delete('/master-pendukung/delete/jurusan/(:any)', 'Master\JurusanContro
 $routes->delete('/master-pendukung/delete/mp/(:any)', 'Master\MetodePembayaranController::delete_mp/$1', ['filter' => 'auth']);
 $routes->delete('/master-pendukung/delete/semester/(:any)', 'Master\SemesterController::delete_semester/$1', ['filter' => 'auth']);
 $routes->delete('/master-pendukung/delete/diskon/(:any)', 'Master\DiskonController::delete_diskon/$1', ['filter' => 'auth']);
+
+// route for master VA
+$routes->get('/master-keuangan/va', 'Master\PembayaranVAController::index', ['filter' => 'auth']);
+$routes->post('/master-keuangan/va/upload-va', 'Master\PembayaranVAController::upload_va', ['filter' => 'auth']);
+$routes->post('/master-keuangan/va/update/(:any)', 'Master\PembayaranVAController::update_temp_va/$1', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/va/delete/(:any)', 'Master\PembayaranVAController::delete_temp_va/$1', ['filter' => 'auth']);
+$routes->delete('/master-keuangan/va/reset-tbl', 'Master\PembayaranVAController::reset_temp_va/', ['filter' => 'auth']);
+$routes->get('/master-keuangan/va/test', 'Master\PembayaranVAController::testt', ['filter' => 'auth']);
 
 // route for laporan
 $routes->get('/master-laporan', 'Laporan\LaporanController::index', ['filter', 'auth']);
