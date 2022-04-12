@@ -45,7 +45,7 @@ class PembayaranVAController extends BaseController
                 // throw error 
                 throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
                 return redirect()
-                    ->to(base_url() . '/master-keuangan/pembayaran-va')
+                    ->to(base_url() . '/master-keuangan/va')
                     ->with('error', $file->getErrorString() . '(' . $file->getError() . ')');
             } else {
                 // random filename
@@ -89,7 +89,7 @@ class PembayaranVAController extends BaseController
                             ]);
                         }
                     }
-                    return redirect()->to(base_url() . '/master-keuangan/pembayaran-va')->with('success', 'Berhasil upload file VA!');
+                    return redirect()->to(base_url() . '/master-keuangan/va')->with('success', 'Berhasil upload file VA!');
                 } else {
                     // create obj reader & model
                     $reader = new Csv();
@@ -135,11 +135,11 @@ class PembayaranVAController extends BaseController
                             ]);
                         }
                     }
-                    return redirect()->to(base_url() . '/master-keuangan/pembayaran-va')->with('success', 'Berhasil upload file VA!');
+                    return redirect()->to(base_url() . '/master-keuangan/va')->with('success', 'Berhasil upload file VA!');
                 }
             }
         } catch (\Throwable $th) {
-            return redirect()->to(base_url() . '/master-keuangan/pembayaran-va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
+            return redirect()->to(base_url() . '/master-keuangan/va')->with('error', $th->getMessage() . '\n' . $th->getTraceAsString());
         }
     }
 
