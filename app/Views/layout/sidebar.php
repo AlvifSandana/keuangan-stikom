@@ -103,7 +103,7 @@
                     </a>
                 </li>
                 <li class="nav-header">MASTER DATA</li>
-                <li class="nav-item<?php if ($uri_segment == "paket" || $uri_segment == "akun-pemasukan" || $uri_segment == "formula" || $uri_segment == "akun-pengeluaran") {
+                <li class="nav-item<?php if ($uri_segment == "va" || $uri_segment == "paket" || $uri_segment == "akun-pemasukan" || $uri_segment == "formula" || $uri_segment == "akun-pengeluaran") {
                                             echo " menu-is-opening menu-open";
                                         } ?>">
                     <a href="#" class="nav-link<?php $uri_segment == "master-keuangan" ? print(" active") : print("") ?>">
@@ -114,6 +114,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="<?php echo base_url() ?>/master-keuangan/va" class="nav-link<?php $uri_segment == "va" ? print(" active") : print("") ?>">
+                                    <i class="fas fa-file-invoice nav-icon"></i>
+                                    <p>VA</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="<?php echo base_url() ?>/master-keuangan/paket" class="nav-link<?php $uri_segment == "paket" ? print(" active") : print("") ?>">
                                     <i class="fas fa-book nav-icon"></i>
