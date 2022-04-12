@@ -116,7 +116,7 @@ class PaketController extends BaseController
                     ->orderBy('id_paket', 'DESC')
                     ->findAll();
                 // get last id_paket from last record
-                $last_id = explode('PKT', $last_record[0]['id_paket']);
+                $last_id = count($last_record) > 0 ? explode('PKT', $last_record[0]['id_paket']) : [0,0];
                 // insert new paket
                 $new_paket = $m_paket
                     ->insert([

@@ -34,7 +34,7 @@ class JurusanController extends BaseController
                 $m_jurusan = new Jurusan();
                 // get last id_jurusan
                 $last_jurusan = $m_jurusan->orderBy('id_jurusan', 'DESC')->first();
-                $last_id = preg_split('#(?<=\d)(?=[a-z])#i', $last_jurusan['id_jurusan']);
+                $last_id = $last_jurusan != null ? preg_split('#(?<=\d)(?=[a-z])#i', $last_jurusan['id_jurusan']) : [0];
                 // create new id from last_id + nama jurusan
                 $split_nama_jurusan = explode(' ', $this->request->getPost('nama_jurusan'));
                 $two_caps = substr($split_nama_jurusan[0], 0, 1).substr($split_nama_jurusan[1], 0, 1);

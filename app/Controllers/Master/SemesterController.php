@@ -35,7 +35,11 @@ class SemesterController extends BaseController
                 $last_semester = $m_semester->orderBy('id_semester', 'DESC')->first();
                 // get last id semester
                 $matches = [];
-                preg_match("/([A-Z]+)(\\d+)/", $last_semester['id_semester'],$matches);
+                if ($last_semester != null) {
+                    preg_match("/([A-Z]+)(\\d+)/", $last_semester['id_semester'],$matches);
+                } else {
+                    $matches = [0, 0, 0];
+                }
                 // insert data
                 $semester = $m_semester->insert([
                     'id_semester' => 'SMT'.((int) $matches[2] + 1),
