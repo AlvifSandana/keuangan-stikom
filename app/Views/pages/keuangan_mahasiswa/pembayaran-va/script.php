@@ -23,6 +23,35 @@
         return val;
     }
 
+    function getDataTempTransaksi(){
+        $.ajax({
+            url: '<?= base_url()?>/keuangan-mahasiswa/pembayaran-va/get-data',
+            method: 'GET',
+            dataType: 'JSON',
+            success: function(data){
+                if(data.status != 'success'){
+                    
+                } else {
+                    // response data
+                    $d = data.data;
+                    // table
+                    var tbl = $('#tbl_master_paket').DataTable();
+                    // clear table
+                    tbl.clear().draw(false);
+                    // re-draw table with new data
+                    // iterate data
+                    for (let i = 0; i < d.length; i++) {
+                        // create new row
+                        tbl.row.add([]);
+                    }
+                }
+            },
+            error: function(jqXHR){
+                showSWAL('error', jqXHR.responseText());
+            }
+        });
+    }
+
     // acc temp transaksi
     function acc_temp_tr(id_temp_tr, nim, q_debit) {
         // get data

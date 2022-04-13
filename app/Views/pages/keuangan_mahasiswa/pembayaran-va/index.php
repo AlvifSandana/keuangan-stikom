@@ -16,7 +16,7 @@
 
     .dropdown-menu-opsi {
         width: 300px !important;
-        height: 450px !important;
+        height: 300px !important;
     }
 </style>
 <?= $this->endSection() ?>
@@ -85,11 +85,11 @@
                             <tbody>
                                 <?php if ($temp_tr != null) {
                                     foreach ($temp_tr as $key => $value) {
-                                        $dt_tgl = new DateTime($value['tanggal_transaksi']);
+                                        $dt_tgl = new DateTime($value[0]['tanggal_transaksi']);
                                         $tgl = $dt_tgl->format('D, d M Y H:i:s');
-                                        $nom = number_format($value['q_debit']); ?>
+                                        $nom = number_format($value[0]['q_debit']); ?>
                                         <tr>
-                                            <td class="text-center"><?= $value['kode_unit'] ?></td>
+                                            <td class="text-center"><?= $value[0]['kode_unit'] ?></td>
                                             <td class="text-center"><?= $tgl ?></td>
                                             <td><span class="text-left">Rp. </span><span class="float-right"><?= $nom ?></span></td>
                                             <td class="text-center">
@@ -99,14 +99,20 @@
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-opsi">
                                                         <form class="px-3 py-2">
-                                                            <div class="form-group">
-                                                                <label for="">Pilih Formula</label><br>
-                                                                
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="semester">Pilih semester</label><br />
+                                                                <label for="semester">Pilih item tagihan</label><br />
                                                                 <div class="row">
-                                                                    
+                                                                    <div class="col">
+                                                                    <?php if (!is_string($value[1]['status_item_tagihan'])) {
+                                                                            for ($i=0; $i < count($value[1]['status_item_tagihan']); $i++) { 
+                                                                                if($value[1]['status_item_tagihan'][$i][2] == "belum_lunas"){
+                                                                                    continue;
+                                                                                }
+                                                                                echo $value[1]['status_item_tagihan'][$i][1]."\n";
+                                                                            }
+                                                                        } else {
+                                                                            echo $value[1]['status_item_tagihan'];
+                                                                        }?>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -119,9 +125,9 @@
                                                         Action
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                                        <a class="dropdown-item text-success" href="#" onclick="accTempVA('<?= $value['id_temp_transaksi'] ?>')"><i class="fas fa-check fa-fw"></i> ACC</a>
-                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value['id_temp_transaksi'] ?>', <?= $value['q_debit'] ?>, '<?= $value['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                                                        <a class="dropdown-item text-success" href="#" onclick="accTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-check fa-fw"></i> ACC</a>
+                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value[0]['id_temp_transaksi'] ?>', <?= $value[0]['q_debit'] ?>, '<?= $value[0]['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
+                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
                                                     </div>
                                                 </div>
                                             </td>

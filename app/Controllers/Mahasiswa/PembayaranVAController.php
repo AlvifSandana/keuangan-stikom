@@ -23,7 +23,7 @@ class PembayaranVAController extends BaseController
         $m_semester = new Semester();
         // get uri segment for dynamic sidebar active item
         $data['uri_segment'] = $request->uri->getSegment(2);
-        $data['temp_tr'] = $m_temptr->findAll();
+        $data['temp_tr'] = $m_temptr->findAllTransaksiTempWithItemTagihanStatus();
         $data['formula'] = $m_formula->findAll();
         $data['semester'] = $m_semester->findAll();
         // show view
