@@ -125,6 +125,7 @@ class PaketController extends BaseController
                         'keterangan_paket' => $this->request->getPost('keterangan_paket'),
                         'angkatan_id' => $this->request->getPost('angkatan_id'),
                         'jurusan_id' => $this->request->getPost('jurusan_id'),
+                        'mf_id' => $this->request->getPost('mf_id'),
                         'sesi_id' => $this->request->getPost('sesi_id'),
                         'jalur_id' => $this->request->getPost('jalur_id'),
                     ]);
@@ -184,6 +185,7 @@ class PaketController extends BaseController
                         'keterangan_paket' => $this->request->getPost('keterangan_paket'),
                         'angkatan_id' => $this->request->getPost('angkatan_id'),
                         'jurusan_id' => $this->request->getPost('jurusan_id'),
+                        'mf_id' => $this->request->getPost('mf_id'),
                         'sesi_id' => $this->request->getPost('sesi_id'),
                         'jalur_id' => $this->request->getPost('jalur_id'),
                     ]);

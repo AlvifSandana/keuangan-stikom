@@ -7,6 +7,7 @@ use App\Models\Angkatan;
 use App\Models\ItemPaket;
 use App\Models\Jalur;
 use App\Models\Jurusan;
+use App\Models\MasterFormula;
 use App\Models\MetodePembayaran;
 use App\Models\Paket;
 use App\Models\Semester;
@@ -25,6 +26,7 @@ class PendukungController extends BaseController
         $m_paket = new Paket();
         $m_itempaket = new ItemPaket();
         $m_mp = new MetodePembayaran();
+        $m_mf = new MasterFormula();
         // create request instance
         $request = \Config\Services::request();
         // get uri segment for dynamic sidebar active item
@@ -43,6 +45,7 @@ class PendukungController extends BaseController
             ->like('nama_item', 'Diskon')
             ->orLike('nama_item', 'diskon')
             ->findAll();
+        $data['mf'] = $m_mf->findAll();
         // return view
         return view('pages/master/datapendukung/index', $data);
     }

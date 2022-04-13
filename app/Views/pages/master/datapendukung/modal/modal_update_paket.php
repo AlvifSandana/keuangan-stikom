@@ -45,6 +45,14 @@
                         <?php } ?>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="semester">Master Formula (untuk pembayaran VA)</label>
+                    <select name="add_mf_id" id="add_mf_id" class="form-control">
+                        <?php foreach ($mf as $key => $value) { ?>
+                            <option value="<?= $value['kode_mformula'];?>"><?= $value['kode_mformula']." | ".$value['persentase_tw']."% - ".$value['persentase_tb']."%"?></option>
+                        <?php } ?>
+                    </select>
+                </div>
                 <div class="form-group mb-3">
                     <label for="keterangan_paket">Keterangan Paket</label>
                     <textarea name="update_keterangan_paket" id="update_keterangan_paket" cols="30" rows="4" class="form-control"></textarea>

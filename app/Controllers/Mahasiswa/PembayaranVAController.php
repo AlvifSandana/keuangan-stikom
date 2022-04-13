@@ -149,10 +149,9 @@ class PembayaranVAController extends BaseController
             // set rules
             $validator->setRules([
                 'id_tmp_tr' => 'required',
-                'id_mf' => 'required',
                 'q_debit' => 'required',
                 'nim' => 'required',
-                'smts' => 'required',
+                'item_tagihan' => 'required',
             ]);
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
@@ -164,7 +163,7 @@ class PembayaranVAController extends BaseController
                 $id_mf = $this->request->getPost('id_mf');
                 $id_temp_tr = $this->request->getPost('id_tmp_tr');
                 $nom_tmp_tr = (int)$this->request->getPost('q_debit');
-                $semester = $this->request->getPost('smts');
+                $item_tagihan = $this->request->getPost('item_tagihan');
                 // create model
                 $m_transaksi = new Transaksi();
                 $m_temptr = new Transaksitmp();
@@ -176,20 +175,20 @@ class PembayaranVAController extends BaseController
                 // validate all tagihan & total tagihan
                 if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
                     // get value of master formula
-                    $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
+                    // $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
                     // set ratio TW & TB
-                    $TW = (int)$master_formula[0]['persentase_tw'] / 100;
-                    $TB = (int)$master_formula[0]['persentase_tb'] / 100;
+                    // $TW = (int)$master_formula[0]['persentase_tw'] / 100;
+                    // $TB = (int)$master_formula[0]['persentase_tb'] / 100;
                     // set nominal TW & TB
-                    $nom_TW = $nom_tmp_tr * $TW;
-                    $nom_TB = $nom_tmp_tr * $TB;
+                    // $nom_TW = $nom_tmp_tr * $TW;
+                    // $nom_TB = $nom_tmp_tr * $TB;
                     // check keuangan mhs
                     $keuangan_mhs = $m_transaksi->getInfoKeuanganMhs($nim);
                     $total_tagihan = $keuangan_mhs[0]['total_tagihan'] == null ? 0 : (int)$keuangan_mhs[0]['total_tagihan'];
                     $total_pembayaran = $keuangan_mhs[0]['total_pembayaran'] == null ? 0 : (int)$keuangan_mhs[0]['total_pembayaran'];
                     $sisa_tagihan = $keuangan_mhs[0]['sisa_tagihan'] == null ? $total_tagihan - $total_pembayaran : (int)$keuangan_mhs[0]['sisa_tagihan'];
                     // do insert new pembayaran
-                    dd($TW, $TB, $nom_TW, $nom_TB, $semester, $total_tagihan, $total_pembayaran, $sisa_tagihan, $item_tagihan_wajib, $item_tagihan_baru);
+                    // dd($TW, $TB, $nom_TW, $nom_TB, $item_tagihan, $total_tagihan, $total_pembayaran, $sisa_tagihan, $item_tagihan_wajib, $item_tagihan_baru);
                     // insert new transaksi (pembayaran) by NIM
                     // check
                 } else {
@@ -203,7 +202,7 @@ class PembayaranVAController extends BaseController
             } else {
                 return json_encode([
                     'status' => 'failed',
-                    'message' => 'Validasi gagal! Mohon pilih minimal 1 semester.',
+                    'message' => 'Validasi gagal! Mohon pilih minimal 1 item tagihan.',
                     'data' => []
                 ]);
             }

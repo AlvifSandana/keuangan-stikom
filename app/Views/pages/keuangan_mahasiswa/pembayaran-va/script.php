@@ -14,8 +14,8 @@
     });
 
     // get data from semester checkbox
-    function getDataFromCheckBox() {
-        let cbs = document.querySelectorAll('input[name="semester"]:checked');
+    function getDataFromCheckBox(id_tmp_tr) {
+        let cbs = document.querySelectorAll('input[name="bulan-'+ id_tmp_tr +'"]:checked');
         let val = [];
         cbs.forEach((cb) => {
             val.push(cb.value);
@@ -57,10 +57,9 @@
         // get data
         var data = {
             id_tmp_tr: id_temp_tr,
-            id_mf: $('#mformula').val(),
             nim: nim,
             q_debit: q_debit,
-            smts: getDataFromCheckBox()
+            item_tagihan: getDataFromCheckBox(id_temp_tr)
         };
         console.log(data);
         // ajax req
@@ -76,13 +75,13 @@
                     }, 2500);
                 } else {
                     showSWAL('error', data.message);
-                    $('input[name="semester"]:checked').prop("checked", false);
+                    $('input[name="bulan"]:checked').prop("checked", false);
                 }
             },
             error: function(jqXHR) {
                 showSWAL('error', jqXHR.responseText);
                 console.log(jqXHR.responseText);
-                $('input[name="semester"]:checked').prop("checked", false);
+                $('input[name="bulan"]:checked').prop("checked", false);
             }
         });
     }

@@ -165,6 +165,7 @@
             jurusan_id: $('#add_jurusan_id').val(),
             sesi_id: $('#add_sesi_id').val(),
             jalur_id: $('#add_jalur_id').val(),
+            mf_id: $('#add_mf_id').val(),
         };
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-keuangan/paket/create',
@@ -328,6 +329,7 @@
             jurusan_id: $('#update_jurusan_id').val(),
             sesi_id: $('#update_sesi_id').val(),
             jalur_id: $('#update_jalur_id').val(),
+            mf_id: $('#update_mf_id').val(),
         };
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-keuangan/paket/update',
@@ -578,13 +580,14 @@
         }
     }
 
-    function fillUpdatePaketField(id, nama_paket, angkatan_id, jurusan_id, jalur_id, sesi_id, keterangan_paket) {
+    function fillUpdatePaketField(id, nama_paket, angkatan_id, jurusan_id, jalur_id, sesi_id, keterangan_paket, mf_id = '') {
         $('#update_id_paket').val(id);
         $('#update_nama_paket').val(nama_paket);
         $('#update_angkatanp_id').val(angkatan_id);
         $('#update_jurusan_id').val(jurusan_id);
         $('#update_sesi_id').val(sesi_id);
         $('#update_jalur_id').val(jalur_id);
+        $('#update_mf_id').val(mf_id);
         $('#update_keterangan_paket').val(keterangan_paket);
     }
 

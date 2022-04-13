@@ -18,6 +18,10 @@
         width: 300px !important;
         height: 300px !important;
     }
+
+    .vert-scroll{
+        overflow-y: scroll;
+    }
 </style>
 <?= $this->endSection() ?>
 
@@ -98,48 +102,47 @@
                                                         <i class="fas fa-fw fa-bars"></i>
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-opsi">
-                                                        <form class="px-3 py-2">
-                                                                <label for="semester">Pilih item tagihan</label><br />
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                    <?php if (!is_string($value[1]['status_item_tagihan'])) {
-                                                                            for ($i=0; $i < count($value[1]['status_item_tagihan']); $i++) { 
-                                                                                if($value[1]['status_item_tagihan'][$i][2] == "belum_lunas"){
-                                                                                    continue;
-                                                                                }
-                                                                                echo $value[1]['status_item_tagihan'][$i][1]."\n";
-                                                                            }
-                                                                        } else {
-                                                                            echo $value[1]['status_item_tagihan'];
-                                                                        }?>
+                                                        <form class="px-3 py-2 vert-scroll">
+                                                            <label for="semester">Pilih item tagihan</label><br />
+                                                            <?php if (!is_string($value[1]['status_item_tagihan'])) {
+                                                                for ($i = 0; $i < count($value[1]['status_item_tagihan']); $i++) {
+                                                                    if ($value[1]['status_item_tagihan'][$i][2] == "belum_lunas") {
+                                                                        continue;
+                                                                    } ?>
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" name="bulan-<?= $value[0]['id_temp_transaksi']?>" value="<?= $value[1]['status_item_tagihan'][$i][0] ?>" id="<?= $value[0]['kode_temp_transaksi']?>">
+                                                                        <label for="<?= $value[1]['status_item_tagihan'][$i][0] ?>" id="<?= $value[0]['kode_temp_transaksi']?>"><?= $value[1]['status_item_tagihan'][$i][1] ?></label>
                                                                     </div>
-                                                                </div>
-                                                            </div>
+                                                            <?php }
+                                                            } else {
+                                                                echo $value[1]['status_item_tagihan'];
+                                                            } ?>
                                                         </form>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Action
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                                        <a class="dropdown-item text-success" href="#" onclick="accTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-check fa-fw"></i> ACC</a>
-                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value[0]['id_temp_transaksi'] ?>', <?= $value[0]['q_debit'] ?>, '<?= $value[0]['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                <?php }
-                                } ?>
-                            </tbody>
-                        </table>
                     </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="actionBtn">
+                                <a class="dropdown-item text-success" href="#" onclick="acc_temp_tr('<?= $value[0]['id_temp_transaksi'] ?>','<?= $value[0]['kode_unit'] ?>',<?= $value[0]['q_debit'] ?>)"><i class="fas fa-check fa-fw"></i> ACC</a>
+                                <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value[0]['id_temp_transaksi'] ?>', <?= $value[0]['q_debit'] ?>, '<?= $value[0]['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
+                                <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                            </div>
+                        </div>
+                    </td>
+                    </tr>
+            <?php }
+                                } ?>
+            </tbody>
+            </table>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <?= $this->include('pages/keuangan_mahasiswa/pembayaran-va/modal_update_temp_tr') ?>
 </section>

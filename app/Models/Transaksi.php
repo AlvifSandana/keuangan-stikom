@@ -206,11 +206,11 @@ class Transaksi extends Model
                         // dd($pembayaran);
                         // check sisa tagihan, when 0 then "lunas"
                         if ((int)$pembayaran[0]['sisa_tagihan'] == 0) {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['nama_item'], 'lunas']);
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'lunas']);
                         } else if ($pembayaran[0]['sisa_tagihan'] == null) {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['nama_item'], 'belum_lunas']);
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas']);
                         } else {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['nama_item'], 'belum_lunas']);
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas']);
                         }
                     }
                 }
