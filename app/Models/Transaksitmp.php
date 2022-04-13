@@ -14,7 +14,7 @@ class Transaksitmp extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['kode_temp_transaksi', 'kode_bayar', 'kode_unit', 'kategori_transaksi', 'kode_metode_pembayaran', 'q_debit', 'q_kredit', 'tanggal_transaksi', 'dest_transaksi', 'status'];
+    protected $allowedFields    = ['kode_temp_transaksi', 'kode_bayar', 'kode_unit', 'kategori_transaksi', 'metode_pembayaran', 'q_debit', 'q_kredit', 'tanggal_transaksi', 'dest_transaksi', 'status'];
 
     // Dates
     protected $useTimestamps = true;
@@ -84,6 +84,41 @@ class Transaksitmp extends Model
             // set to result
             if ($query->getResultArray()) {
                 $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    public function findAllTransaksiTempWithItemTagihanStatus()
+    {
+        try {
+            // set result
+            $result = [];
+            // set query
+            $query = $this->builder()
+                ->like('kategori_transaksi', 'D')
+                ->orderBy('id_temp_transaksi', 'ASC')
+                ->get();
+            // check
+            if(count($query->getResultArray()) > 0){
+                // get data temp transaksi
+                $temp_tr = $query->getResultArray();
+                // create model transaksi
+                $m_tr = new Transaksi();
+                // get data status item tagihan transaksi (by iterate $temp_tr)
+                foreach ($temp_tr as $key => $value) {
+                    $data_status_item_tagihan = $m_tr->getStatusItemTransaksi($temp_tr[$key]['kode_unit']);
+                    // check
+                    if(count($data_status_item_tagihan) > 0 || !is_string($data_status_item_tagihan)){
+                        array_push($result, [$temp_tr[$key], ["status_item_tagihan" => count($data_status_item_tagihan) > 0 ? $data_status_item_tagihan : "Data tagihan kosong!"]]);
+                    } else {
+                        array_push($result, [$temp_tr[$key], ["status_item_taghan" => "Data tagihan kosong!"]]);
+                    }
+                }
+            } else {
+                $result = "Data tidak ditemukan!";
             }
             return $result;
         } catch (\Throwable $th) {

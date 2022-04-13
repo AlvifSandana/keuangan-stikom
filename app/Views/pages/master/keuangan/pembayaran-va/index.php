@@ -101,12 +101,12 @@
                                                         <form class="px-3 py-2">
                                                             <div class="form-group">
                                                                 <label for="">Pilih Formula</label><br>
-                                                                
+
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="semester">Pilih semester</label><br />
                                                                 <div class="row">
-                                                                    
+
                                                                 </div>
                                                             </div>
                                                         </form>

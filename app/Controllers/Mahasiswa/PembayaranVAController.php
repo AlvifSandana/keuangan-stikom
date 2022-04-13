@@ -3,8 +3,6 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
-use App\Models\Formula;
-use App\Models\ItemPaket;
 use App\Models\Mahasiswa;
 use App\Models\MasterFormula;
 use App\Models\Semester;
@@ -71,7 +69,7 @@ class PembayaranVAController extends BaseController
                             continue;
                         }
                         // skip TXN AMOUNT = 0
-                        if ($data['G'] == 0){
+                        if ($data['G'] == 0) {
                             continue;
                         }
                         // get nim by nama mhs
@@ -84,7 +82,7 @@ class PembayaranVAController extends BaseController
                                 'kode_unit' => $mhs['nim'],
                                 'kategori_transaksi' => 'D',
                                 'metode_pembayaran' => $data['W'],
-                                'q_debit' => floatval(str_replace(',', '', $data['P'])),
+                                'q_debit' => floatval(str_replace(',', '', $data['G'])),
                                 'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($data['T'])),
                             ]);
                         }
@@ -114,7 +112,7 @@ class PembayaranVAController extends BaseController
                             continue;
                         }
                         // skip TXN AMOUNT = 0
-                        if ($data['G'] == 0){
+                        if ($data['G'] == 0) {
                             continue;
                         }
                         // fix datetime format
@@ -130,7 +128,7 @@ class PembayaranVAController extends BaseController
                                 'kode_unit' => $mhs['nim'],
                                 'kategori_transaksi' => 'D',
                                 'metode_pembayaran' => $data['W'],
-                                'q_debit' => floatval(str_replace(',', '', $data['P'])),
+                                'q_debit' => floatval(str_replace(',', '', $data['G'])),
                                 'tanggal_transaksi' => date("Y-m-d h:i:s", strtotime($fixed_date)),
                             ]);
                         }
@@ -329,6 +327,34 @@ class PembayaranVAController extends BaseController
                     'data' => []
                 ]);
             }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
+
+    public function get_data_temp_transaksi()
+    {
+        try {
+            $m_ttr = new Transaksitmp();
+            $tr = $m_ttr->findAllTransaksiTempWithItemTagihanStatus();
+            if (count($tr) > 0 || !is_string($tr)) {
+                return json_encode([
+                    'status' => 'success',
+                    'message' => 'Data available',
+                    'data' => $tr
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Data unavailable!',
+                    'data' => []
+                ]);
+            }
+            return json_encode($tr);
         } catch (\Throwable $th) {
             return json_encode([
                 'status' => 'error',
