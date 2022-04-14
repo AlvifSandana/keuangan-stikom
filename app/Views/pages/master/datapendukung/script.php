@@ -125,6 +125,31 @@
         });
     }
 
+    function createSesiKuliah() {
+        var data = {
+            nama_sesikuliah: $('#create_nama_sesikuliah').val(),
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>' + '/master-pendukung/create/sesikuliah',
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR) {
+                console.log(jqXHR);
+            }
+        });
+    }
+
     function createDiskon() {
         var data = {
             nama_item: $('#nama_item').val(),
@@ -272,6 +297,31 @@
         };
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-pendukung/update/semester/' + $('#update_id_semester').val(),
+            type: 'POST',
+            data: data,
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.status != 'success') {
+                    showSWAL('error', data.message);
+                } else {
+                    showSWAL('success', data.message);
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 3000);
+                }
+            },
+            error: function(jqXHR) {
+
+            }
+        });
+    }
+
+    function updateSesiKuliah() {
+        var data = {
+            nama_sesikuliah: $('#update_nama_sesikuliah').val(),
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>' + '/master-pendukung/update/sesikuliah/' + $('#update_id_sesikuliah').val(),
             type: 'POST',
             data: data,
             dataType: 'JSON',
@@ -484,6 +534,39 @@
         });
     }
 
+    function deleteSesiKuliah(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin ingin menghapus item ini?',
+            text: "Tindakan ini tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '<?php echo base_url(); ?>' + '/master-pendukung/delete/sesikuliah/' + id,
+                    type: 'DELETE',
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.status != 'success') {
+                            showSWAL('error', data.message);
+                        } else {
+                            showSWAL('success', data.message);
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 3000)
+                        }
+                    },
+                    error: function(jqXHR) {
+                        showSWAL('error', jqXHR);
+                    }
+                });
+            }
+        });
+    }
+
     function deleteDiskon(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
@@ -566,6 +649,11 @@
             case "semester":
                 $('#update_id_semester').val(id);
                 $('#update_nama_semester').val(value);
+                break;
+            
+            case "sesikuliah":
+                $('#update_id_sesikuliah').val(id);
+                $('#update_nama_sesikuliah').val(value);
                 break;
 
             case "paket":

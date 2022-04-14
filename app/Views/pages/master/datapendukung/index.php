@@ -55,6 +55,9 @@
                                 <a class="nav-link" href="#semester" role="tab" data-toggle="tab">Semester</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="#sesikuliah" role="tab" data-toggle="tab">Sesi Kuliah</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="#paket" role="tab" data-toggle="tab">Paket</a>
                             </li>
                             <li class="nav-item">
@@ -74,6 +77,9 @@
                             </div>
                             <div role="tabpanel" class="tab-pane" id="semester">
                                 <?= $this->include('pages/master/datapendukung/card_semester') ?>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="sesikuliah">
+                                <?= $this->include('pages/master/datapendukung/card_sesi_kuliah') ?>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="paket">
                                 <?= $this->include('pages/master/datapendukung/card_paket') ?>
@@ -97,12 +103,14 @@
 <?= $this->include('pages/master/datapendukung/modal/modal_create_mp') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_paket') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_semester') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_create_sesi_kuliah') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_create_diskon') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_angkatan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_jurusan') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_mp') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_paket') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_semester') ?>
+<?= $this->include('pages/master/datapendukung/modal/modal_update_sesi_kuliah') ?>
 <?= $this->include('pages/master/datapendukung/modal/modal_update_diskon') ?>
 <!-- /Modals -->
 <?= $this->endSection() ?>
