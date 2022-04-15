@@ -107,9 +107,9 @@ class Transaksi extends Model
             $result = "Data tidak ditemukan!";
             // set query
             $query = $this->builder()
-                ->where('item_kode', $item_kode)
-                ->join('tbl_item_paket', "$item_kode = tbl_item_paket.kode_item", 'left')
-                ->join('tbl_formula', "$item_kode = tbl_formula.item_kode", 'left')
+                ->where('tbl_transaksi.item_kode', $item_kode)
+                ->join('tbl_item_paket', "tbl_transaksi.item_kode = tbl_item_paket.kode_item", 'left')
+                ->join('tbl_formula', "tbl_transaksi.item_kode = tbl_formula.item_kode", 'left')
                 ->like('kode_unit', $kode_unit, 'both')
                 ->like('kategori_transaksi', $kategori_transaksi)
                 ->orderBy($orderBy, $direction)
@@ -194,6 +194,8 @@ class Transaksi extends Model
                 $tagihan = $query_k->getResultArray();
                 // loop tagihan
                 foreach ($tagihan as $key => $value) {
+                    // get semester
+                    $semester = explode('SMT', $tagihan[$key]['semester_id']);
                     // set query pembayaran by item
                     $query_d = $this->builder()
                         ->select('(SUM(q_kredit) - SUM(q_debit)) as sisa_tagihan')
@@ -205,12 +207,12 @@ class Transaksi extends Model
                         $pembayaran = $query_d->getResultArray();
                         // dd($pembayaran);
                         // check sisa tagihan, when 0 then "lunas"
-                        if ((int)$pembayaran[0]['sisa_tagihan'] == 0) {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'lunas']);
+                        if ((int)$pembayaran[0]['sisa_tagihan'] > 0) {
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas', $semester[1]]);
                         } else if ($pembayaran[0]['sisa_tagihan'] == null) {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas']);
-                        } else {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas']);
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas', $semester[1]]);
+                        } else if((int)$pembayaran[0]['sisa_tagihan'] == 0){
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'lunas', $semester[1]]);
                         }
                     }
                 }
