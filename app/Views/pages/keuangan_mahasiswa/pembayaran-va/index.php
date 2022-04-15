@@ -106,7 +106,7 @@
                                                             <label for="semester">Pilih item tagihan</label><br />
                                                             <?php if (!is_string($value[1]['status_item_tagihan'])) {
                                                                 for ($i = 0; $i < count($value[1]['status_item_tagihan']); $i++) {
-                                                                    if ($value[1]['status_item_tagihan'][$i][2] == "belum_lunas") {
+                                                                    if ($value[1]['status_item_tagihan'][$i][2] == "lunas") {
                                                                         continue;
                                                                     } ?>
                                                                     <div class="form-check">

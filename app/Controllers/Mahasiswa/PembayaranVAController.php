@@ -156,49 +156,110 @@ class PembayaranVAController extends BaseController
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
-                $item_tagihan_wajib = [];
-                $item_tagihan_baru = [];
                 // get data from post
                 $nim = $this->request->getPost('nim');
-                $id_mf = $this->request->getPost('id_mf');
                 $id_temp_tr = $this->request->getPost('id_tmp_tr');
                 $nom_tmp_tr = (int)$this->request->getPost('q_debit');
                 $item_tagihan = $this->request->getPost('item_tagihan');
                 // create model
                 $m_transaksi = new Transaksi();
                 $m_temptr = new Transaksitmp();
-                $m_mformula = new MasterFormula();
-                // check total tagihan by NIM
-                $total_tagihan = $m_transaksi->getTotalTransaksiMhs($this->request->getPost('nim'), 'K');
-                // get all tagihan by NIM
-                $all_tagihan = $m_transaksi->findTransaksi($this->request->getPost('nim'), 'K', 'id_transaksi', 'ASC', '', '');
-                // validate all tagihan & total tagihan
-                if (!is_string($total_tagihan) && !is_string($all_tagihan)) {
-                    // get value of master formula
-                    // $master_formula = $m_mformula->getByKodeMFormula($this->request->getPost('id_mf'));
-                    // set ratio TW & TB
-                    // $TW = (int)$master_formula[0]['persentase_tw'] / 100;
-                    // $TB = (int)$master_formula[0]['persentase_tb'] / 100;
-                    // set nominal TW & TB
-                    // $nom_TW = $nom_tmp_tr * $TW;
-                    // $nom_TB = $nom_tmp_tr * $TB;
-                    // check keuangan mhs
-                    $keuangan_mhs = $m_transaksi->getInfoKeuanganMhs($nim);
-                    $total_tagihan = $keuangan_mhs[0]['total_tagihan'] == null ? 0 : (int)$keuangan_mhs[0]['total_tagihan'];
-                    $total_pembayaran = $keuangan_mhs[0]['total_pembayaran'] == null ? 0 : (int)$keuangan_mhs[0]['total_pembayaran'];
-                    $sisa_tagihan = $keuangan_mhs[0]['sisa_tagihan'] == null ? $total_tagihan - $total_pembayaran : (int)$keuangan_mhs[0]['sisa_tagihan'];
-                    // do insert new pembayaran
-                    // dd($TW, $TB, $nom_TW, $nom_TB, $item_tagihan, $total_tagihan, $total_pembayaran, $sisa_tagihan, $item_tagihan_wajib, $item_tagihan_baru);
-                    // insert new transaksi (pembayaran) by NIM
-                    // check
-                } else {
-                    return json_encode([
-                        'status' => 'failed',
-                        'message' => 'Data Keuangan tidak ditemukan! Mohon cek data.',
-                        'data' => []
-                    ]);
+                // count selected item_tagihan
+                $n_item = count($item_tagihan);
+                // when n_item > 1 , divide nominal va by n_item
+                if ($n_item == 1) {
+                    // check nominal tagihan by item
+                    $check_item_tagihan = $m_transaksi->findTransaksiByItemKode($nim, 'K', $item_tagihan[0], 'id_transaksi', 'ASC');
+                    $nom_tagihan = !is_string($check_item_tagihan) ? (int)$check_item_tagihan[0]['q_kredit'] : 0;
+                    $semester = !is_string($check_item_tagihan) ? explode('SMT', $check_item_tagihan[0]['semester_id']) : 1;
+                    // check nominal temp transaksi - nominal item tagihan
+                    if (($nom_tagihan - $nom_tmp_tr) >= 0) {
+                        // get last kode transaksi pembayaran
+                        $last_pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'id_transaksi', 'DESC', '', '');
+                        $kode_pembayaran = !is_string($last_pembayaran) ? explode('-', $last_pembayaran[0]['kode_transaksi']) : array('BY', $nim, 'K', 1, 1);
+                        // dd($nom_tagihan, $semester, $kode_pembayaran);
+                        // create pembayaran
+                        $new_pembayaran = $m_transaksi->insert([
+                            'kode_transaksi' => 'BY-' . $nim . '-D-' . (int)$semester[1] . '-' . ((int)$kode_pembayaran[4] + 1),
+                            'kode_unit' => $nim,
+                            'kategori_transaksi' => 'D',
+                            'item_kode' => $item_tagihan[0],
+                            'q_debit' => $nom_tmp_tr,
+                        ]);
+                        // check
+                        if ($new_pembayaran) {
+                            // delete selectad temp_transaksi
+                            $delete_temp_tr = $m_temptr->delete($id_temp_tr);
+                            if ($delete_temp_tr) {
+                                return json_encode([
+                                    'status' => 'success',
+                                    'message' => 'Berhasil ACC!',
+                                    'data' => []
+                                ]);
+                            } else {
+                                return json_encode([
+                                    'status' => 'failed',
+                                    'message' => 'Gagal ACC!',
+                                    'data' => []
+                                ]);
+                            }
+                        } else {
+                            return json_encode([
+                                'status' => 'failed',
+                                'message' => 'Gagal ACC!',
+                                'data' => []
+                            ]);
+                        }
+                    }
+                } else if ($n_item > 1) {
+                    // divide nominal temp transaksi by n_item
+                    $nom_va = $nom_tmp_tr / $n_item;
+                    // iterate item tagihan
+                    for ($i = 0; $i < $n_item; $i++) {
+                        // check nominal tagihan by item
+                        $check_item_tagihan = $m_transaksi->findTransaksiByItemKode($nim, 'K', $item_tagihan[$i], 'id_transaksi', 'ASC');
+                        $nom_tagihan = !is_string($check_item_tagihan) ? (int)$check_item_tagihan[0]['q_kredit'] : 0;
+                        $semester = !is_string($check_item_tagihan) ? explode('SMT', $check_item_tagihan[0]['semester_id']) : 1;
+                        // check nominal va - nominal item tagihan
+                        if (($nom_tagihan - $nom_va) >= 0) {
+                            // get last kode transaksi pembayaran
+                            $last_pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'id_transaksi', 'DESC', '', '');
+                            $kode_pembayaran = !is_string($last_pembayaran) ? explode('-', $last_pembayaran[0]['kode_transaksi']) : array('BY', $nim, 'D', 1, 0);
+                            // dd($nom_tagihan, $semester, $kode_pembayaran);
+                            // create pembayaran
+                            $new_pembayaran = $m_transaksi->insert([
+                                'kode_transaksi' => 'BY-' . $nim . '-D-' . (int)$semester[1] . '-' . ((int)$kode_pembayaran[4] + 1),
+                                'kode_unit' => $nim,
+                                'kategori_transaksi' => 'D',
+                                'item_kode' => $item_tagihan[$i],
+                                'q_debit' => $nom_va,
+                            ]);
+                            // check
+                            if(!$new_pembayaran){
+                                return json_encode([
+                                    'status' => 'failed',
+                                    'message' => 'Gagal Acc!',
+                                    'data' => []
+                                ]);
+                            }
+                        }
+                    }
+                    // delete selectad temp_transaksi
+                    $delete_temp_tr = true; #$m_temptr->delete($id_temp_tr);
+                    if ($delete_temp_tr) {
+                        return json_encode([
+                            'status' => 'success',
+                            'message' => 'Berhasil ACC!',
+                            'data' => []
+                        ]);
+                    } else {
+                        return json_encode([
+                            'status' => 'failed',
+                            'message' => 'Gagal ACC!',
+                            'data' => []
+                        ]);
+                    }
                 }
-                // dd($this->request->getPost('id_tmp_tr'),$this->request->getPost('id_mf'),$this->request->getPost('smts'),$this->request->getPost('nim'), $total_tagihan);
             } else {
                 return json_encode([
                     'status' => 'failed',
