@@ -115,12 +115,6 @@
                     </a>
                     <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?php echo base_url() ?>/master-keuangan/va" class="nav-link<?php $uri_segment == "va" ? print(" active") : print("") ?>">
-                                    <i class="fas fa-file-invoice nav-icon"></i>
-                                    <p>VA</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="<?php echo base_url() ?>/master-keuangan/paket" class="nav-link<?php $uri_segment == "paket" ? print(" active") : print("") ?>">
                                     <i class="fas fa-book nav-icon"></i>
                                     <p>Paket (Mahasiswa)</p>
