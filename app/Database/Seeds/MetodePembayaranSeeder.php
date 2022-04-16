@@ -29,6 +29,30 @@ class MetodePembayaranSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
+            [
+                'id_metode' => '04BDS',
+                'nama_metode_pembayaran' => 'BDS',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id_metode' => '05INTERNETBANKING',
+                'nama_metode_pembayaran' => 'INTERNET BANKING',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id_metode' => '06ATM',
+                'nama_metode_pembayaran' => 'ATM',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id_metode' => '07VA',
+                'nama_metode_pembayaran' => 'VA',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
         $this->db->table('tbl_metode_pembayaran')->insertBatch($data);
     }
