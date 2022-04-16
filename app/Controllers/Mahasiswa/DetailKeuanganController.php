@@ -3,6 +3,9 @@
 namespace App\Controllers\Mahasiswa;
 
 use App\Controllers\BaseController;
+use App\Models\Angkatan;
+use App\Models\Jurusan;
+use App\Models\Mahasiswa;
 use App\Models\Semester;
 use App\Models\Transaksi;
 
@@ -72,6 +75,41 @@ class DetailKeuanganController extends BaseController
                 'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
+        }
+    }
+
+    public function cetak_bukti_pembayaran(String $kode_transaksi)
+    {
+        helper('custom_helper');
+        try {
+            // create model
+            $m_tr = new Transaksi();
+            $m_mhs = new Mahasiswa();
+            $m_jur = new Jurusan();
+            // get data
+            $split_kode = explode('-', $kode_transaksi);
+            $get_mhs = $m_mhs
+                ->where('nim', $split_kode[1])
+                ->first();
+            $get_jur = $m_jur
+                ->where('id_jurusan', $get_mhs['id_jur'])
+                ->first();
+            $get_tr = $m_tr
+                ->where('kode_transaksi', $kode_transaksi)
+                ->join('tbl_item_paket', 'tbl_transaksi.item_kode = tbl_item_paket.kode_item', 'left')
+                ->first();
+            // set data to view
+            $data['nim'] = $get_tr['kode_unit'];
+            $data['nama_mhs'] = $get_mhs['nama_mhs'];
+            $data['jurusan'] = $get_jur['nama_program'].' '.$get_jur['nama_jurusan'];
+            $data['nominal'] = $get_tr['q_debit'];
+            $data['nama_item'] = $get_tr['nama_item'];
+            $data['terbilang'] = terbilang((int)$get_tr['q_debit']);
+            $data['tgl'] = tgl_indo(date('Y-m-d'));
+            // return view
+            return view('pages/keuangan_mahasiswa/pembayaran/detail_keuangan/bukti_pembayaran', $data);
+        } catch (\Throwable $th) {
+            return view('pages/keuangan_mahasiswa/pembayaran/detail_keuangan/bukti_pembayaran', []);
         }
     }
 }

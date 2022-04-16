@@ -263,7 +263,7 @@
                                 <div class="dropdown no-arrow">
                                     <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu">
-                                        <a target="_blank" href="<?php echo base_url('uploaded/bukti_transaksi') . '/' ?>${element.bukti_transaksi == null ? '#bukti-pembayaran' : element.bukti_transaksi}" class="dropdown-item text-primary edit ${element.bukti_transaksi == null ? 'disabled' : ''}" 
+                                        <a target="_blank" href="<?php echo base_url('cetak/bukti_pembayaran') . '/' ?>${element.kode_transaksi}" class="dropdown-item text-primary edit" 
                                         data-toggle="" 
                                         data-target="#" 
                                         onclick="">

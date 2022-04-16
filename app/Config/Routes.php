@@ -163,6 +163,8 @@ $routes->post('/settings-account/create', 'Settings/UserController::create', ['f
 $routes->post('/settings-account/update/(:any)', 'Settings/UserController::update/$1', ['filter' => 'auth']);
 $routes->delete('/settings-account/delete/(:any)', 'Settings/UserController::delete/$1', ['filter' => 'auth']);
 
+
+$routes->get('/cetak/bukti_pembayaran/(:any)', 'Mahasiswa\DetailKeuanganController::cetak_bukti_pembayaran/$1', ['filter' => 'auth']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing
