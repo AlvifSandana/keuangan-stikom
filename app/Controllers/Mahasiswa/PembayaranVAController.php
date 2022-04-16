@@ -5,6 +5,7 @@ namespace App\Controllers\Mahasiswa;
 use App\Controllers\BaseController;
 use App\Models\Mahasiswa;
 use App\Models\MasterFormula;
+use App\Models\MetodePembayaran;
 use App\Models\Semester;
 use App\Models\Transaksi;
 use App\Models\Transaksitmp;
@@ -150,6 +151,7 @@ class PembayaranVAController extends BaseController
             $validator->setRules([
                 'id_tmp_tr' => 'required',
                 'q_debit' => 'required',
+                'mp' => 'required',
                 'nim' => 'required',
                 'item_tagihan' => 'required',
             ]);
@@ -164,6 +166,7 @@ class PembayaranVAController extends BaseController
                 // create model
                 $m_transaksi = new Transaksi();
                 $m_temptr = new Transaksitmp();
+                $m_mp = new MetodePembayaran();
                 // count selected item_tagihan
                 $n_item = count($item_tagihan);
                 // when n_item > 1 , divide nominal va by n_item
@@ -177,12 +180,16 @@ class PembayaranVAController extends BaseController
                         // get last kode transaksi pembayaran
                         $last_pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'id_transaksi', 'DESC', '', '');
                         $kode_pembayaran = !is_string($last_pembayaran) ? explode('-', $last_pembayaran[0]['kode_transaksi']) : array('BY', $nim, 'K', 1, 1);
-                        // dd($nom_tagihan, $semester, $kode_pembayaran);
+                        // get metode pembayaran
+                        $mp = $m_mp->like('nama_metode_pembayaran', $this->request->getPost('mp'))->first();
+                        $metode_pembayaran = $mp != null ? $mp['id_metode'] : '07VA';
                         // create pembayaran
                         $new_pembayaran = $m_transaksi->insert([
                             'kode_transaksi' => 'BY-' . $nim . '-D-' . (int)$semester[1] . '-' . ((int)$kode_pembayaran[4] + 1),
                             'kode_unit' => $nim,
                             'kategori_transaksi' => 'D',
+                            'kode_metode_pembayaran' => $metode_pembayaran,
+                            'tanggal_transaksi' => $this->request->getPost('tgl'),
                             'item_kode' => $item_tagihan[0],
                             'q_debit' => $nom_tmp_tr,
                         ]);
@@ -220,6 +227,9 @@ class PembayaranVAController extends BaseController
                         $check_item_tagihan = $m_transaksi->findTransaksiByItemKode($nim, 'K', $item_tagihan[$i], 'id_transaksi', 'ASC');
                         $nom_tagihan = !is_string($check_item_tagihan) ? (int)$check_item_tagihan[0]['q_kredit'] : 0;
                         $semester = !is_string($check_item_tagihan) ? explode('SMT', $check_item_tagihan[0]['semester_id']) : 1;
+                        // get metode pembayaran
+                        $mp = $m_mp->like('nama_metode_pembayaran', $this->request->getPost('mp'))->first();
+                        $metode_pembayaran = $mp != null ? $mp['id_metode'] : '07VA';
                         // check nominal va - nominal item tagihan
                         if (($nom_tagihan - $nom_va) >= 0) {
                             // get last kode transaksi pembayaran
@@ -231,11 +241,13 @@ class PembayaranVAController extends BaseController
                                 'kode_transaksi' => 'BY-' . $nim . '-D-' . (int)$semester[1] . '-' . ((int)$kode_pembayaran[4] + 1),
                                 'kode_unit' => $nim,
                                 'kategori_transaksi' => 'D',
+                                'kode_metode_pembayaran' => $metode_pembayaran,
+                                'tanggal_transaksi' => $this->request->getPost('tgl'),
                                 'item_kode' => $item_tagihan[$i],
                                 'q_debit' => $nom_va,
                             ]);
                             // check
-                            if(!$new_pembayaran){
+                            if (!$new_pembayaran) {
                                 return json_encode([
                                     'status' => 'failed',
                                     'message' => 'Gagal Acc!',

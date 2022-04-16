@@ -53,11 +53,13 @@
     }
 
     // acc temp transaksi
-    function acc_temp_tr(id_temp_tr, nim, q_debit) {
+    function acc_temp_tr(id_temp_tr, nim, q_debit, mp, tgl) {
         // get data
         var data = {
             id_tmp_tr: id_temp_tr,
             nim: nim,
+            mp: mp,
+            tgl: tgl,
             q_debit: q_debit,
             item_tagihan: getDataFromCheckBox(id_temp_tr)
         };
