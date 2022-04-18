@@ -5,6 +5,7 @@
             <thead class="text-center">
                 <th>NO.</th>
                 <th>NAMA PAKET</th>
+                <th>TAHUN ANGKATAN</th>
                 <th>ACTION</th>
             </thead>
             <tbody class="text-center">
@@ -12,6 +13,7 @@
                     echo '<tr>
                     <td>'.($i+1).'</td>
                     <td>' . $p['nama_paket'] . '</td>
+                    <td>' . $p['angkatan_id'] . '</td>
                     <td>
                         <button class="btn btn-warning btn-sm" 
                         data-toggle="modal" 

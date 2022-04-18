@@ -51,7 +51,7 @@
                             <option value=""></option>
                             <?php
                             foreach ($data_paket as $p) {
-                                echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . '</option>';
+                                echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . ' - ' . $p['angkatan_id'] .'</option>';
                             }
                             ?>
                         </select>
