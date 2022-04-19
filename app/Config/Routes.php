@@ -157,14 +157,18 @@ $routes->get('/backup-restore', 'Master/BackupRestoreController::index');
 $routes->get('/backup-restore/backup', 'Master/BackupRestoreController::backup', ['filter' => 'auth']);
 $routes->post('/backup-restore/restore', 'Master/BackupRestoreController::restore');
 
-// route for settings
+// route for settings account
 $routes->get('/settings-account', 'Settings/UserController::index', ['filter' => 'auth']);
 $routes->post('/settings-account/create', 'Settings/UserController::create', ['filter' => 'auth']);
 $routes->post('/settings-account/update/(:any)', 'Settings/UserController::update/$1', ['filter' => 'auth']);
 $routes->delete('/settings-account/delete/(:any)', 'Settings/UserController::delete/$1', ['filter' => 'auth']);
 
+// route for settings app
+$routes->get('/settings-application', 'Settings/AppSettingsController::index', ['filter' => 'auth']);
+$routes->post('/settings-application/apply', 'Settings/AppSettingsController::apply_changes', ['filter' => 'auth']);
 
 $routes->get('/cetak/bukti_pembayaran/(:any)', 'Mahasiswa\DetailKeuanganController::cetak_bukti_pembayaran/$1', ['filter' => 'auth']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -166,10 +166,18 @@
                 </li>
                 <li class="nav-header">SETTINGS</li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url() ?>/settings-account" class="nav-link">
+                    <a href="<?php echo base_url() ?>/settings-account" class="nav-link<?php $uri_segment == "settings-account" ? print(" active") : print("") ?>">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Account
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url() ?>/settings-application" class="nav-link<?php $uri_segment == "settings-application" ? print(" active") : print("") ?>">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            Application
                         </p>
                     </a>
                 </li>
