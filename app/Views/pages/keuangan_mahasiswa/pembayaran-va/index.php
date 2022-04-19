@@ -19,7 +19,7 @@
         height: 300px !important;
     }
 
-    .vert-scroll{
+    .vert-scroll {
         overflow-y: scroll;
     }
 </style>
@@ -77,8 +77,12 @@
                     <div class="card-body">
                         <h4 class="h4">Data Transaksi Sementara (dari VA)
                             <button class="btn btn-danger btn-sm float-right" onclick="resetTempVA()"><i class="fas fa-fw fa-trash"></i> Reset</button>
+                            <button class="btn btn-primary btn-sm float-right mr-2" onclick="refreshTable()"><i class="fas fa-fw fa-sync"></i> Refresh</button>
+                            <div class="spinner-border text-primary float-right mr-2" role="status" style="visibility: hidden;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </h4>
-                        <table class="table table-hover table-sm tbl-temp-transaksi">
+                        <table class="table table-hover table-sm tbl-temp-transaksi" id="tbl_temp_transaksi">
                             <thead class="text-center">
                                 <th>NIM</th>
                                 <th>Tanggal Bayar</th>
@@ -97,7 +101,7 @@
                                             <td class="text-center"><?= $value[0]['kode_unit'] ?></td>
                                             <td class="text-center"><?= $tgl ?></td>
                                             <td><span class="text-left">Rp. </span><span class="float-right"><?= $nom ?></span></td>
-                                            <td class="text-center"><?= $value[0]['metode_pembayaran']?></td>
+                                            <td class="text-center"><?= $value[0]['metode_pembayaran'] ?></td>
                                             <td class="text-center">
                                                 <div class="btn-group dropleft">
                                                     <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="true">
@@ -112,8 +116,8 @@
                                                                         continue;
                                                                     } ?>
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" name="bulan-<?= $value[0]['id_temp_transaksi']?>" value="<?= $value[1]['status_item_tagihan'][$i][0] ?>" id="<?= $value[0]['kode_temp_transaksi']?>">
-                                                                        <label for="<?= $value[1]['status_item_tagihan'][$i][0] ?>" id="<?= $value[0]['kode_temp_transaksi']?>"><?= $value[1]['status_item_tagihan'][$i][1] ?></label>
+                                                                        <input type="checkbox" class="form-check-input" name="bulan-<?= $value[0]['id_temp_transaksi'] ?>" value="<?= $value[1]['status_item_tagihan'][$i][0] ?>" id="<?= $value[0]['kode_temp_transaksi'] ?>">
+                                                                        <label for="<?= $value[1]['status_item_tagihan'][$i][0] ?>" id="<?= $value[0]['kode_temp_transaksi'] ?>"><?= $value[1]['status_item_tagihan'][$i][1] ?></label>
                                                                     </div>
                                                             <?php }
                                                             } else {
@@ -122,29 +126,28 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                    </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Action
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                <a class="dropdown-item text-success" href="#" onclick="acc_temp_tr('<?= $value[0]['id_temp_transaksi'] ?>','<?= $value[0]['kode_unit'] ?>',<?= $value[0]['q_debit'] ?>, '<?= $value[0]['metode_pembayaran']?>', '<?= $value[0]['tanggal_transaksi']?>')"><i class="fas fa-check fa-fw"></i> ACC</a>
-                                <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value[0]['id_temp_transaksi'] ?>', <?= $value[0]['q_debit'] ?>, '<?= $value[0]['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
-                                <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
-                            </div>
-                        </div>
-                    </td>
-                    </tr>
-            <?php }
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="actionBtn">
+                                                        <a class="dropdown-item text-success" href="#" onclick="acc_temp_tr('<?= $value[0]['id_temp_transaksi'] ?>','<?= $value[0]['kode_unit'] ?>',<?= $value[0]['q_debit'] ?>, '<?= $value[0]['metode_pembayaran'] ?>', '<?= $value[0]['tanggal_transaksi'] ?>')"><i class="fas fa-check fa-fw"></i> ACC</a>
+                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value[0]['id_temp_transaksi'] ?>', <?= $value[0]['q_debit'] ?>, '<?= $value[0]['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
+                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value[0]['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                <?php }
                                 } ?>
-            </tbody>
-            </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <?= $this->include('pages/keuangan_mahasiswa/pembayaran-va/modal_update_temp_tr') ?>
 </section>
