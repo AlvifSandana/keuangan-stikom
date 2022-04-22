@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label for="tagihan_nim">NAMA ITEM PAKET</label>
-                    <select class="form-control custom-select" name="item_paket" id="tagihan_item_paket" style="width: 100%;">
+                    <select class="form-control custom-select" name="item_paket" id="tagihan_item_paket" multiple="multiple" style="width: 100%;">
                         <option data-nominal="0" value=""></option>
                         <?
                             foreach ($item_paket as $key => $value) {

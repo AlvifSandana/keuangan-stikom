@@ -6,12 +6,14 @@
     var global_tagihan = 0;
     var global_pembayaran = 0;
 
+    fillCreateTagihanField();
+
     // remove empty card detail keuangan
     $(document).ready(function() {
-        var tbl = $('.tagihan > tbody')
+        var tbl = $('#tbl_detail_tagihan > tbody');
         for (let i = 0; i < tbl.length; i++) {
-            console.log(tbl[i]);
-            if (tbl[i].childElementCount == 0) {
+            console.log('tbl' + tbl[i].childElementCount);
+            if (tbl[i].childElementCount <= 1) {
                 $(`.card .${tbl[i].className}`).remove();
             }
         }
@@ -23,7 +25,6 @@
     });
     $('#tagihan_item_paket').select2({
         width: 'resolve',
-        tags: true,
         dropdownParent: $("#modalTambahTagihan")
     });
     $('#add_item_kode').select2({
@@ -164,13 +165,14 @@
      * Create new tagihan
      */
     function createTagihan() {
-        var kode = ($('#tagihan_item_paket').val()).split('-');
+        // var kode = ($('#tagihan_item_paket').val()).split('-');
+        var kode = $('#tagihan_item_paket').val();
         var data_tagihan = {
             kode_unit: $('#tagihan_nim').val(),
-            item_kode: kode[0],
-            q_kredit: kode[2],
+            item_kode: kode,
+            // q_kredit: kode[2],
             tanggal_transaksi: $('#tagihan_tanggal_transaksi').val(),
-            semester_id: kode[1],
+            // semester_id: kode[1],
         };
         console.log(data_tagihan);
         $.ajax({
@@ -181,6 +183,7 @@
             success: function(data) {
                 if (data.status != 'success') {
                     showSWAL('error', data.message);
+                    console.log(data);
                 } else {
                     showSWAL('success', data.message);
                     setTimeout(function() {
@@ -341,6 +344,30 @@
             },
             error: function(jqXHR) {
                 showSWAL('error', jqXHR.responseText);
+                console.log(jqXHR);
+            }
+        });
+    }
+
+    function fillCreateTagihanField(){
+        $.ajax({
+            url: '<?= base_url()?>/keuangan-mahasiswa/tagihan/get/<?= $mahasiswa[0]['nim'] ?>',
+            method: 'GET',
+            dataType: 'JSON',
+            success: function(data){
+                if (data.status == 'success') {
+                    // console.log(data);
+                    var tagihan = [];
+                    for (let i = 0; i < data.data.length; i++) {
+                        var d = data.data[i].kode_item + '-' + data.data[i].semester_id + '-' + data.data[i].nominal_item;
+                        tagihan.push(d);
+                    }
+                    $('#tagihan_item_paket').val([...tagihan]);
+                } else {
+                    console.log(data);
+                }
+            },
+            error: function(jqXHR){
                 console.log(jqXHR);
             }
         });

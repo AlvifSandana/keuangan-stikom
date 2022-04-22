@@ -174,7 +174,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <h6 class="h6 font-weight-bold">Detail Pembayaran</h6>
-                                                <table class="table table-hover table-bordered table-sm" id="tbl_detail_tagihan">
+                                                <table class="table table-hover table-bordered table-sm" id="tbl_detail_pembayaran">
                                                     <thead class="text-center">
                                                         <th>NAMA ITEM</th>
                                                         <th>TERBAYAR</th>
@@ -224,7 +224,7 @@
                                         <div class="row mb-2">
                                             <div class="col-md-12">
                                                 <h6 class="h6 font-weight-bold">Detail Diskon</h6>
-                                                <table class="table table-hover table-bordered table-sm tagihan" id="tbl_detail_tagihan">
+                                                <table class="table table-hover table-bordered table-sm tagihan" id="tbl_detail_diskon">
                                                     <thead class="text-center">
                                                         <th>KODE ITEM</th>
                                                         <th>NAMA ITEM</th>
