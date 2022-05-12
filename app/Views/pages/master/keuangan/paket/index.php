@@ -51,24 +51,26 @@
                             <option value=""></option>
                             <?php
                             foreach ($data_paket as $p) {
-                                echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . ' - ' . $p['angkatan_id'] .'</option>';
+                                echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . ' - ' . $p['angkatan_id'] . '</option>';
                             }
                             ?>
                         </select>
                         <h5 class="h5 mt-3 mb-4">Detail Item Paket</h5>
-                        <table class="table table-bordered tbl_master_paket" id="tbl_master_paket">
-                            <thead class="text-center">
-                                <th>Kode Item Tagihan</th>
-                                <th>Nama Item</th>
-                                <th>Tahun</th>
-                                <th>Semester</th>
-                                <th>Nominal</th>
-                                <th>Keterangan</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody class="">
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered tbl_master_paket" id="tbl_master_paket">
+                                <thead class="text-center">
+                                    <th>Kode Item Tagihan</th>
+                                    <th>Nama Item</th>
+                                    <th>Tahun</th>
+                                    <th>Semester</th>
+                                    <th>Nominal</th>
+                                    <th>Keterangan</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody class="">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,20 +79,22 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                    <h5 class="h5 mt-3 mb-4">Detail Item Tagihan Lain-lain</h5>
-                        <table class="table table-bordered table-hover tbl_master_paket" id="tbl_master_item_lain">
-                            <thead class="text-center">
-                                <th>Kode Item Tagihan</th>
-                                <th>Nama Item</th>
-                                <th>Tahun</th>
-                                <th>Semester</th>
-                                <th>Nominal</th>
-                                <th>Keterangan</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody class="">
-                            </tbody>
-                        </table>
+                        <h5 class="h5 mt-3 mb-4">Detail Item Tagihan Lain-lain</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover tbl_master_paket" id="tbl_master_item_lain">
+                                <thead class="text-center">
+                                    <th>Kode Item Tagihan</th>
+                                    <th>Nama Item</th>
+                                    <th>Tahun</th>
+                                    <th>Semester</th>
+                                    <th>Nominal</th>
+                                    <th>Keterangan</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody class="">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

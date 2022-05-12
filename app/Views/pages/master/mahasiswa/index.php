@@ -50,32 +50,34 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="h5 mb-4">Data Mahasiswa <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button></h5>
-                        <table class="table table-hover table-bordered" id="tbl_list_mhs">
-                            <thead class="text-center">
-                                <th>NIM</th>
-                                <th>NAMA MAHASISWA</th>
-                                <th>ACTION</th>
-                            </thead>
-                            <tbody class="text-center">
-                                <?php foreach ($data_mahasiswa as $m) {
-                                    echo '<tr data-nim="' . $m['nim'] . '">
-                                    <td>' . $m['nim'] . '</td><td>' . $m['nama_mhs'] . '</td>
-                                    <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                        <a class="dropdown-item" target="_blank" href="'.base_url().'/keuangan-mahasiswa/pembayaran/detail/'.$m['nim'].'"><i class="fas fa-dollar-sign"></i> Detail Keuangan</a>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered" id="tbl_list_mhs">
+                                <thead class="text-center">
+                                    <th>NIM</th>
+                                    <th>NAMA MAHASISWA</th>
+                                    <th>ACTION</th>
+                                </thead>
+                                <tbody class="text-center">
+                                    <?php foreach ($data_mahasiswa as $m) {
+                                        echo '<tr data-nim="' . $m['nim'] . '">
+                                        <td>' . $m['nim'] . '</td><td>' . $m['nama_mhs'] . '</td>
+                                        <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="actionBtn">
+                                            <a class="dropdown-item" target="_blank" href="' . base_url() . '/keuangan-mahasiswa/pembayaran/detail/' . $m['nim'] . '"><i class="fas fa-dollar-sign"></i> Detail Keuangan</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    </td></tr>';
-                                } ?>
-                                
-                                
-                                
-                            </tbody>
-                        </table>
+                                        </td></tr>';
+                                    } ?>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

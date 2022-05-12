@@ -25,21 +25,21 @@
 <section class="content">
     <div class="container-fluid">
         <?= $this->include('layout/flash') ?>
-        <?php if (session()->get('user_level') == 'admin') {?>
-        <div class="row mb-2">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="h4">Create New User</h4>
-                        <p>Membuat data user baru dengan atribut <b>Nama</b>, <b>Username</b>, <b>Email</b>, dan <b>Password</b> <br>
-                            <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalCreateUser"><i class="fas fa-user-plus"></i> Create</button>
-                            dengan mengklik tombol <b class="text-primary">Create</b> berikut.
-                        </p>
+        <?php if (session()->get('user_level') == 'admin') { ?>
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="h4">Create New User</h4>
+                            <p>Membuat data user baru dengan atribut <b>Nama</b>, <b>Username</b>, <b>Email</b>, dan <b>Password</b> <br>
+                                <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalCreateUser"><i class="fas fa-user-plus"></i> Create</button>
+                                dengan mengklik tombol <b class="text-primary">Create</b> berikut.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <?php }?>
+        <?php } ?>
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
@@ -53,47 +53,49 @@
                 </div>
             </div>
         </div>
-        <?php if (session()->get('user_level') == 'admin') {?>
-        <div class="row mb-2">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="h4 mb-3">List of Users</h4>
-                        <table class="table table-hover" id="tbl_user">
-                            <thead class="text-center">
-                                <th>#</th>
-                                <th>USERNAME</th>
-                                <th>EMAIL</th>
-                                <th>LEVEL</th>
-                                <th>ACTION</th>
-                            </thead>
-                            <tbody class="text-center">
-                                <?php foreach ($users as $u) {
-                                    echo '<tr>
-                                    <td>' . $u['id_user'] . '</td>
-                                    <td>' . $u['username'] . '</td>
-                                    <td>' . $u['email'] . '</td>
-                                    <td>' . $u['user_level'] . '</td>
-                                    <td>
-                                        <button class="btn btn-danger btn-sm" onclick="deleteUser(' . $u['id_user'] . ')">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>';
-                                } ?>
-                            </tbody>
-                        </table>
+        <?php if (session()->get('user_level') == 'admin') { ?>
+            <div class="row mb-2">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="h4 mb-3">List of Users</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="tbl_user">
+                                    <thead class="text-center">
+                                        <th>#</th>
+                                        <th>USERNAME</th>
+                                        <th>EMAIL</th>
+                                        <th>LEVEL</th>
+                                        <th>ACTION</th>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <?php foreach ($users as $u) {
+                                            echo '<tr>
+                                        <td>' . $u['id_user'] . '</td>
+                                        <td>' . $u['username'] . '</td>
+                                        <td>' . $u['email'] . '</td>
+                                        <td>' . $u['user_level'] . '</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" onclick="deleteUser(' . $u['id_user'] . ')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>';
+                                        } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <?php }?>
+        <?php } ?>
     </div>
 </section>
 <!-- Modals -->
-<?php if (session()->get('user_level') == 'admin') {?>
+<?php if (session()->get('user_level') == 'admin') { ?>
     <?= $this->include('pages/settings/account/modal/modal_create_user') ?>
-<?php }?>
+<?php } ?>
 <?= $this->include('pages/settings/account/modal/modal_update_current_user') ?>
 <!-- /Modals -->
 <?= $this->endSection() ?>

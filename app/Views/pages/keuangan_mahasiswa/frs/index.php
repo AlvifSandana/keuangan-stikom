@@ -114,69 +114,71 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover table-sm table-bordered">
-                            <thead class="text-center">
-                                <th>Kode</th>
-                                <th>Mata Kuliah</th>
-                                <th>Semester</th>
-                                <th>Ket</th>
-                                <th>SKS</th>
-                                <th>Dosen</th>
-                                <th>Kelas</th>
-                                <th>Jadwal</th>
-                                <th>Kuota</th>
-                                <th>Peserta</th>
-                                <th>Calon</th>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($list_frs as $key => $value) { 
-                                    if ($value['jenis'] == 'praktikum software') {
-                                        $p_soft += 1;
-                                    }
-                                    if ($value['jenis'] == 'praktikum hardware') {
-                                        $p_soft += 1;
-                                    }
-                                    ?>
-                                    <tr class="<?= $tanggal_persetujuan_dw[0]['status'] != 1 && ((int)$value['kapasitas'] - 1) < (int)$value['Peserta'] ? 'bg-danger' : ''; ?>">
-                                        <td><?= $value['kode_mk'] ?></td>
-                                        <td><?= $value['nama_mk'] ?></td>
-                                        <td class="text-center"><?= $value['smtTempuh'] ?></td>
-                                        <td class="text-center"><?= $value['sts_mk'] ?></td>
-                                        <td class="text-center"><?= $value['jum_sks'] ?></td>
-                                        <td><?= $value['nama_dosen'] ?></td>
-                                        <td class="text-center"><?= $value['kelas'] ?></td>
-                                        <td><?= $value['jadwal'] ?></td>
-                                        <td class="text-center"><?= $value['kapasitas'] ?></td>
-                                        <td class="text-center"><?= $value['Peserta'] ?></td>
-                                        <td class="text-center"><?= $value['CalonPeserta'] ?></td>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-sm table-bordered">
+                                <thead class="text-center">
+                                    <th>Kode</th>
+                                    <th>Mata Kuliah</th>
+                                    <th>Semester</th>
+                                    <th>Ket</th>
+                                    <th>SKS</th>
+                                    <th>Dosen</th>
+                                    <th>Kelas</th>
+                                    <th>Jadwal</th>
+                                    <th>Kuota</th>
+                                    <th>Peserta</th>
+                                    <th>Calon</th>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($list_frs as $key => $value) { 
+                                        if ($value['jenis'] == 'praktikum software') {
+                                            $p_soft += 1;
+                                        }
+                                        if ($value['jenis'] == 'praktikum hardware') {
+                                            $p_soft += 1;
+                                        }
+                                        ?>
+                                        <tr class="<?= $tanggal_persetujuan_dw[0]['status'] != 1 && ((int)$value['kapasitas'] - 1) < (int)$value['Peserta'] ? 'bg-danger' : ''; ?>">
+                                            <td><?= $value['kode_mk'] ?></td>
+                                            <td><?= $value['nama_mk'] ?></td>
+                                            <td class="text-center"><?= $value['smtTempuh'] ?></td>
+                                            <td class="text-center"><?= $value['sts_mk'] ?></td>
+                                            <td class="text-center"><?= $value['jum_sks'] ?></td>
+                                            <td><?= $value['nama_dosen'] ?></td>
+                                            <td class="text-center"><?= $value['kelas'] ?></td>
+                                            <td><?= $value['jadwal'] ?></td>
+                                            <td class="text-center"><?= $value['kapasitas'] ?></td>
+                                            <td class="text-center"><?= $value['Peserta'] ?></td>
+                                            <td class="text-center"><?= $value['CalonPeserta'] ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                    <tr>
+                                        <td colspan="4">Total SKS yang akan ditempuh</td>
+                                        <td colspan="7" class="font-weight-bold"><span id="n_sks"><?= $total_sks ?></span> SKS</td>
                                     </tr>
-                                <?php } ?>
-                                <tr>
-                                    <td colspan="4">Total SKS yang akan ditempuh</td>
-                                    <td colspan="7" class="font-weight-bold"><span id="n_sks"><?= $total_sks ?></span> SKS</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">Status Persetujuan KRS</td>
-                                    <td colspan="7" class="font-weight-bold">
-                                        <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? 'Disetujui oleh Dosen Wali.' : 'FRS belum disetujui Dosen Wali.' ?>
-                                    </td>
-                                    <input type="text" name="p_soft" id="p_soft" value="<?= $p_soft ?>" hidden/>
-                                    <input type="text" name="p_hard" id="p_hard" value="<?= $p_hard ?>" hidden/>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">Status Persetujuan Keuangan</td>
-                                    <td colspan="7" class="font-weight-bold">
-                                        <?= $tanggal_persetujuan_k && $tanggal_persetujuan_k[0]['status'] == 1 ? 'Disetujui oleh Bagian Keuangan.' : 'FRS belum disetujui.' ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4">Sudah disetujui pada tanggal </td>
-                                    <td class="font-weight-bold" colspan="7">
-                                        <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? $tanggal_persetujuan_dw[0]['tgl_persetujuan'] : $tanggal_persetujuan_dw[0]['tgl_persetujuan'] ?>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <tr>
+                                        <td colspan="4">Status Persetujuan KRS</td>
+                                        <td colspan="7" class="font-weight-bold">
+                                            <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? 'Disetujui oleh Dosen Wali.' : 'FRS belum disetujui Dosen Wali.' ?>
+                                        </td>
+                                        <input type="text" name="p_soft" id="p_soft" value="<?= $p_soft ?>" hidden/>
+                                        <input type="text" name="p_hard" id="p_hard" value="<?= $p_hard ?>" hidden/>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Status Persetujuan Keuangan</td>
+                                        <td colspan="7" class="font-weight-bold">
+                                            <?= $tanggal_persetujuan_k && $tanggal_persetujuan_k[0]['status'] == 1 ? 'Disetujui oleh Bagian Keuangan.' : 'FRS belum disetujui.' ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">Sudah disetujui pada tanggal </td>
+                                        <td class="font-weight-bold" colspan="7">
+                                            <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? $tanggal_persetujuan_dw[0]['tgl_persetujuan'] : $tanggal_persetujuan_dw[0]['tgl_persetujuan'] ?>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="group-persetujuan mt-3">
                             <span>
                                 <?php

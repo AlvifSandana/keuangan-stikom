@@ -30,10 +30,10 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-9">
+                            <div class="col-md-9 col-sm-12">
                                 <input type="text" name="keyword" id="keyword" class="form-control" placeholder="Cari berdasarkan NIM atau NAMA Mahasiswa">
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-3 col-sm-12">
                                 <button class="btn btn-primary btn-block" onclick="searchMahasiswa()"><i class="fas fa-search"></i> Cari</button>
                             </div>
                         </div>
@@ -56,16 +56,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <table class="table table-hover table-bordered table-sm" id="tbl_pencarian">
-                                    <thead class="text-center">
-                                        <th>NIM</th>
-                                        <th>NAMA MAHASISWA</th>
-                                        <th>PROGRAM STUDI</th>
-                                        <th>STATUS</th>
-                                        <th>ACTION</th>
-                                    </thead>
-                                    <tbody class="text-center" id="tbl_hasil_pencarian"></tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-bordered table-sm" id="tbl_pencarian">
+                                        <thead class="text-center">
+                                            <th>NIM</th>
+                                            <th>NAMA MAHASISWA</th>
+                                            <th>PROGRAM STUDI</th>
+                                            <th>STATUS</th>
+                                            <th>ACTION</th>
+                                        </thead>
+                                        <tbody class="text-center" id="tbl_hasil_pencarian"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

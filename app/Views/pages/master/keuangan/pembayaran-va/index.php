@@ -74,61 +74,63 @@
                         <h4 class="h4">Data Transaksi Sementara (dari VA)
                             <button class="btn btn-danger btn-sm float-right" onclick="resetTempVA()"><i class="fas fa-fw fa-trash"></i> Reset</button>
                         </h4>
-                        <table class="table table-hover table-sm tbl-temp-transaksi">
-                            <thead class="text-center">
-                                <th>NIM</th>
-                                <th>Tanggal Bayar</th>
-                                <th>Nominal</th>
-                                <th>Opsi</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                <?php if ($temp_tr != null) {
-                                    foreach ($temp_tr as $key => $value) {
-                                        $dt_tgl = new DateTime($value['tanggal_transaksi']);
-                                        $tgl = $dt_tgl->format('D, d M Y H:i:s');
-                                        $nom = number_format($value['q_debit']); ?>
-                                        <tr>
-                                            <td class="text-center"><?= $value['kode_unit'] ?></td>
-                                            <td class="text-center"><?= $tgl ?></td>
-                                            <td><span class="text-left">Rp. </span><span class="float-right"><?= $nom ?></span></td>
-                                            <td class="text-center">
-                                                <div class="btn-group dropleft">
-                                                    <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="true">
-                                                        <i class="fas fa-fw fa-bars"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-opsi">
-                                                        <form class="px-3 py-2">
-                                                            <div class="form-group">
-                                                                <label for="">Pilih Formula</label><br>
-
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="semester">Pilih semester</label><br />
-                                                                <div class="row">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-sm tbl-temp-transaksi">
+                                <thead class="text-center">
+                                    <th>NIM</th>
+                                    <th>Tanggal Bayar</th>
+                                    <th>Nominal</th>
+                                    <th>Opsi</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    <?php if ($temp_tr != null) {
+                                        foreach ($temp_tr as $key => $value) {
+                                            $dt_tgl = new DateTime($value['tanggal_transaksi']);
+                                            $tgl = $dt_tgl->format('D, d M Y H:i:s');
+                                            $nom = number_format($value['q_debit']); ?>
+                                            <tr>
+                                                <td class="text-center"><?= $value['kode_unit'] ?></td>
+                                                <td class="text-center"><?= $tgl ?></td>
+                                                <td><span class="text-left">Rp. </span><span class="float-right"><?= $nom ?></span></td>
+                                                <td class="text-center">
+                                                    <div class="btn-group dropleft">
+                                                        <button type="button" class="btn btn-secondary dropdown-toggle btn-sm" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="true">
+                                                            <i class="fas fa-fw fa-bars"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-opsi">
+                                                            <form class="px-3 py-2">
+                                                                <div class="form-group">
+                                                                    <label for="">Pilih Formula</label><br>
 
                                                                 </div>
-                                                            </div>
-                                                        </form>
+                                                                <div class="form-group">
+                                                                    <label for="semester">Pilih semester</label><br />
+                                                                    <div class="row">
+
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Action
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="actionBtn">
-                                                        <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value['id_temp_transaksi'] ?>', <?= $value['q_debit'] ?>, '<?= $value['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
-                                                        <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="actionBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Action
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="actionBtn">
+                                                            <a class="dropdown-item text-warning" href="#" data-toggle="modal" data-target="#modalUpdateTempTransaksi" onclick="fillUpdateField('<?= $value['id_temp_transaksi'] ?>', <?= $value['q_debit'] ?>, '<?= $value['tanggal_transaksi'] ?>')"><i class="fas fa-edit fa-fw"></i> Edit</a>
+                                                            <a class="dropdown-item text-danger" href="#" onclick="deleteTempVA('<?= $value['id_temp_transaksi'] ?>')"><i class="fas fa-trash fa-fw"></i> Hapus</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                <?php }
-                                } ?>
-                            </tbody>
-                        </table>
+                                                </td>
+                                            </tr>
+                                    <?php }
+                                    } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
