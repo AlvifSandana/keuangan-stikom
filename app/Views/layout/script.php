@@ -18,7 +18,8 @@
 <script src="<?php echo base_url(); ?>/plugins/select2/js/select2.full.min.js"></script>
 <!-- DataTable -->
 <script src="<?php echo base_url(); ?>/plugins/datatables/jquery.dataTables.min.js"></script>
-
+<!-- ChartJS -->
+<script src="<?php echo base_url(); ?>/plugins/chart.js/Chart.min.js"></script>
 <!-- sweetalert2 custom -->
 <script>
     function showSWAL(type, message) {

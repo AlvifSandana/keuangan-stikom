@@ -51,4 +51,16 @@ class DashboardController extends BaseController
             ->find();
         return view('pages/dashboard', $data);
     }
+
+    public function chart_pemasukan_pengeluaran(String $tahun)
+    {
+        try {
+            // create model object
+            $m_transaksi = new Transaksi();
+            // get data 1 year
+
+        } catch (\Throwable $th) {
+            
+        }
+    }
 }

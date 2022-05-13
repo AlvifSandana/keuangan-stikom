@@ -23,7 +23,7 @@
 <?= $this->section('content-body') ?>
 <section class="content">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-1">
             <div class="col-md-6 col-sm-12">
                 <div class="small-box bg-info">
                     <div class="inner">
@@ -47,11 +47,11 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-2">
+        <div class="row mb-1">
             <div class="col-md-3 col-sm-12">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3><?php echo $mahasiswa[0]['jumlah_mahasiswa'];?></h3>
+                        <h3><?php echo $mahasiswa[0]['jumlah_mahasiswa']; ?></h3>
                         <p>Mahasiswa Aktif</p>
                     </div>
                     <div class="icon">
@@ -63,7 +63,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3><?php echo $jurusan[0]['jumlah_jurusan'];?></h3>
+                        <h3><?php echo $jurusan[0]['jumlah_jurusan']; ?></h3>
                         <p>Program Studi</p>
                     </div>
                     <div class="icon">
@@ -75,7 +75,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3><?php echo $paket[0]['jumlah_paket'];?></h3>
+                        <h3><?php echo $paket[0]['jumlah_paket']; ?></h3>
                         <p>Paket Program Studi</p>
                     </div>
                     <div class="icon">
@@ -87,7 +87,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3><?php echo $jalur[0]['jumlah_jalur'];?></h3>
+                        <h3><?php echo $jalur[0]['jumlah_jalur']; ?></h3>
                         <p>Jalur Registrasi</p>
                     </div>
                     <div class="icon">
@@ -97,9 +97,75 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-1">
+            <div class="col-md-6 col-sm-12">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Grafik Keuangan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="keuangan-chart-canvas" height="300" style="height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
+<script>
+    const ctx = $("#keuangan-chart-canvas").get(0).getContext('2d')
+    var chartData = {
+      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      datasets: [
+        {
+          label               : 'Pemasukan',
+          backgroundColor     : 'rgba(40,167,69,0.9)',
+          borderColor         : 'rgba(40,167,69),0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [28, 48, 40, 19, 86, 27, 90]
+        },
+        {
+          label               : 'Pengeluaran',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [65, 59, 80, 81, 56, 55, 40]
+        },
+      ]
+    };
+
+    var barChartData = $.extend(true, {}, chartData)
+    var tmp0 = chartData.datasets[0]
+    var tmp1 = chartData.datasets[1]
+    barChartData.datasets[0] = tmp0
+    barChartData.datasets[1] = tmp1
+
+    var barChartOptions = {
+      responsive              : true,
+      maintainAspectRatio     : false,
+      datasetFill             : false
+    };
+
+    const keuangan_chart = new Chart(ctx, {
+        type: "bar",
+        data: chartData,
+        options: barChartOptions
+    });
+</script>
 <?= $this->endSection() ?>
