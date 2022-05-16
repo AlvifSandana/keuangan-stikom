@@ -40,6 +40,7 @@ $routes->post('/auth', 'LoginController::auth');
 // route for dashboard
 $routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
 $routes->add('/dashboard', 'DashboardController::index', ['filter' => 'auth']);
+$routes->add('/dashboard/chart-keuangan/(:any)', 'DashboardController::chart_pemasukan_pengeluaran/$1', ['filter' => 'auth']);
 
 // route for keuangan mahasiswa
 $routes->get('/keuangan-mahasiswa/pembayaran', 'Mahasiswa/PembayaranController::index', ['filter' => 'auth']);

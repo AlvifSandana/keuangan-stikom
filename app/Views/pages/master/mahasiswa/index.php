@@ -25,7 +25,7 @@
 <section class="content">
     <div class="container-fluid">
         <?= $this->include('layout/flash') ?>
-        <div class="row mb-2">
+        <!--<div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -44,12 +44,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  -->
         <div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="h5 mb-4">Data Mahasiswa <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button></h5>
+                        <h5 class="h5 mb-4">Data Mahasiswa <!-- <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button>--></h5>
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered" id="tbl_list_mhs">
                                 <thead class="text-center">
@@ -72,9 +72,6 @@
                                         </div>
                                         </td></tr>';
                                     } ?>
-
-
-
                                 </tbody>
                             </table>
                         </div>

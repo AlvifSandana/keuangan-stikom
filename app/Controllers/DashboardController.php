@@ -58,9 +58,34 @@ class DashboardController extends BaseController
             // create model object
             $m_transaksi = new Transaksi();
             // get data 1 year
-
+            $data = $m_transaksi->getChartDataByYear($tahun, 'q_debit');
+            $data1 = $m_transaksi->getChartDataByYear($tahun, 'q_kredit');
+            // check data
+            if(!is_string($data) && count($data) > 0 || !is_string($data1) && count($data1) > 0){
+                return json_encode([
+                    'status' => 'success',
+                    'message' => 'Data available!',
+                    'data' => [
+                        'pemasukan' => $data,
+                        'pengeluaran' => $data1
+                    ]
+                ]);
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Data not available!',
+                    'data' => [
+                        'pemasukan' => $data,
+                        'pengeluaran' => $data1
+                    ]
+                ]);
+            }
         } catch (\Throwable $th) {
-            
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
         }
     }
 }

@@ -208,14 +208,66 @@ class Transaksi extends Model
                         // dd($pembayaran);
                         // check sisa tagihan, when 0 then "lunas"
                         if ((int)$pembayaran[0]['sisa_tagihan'] > 0) {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas', $semester[1]]);
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'] . ' - ' . $tagihan[$key]['nama_item'], 'belum_lunas', $semester[1]]);
                         } else if ($pembayaran[0]['sisa_tagihan'] == null) {
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'belum_lunas', $semester[1]]);
-                        } else if((int)$pembayaran[0]['sisa_tagihan'] == 0){
-                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'].' - '.$tagihan[$key]['nama_item'], 'lunas', $semester[1]]);
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'] . ' - ' . $tagihan[$key]['nama_item'], 'belum_lunas', $semester[1]]);
+                        } else if ((int)$pembayaran[0]['sisa_tagihan'] == 0) {
+                            array_push($result, [$tagihan[$key]['kode_item'], $tagihan[$key]['semester_id'] . ' - ' . $tagihan[$key]['nama_item'], 'lunas', $semester[1]]);
                         }
                     }
                 }
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    /**
+     * 
+     */
+    public function getChartDataByYear(String $year, String $type)
+    {
+        try {
+            // set result
+            $result = [];
+            // set query
+            if ($type == 'q_debit') {
+                $query_data = $this->builder()
+                    ->select("YEAR('$year-01-01') AS tahun, MONTH(created_at) AS bulan, SUM($type) AS total")
+                    ->where('YEAR(created_at)', $year)
+                    ->where('kategori_transaksi', 'D')
+                    ->groupBy("YEAR('$year-01-01'), MONTH(created_at)")
+                    ->orderBy('MONTH(tanggal_transaksi)', 'ASC')
+                    ->get();
+            }
+            if ($type == 'q_kredit') {
+                $query_data = $this->builder()
+                    ->select("YEAR('$year-01-01') AS tahun, MONTH(created_at) AS bulan, SUM($type) AS total")
+                    ->where('YEAR(created_at)', $year)
+                    ->where('kategori_transaksi', 'K')
+                    ->notLike('kode_transaksi', 'BY')
+                    ->groupBy("YEAR('$year-01-01'), MONTH(created_at)")
+                    ->orderBy('MONTH(tanggal_transaksi)', 'ASC')
+                    ->get();
+            }
+
+            // check query
+            if (count($query_data->getResultArray()) > 0) {
+                $data = $query_data->getResultArray();
+                $data_short = [];
+                for ($i=1; $i <= 12; $i++) { 
+                    // dd(array_search((string)$i,array_column(json_decode(json_encode($data),true), 'bulan'),true));
+                    $idx_found = array_search((string)$i,array_column(json_decode(json_encode($data),true), 'bulan'),true);
+                    if(is_numeric($idx_found)){
+                        array_push($data_short, (int)$data[$idx_found]['total']);
+                        continue;
+                    } else {
+                        array_push($data_short, 0);
+                        array_push($data, ['tahun' => $data[0]['tahun'], 'bulan' => $i, 'total' => 0]);
+                    }
+                }
+                $result = $data_short;
             }
             return $result;
         } catch (\Throwable $th) {

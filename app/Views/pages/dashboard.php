@@ -101,7 +101,7 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Grafik Keuangan</h3>
+                        <h3 class="card-title">Grafik Keuangan tahun <?= date("Y")?></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
@@ -121,51 +121,77 @@
 
 <?= $this->section('custom-script') ?>
 <script>
+    // define initial chart data
     const ctx = $("#keuangan-chart-canvas").get(0).getContext('2d')
     var chartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [
-        {
-          label               : 'Pemasukan',
-          backgroundColor     : 'rgba(40,167,69,0.9)',
-          borderColor         : 'rgba(40,167,69),0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [28, 48, 40, 19, 86, 27, 90]
-        },
-        {
-          label               : 'Pengeluaran',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
-        },
-      ]
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+                label: 'Pemasukan',
+                backgroundColor: 'rgba(40,167,69,0.9)',
+                borderColor: 'rgba(40,167,69),0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                label: 'Pengeluaran',
+                backgroundColor: 'rgba(210, 214, 222, 1)',
+                borderColor: 'rgba(210, 214, 222, 1)',
+                pointRadius: false,
+                pointColor: 'rgba(210, 214, 222, 1)',
+                pointStrokeColor: '#c1c7d1',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+        ]
     };
+    //////////////////// GET DATA /////////////////////////////////////
+    var data_pemasukan = [];
+    var data_pengeluaran = [];
+    // get current year
+    var year = new Date().getFullYear();
+    // get data from api 
+    $.ajax({
+        url: '<?= base_url() ?>/dashboard/chart-keuangan/' + year,
+        method: 'GET',
+        dataType: 'JSON',
+        success: function(data) {
+            if (data.status == 'success') {
+                if (data.data.pemasukan.length != 0) {
+                    chartData.datasets[0].data = data.data.pemasukan
+                }
+                if (data.data.pengeluaran.length != 0) {
+                    chartData.datasets[1].data = data.data.pengeluaran
+                }
+                var barChartData = $.extend(true, {}, chartData)
+                var tmp0 = chartData.datasets[0]
+                var tmp1 = chartData.datasets[1]
+                barChartData.datasets[0] = tmp0
+                barChartData.datasets[1] = tmp1
+            
+                var barChartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    datasetFill: false
+                };
+            
+                const keuangan_chart = new Chart(ctx, {
+                    type: "bar",
+                    data: chartData,
+                    options: barChartOptions
+                });
+            }
+        },
+        error: function(jqXHR) {
+            console.log(jqXHR);
+        }
+    })
 
-    var barChartData = $.extend(true, {}, chartData)
-    var tmp0 = chartData.datasets[0]
-    var tmp1 = chartData.datasets[1]
-    barChartData.datasets[0] = tmp0
-    barChartData.datasets[1] = tmp1
 
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    };
 
-    const keuangan_chart = new Chart(ctx, {
-        type: "bar",
-        data: chartData,
-        options: barChartOptions
-    });
 </script>
 <?= $this->endSection() ?>
