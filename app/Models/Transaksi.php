@@ -237,6 +237,7 @@ class Transaksi extends Model
                     ->select("YEAR('$year-01-01') AS tahun, MONTH(created_at) AS bulan, SUM($type) AS total")
                     ->where('YEAR(created_at)', $year)
                     ->where('kategori_transaksi', 'D')
+                    ->like('kode_transaksi', 'BY')
                     ->groupBy("YEAR('$year-01-01'), MONTH(created_at)")
                     ->orderBy('MONTH(tanggal_transaksi)', 'ASC')
                     ->get();
@@ -246,7 +247,7 @@ class Transaksi extends Model
                     ->select("YEAR('$year-01-01') AS tahun, MONTH(created_at) AS bulan, SUM($type) AS total")
                     ->where('YEAR(created_at)', $year)
                     ->where('kategori_transaksi', 'K')
-                    ->notLike('kode_transaksi', 'BY')
+                    ->Like('kode_transaksi', 'BY')
                     ->groupBy("YEAR('$year-01-01'), MONTH(created_at)")
                     ->orderBy('MONTH(tanggal_transaksi)', 'ASC')
                     ->get();

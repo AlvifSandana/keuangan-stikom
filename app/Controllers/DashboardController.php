@@ -66,8 +66,8 @@ class DashboardController extends BaseController
                     'status' => 'success',
                     'message' => 'Data available!',
                     'data' => [
-                        'pemasukan' => $data,
-                        'pengeluaran' => $data1
+                        'pembayaran' => $data,
+                        'tagihan' => $data1
                     ]
                 ]);
             } else {
@@ -75,8 +75,8 @@ class DashboardController extends BaseController
                     'status' => 'failed',
                     'message' => 'Data not available!',
                     'data' => [
-                        'pemasukan' => $data,
-                        'pengeluaran' => $data1
+                        'pembayaran' => $data,
+                        'tagihan' => $data1
                     ]
                 ]);
             }
