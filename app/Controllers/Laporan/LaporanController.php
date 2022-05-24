@@ -19,7 +19,7 @@ class LaporanController extends BaseController
     }
 
     /**
-     * Get laporan pemasukan
+     * Get laporan pemasukan (JSON)
      */
     public function laporan_pemasukan()
     {
@@ -69,7 +69,7 @@ class LaporanController extends BaseController
     }
 
     /**
-     * Get laporan pengeluaran
+     * Get laporan pengeluaran (JSON)
      */
     public function laporan_pengeluaran()
     {
@@ -116,6 +116,56 @@ class LaporanController extends BaseController
                 'data' => $th->getTrace()
             ]);
         }
+    }
+
+    public function show_laporan_pemasukan(String $mulai, String $akhir)
+    {
+        helper('custom_helper');
+        // create request instance
+        $request = \Config\Services::request();
+        // get uri segment for dynamic sidebar active item
+        $data['uri_segment'] = $request->uri->getSegment(1);
+        // result
+        $result = [];
+        // create model
+        $m_transaksi = new Transaksi();
+        // get data pemasukan
+        $pemasukan = $m_transaksi->findTransaksi('PEMASUKAN_ALL', 'D', 'id_transaksi', 'ASC', $mulai, $akhir);
+        // check
+        if (!is_string($pemasukan)) {
+            $result = $pemasukan;
+        } else {
+            $result = "Data tidak ditemukan!";
+        }
+        $data['pemasukan'] = $result;
+        $data['tgl_mulai'] = tgl_indo($mulai);
+        $data['tgl_akhir'] = tgl_indo($akhir);
+        return view('pages/master/laporan/laporan-pemasukan/index', $data);
+    }
+
+    public function show_laporan_pengeluaran(String $mulai, String $akhir)
+    {
+        helper('custom_helper');
+        // create request instance
+        $request = \Config\Services::request();
+        // get uri segment for dynamic sidebar active item
+        $data['uri_segment'] = $request->uri->getSegment(1);
+        // result
+        $result = [];
+        // create model
+        $m_transaksi = new Transaksi();
+        // get data pemasukan
+        $pengeluaran = $m_transaksi->findTransaksi('PENGELUARAN', 'K', 'id_transaksi', 'ASC', $mulai, $akhir);
+        // check
+        if (!is_string($pengeluaran)) {
+            $result = $pengeluaran;
+        } else {
+            $result = "Data tidak ditemukan!";
+        }
+        $data['pengeluaran'] = $result;
+        $data['tgl_mulai'] = tgl_indo($mulai);
+        $data['tgl_akhir'] = tgl_indo($akhir);
+        return view('pages/master/laporan/laporan-pemasukan/index', $data);
     }
 
     public function laporan_tagihan_mhs_by_nim(String $nim)
@@ -205,7 +255,7 @@ class LaporanController extends BaseController
                 // dd($mhs, $all_tagihan);
                 return json_encode([
                     'status' => 'success',
-                    'message'=> 'Data available!',
+                    'message' => 'Data available!',
                     'data' => []
                 ]);
             } else {
@@ -254,7 +304,6 @@ class LaporanController extends BaseController
     public function generate_data_pengeluaran(String $type)
     {
         try {
-
             // result
             $result = [];
             // create model

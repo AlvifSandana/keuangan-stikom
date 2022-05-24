@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_tagihan_all_mhs" style="margin-top: 30px;">
+                                <a class="btn btn-success float-right" href="#" style="margin-top: 30px;" onclick="generateLaporanPemasukan()">
                                 <i class="fas fa-fw fa-arrow-down"></i> Generate</a>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <a class="btn btn-success float-right" href="<?php echo base_url(); ?>/laporan/generate_laporan_tagihan_all_mhs" style="margin-top: 30px;">
+                                <a class="btn btn-success float-right" href="#" style="margin-top: 30px;" onclick="generateLaporanPengeluaran()">
                                 <i class="fas fa-fw fa-arrow-down"></i> Generate</a>
                             </div>
                         </div>

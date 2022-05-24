@@ -73,7 +73,19 @@ class Transaksi extends Model
                     ->notLike('kode_transaksi', 'BY-')
                     ->orderBy($orderBy, $direction)
                     ->get();
-            } else {
+            } else if ($kode_unit == 'PENGELUARAN_ALL') {
+                $query = $this->builder()
+                    ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
+                    ->orderBy($orderBy, $direction)
+                    ->get();
+            } else if ($kode_unit == 'PEMASUKAN_ALL') {
+                $query = $this->builder()
+                    ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
+                    ->orderBy($orderBy, $direction)
+                    ->get();
+            }else {
                 // set query
                 $query = $this->builder()
                     ->like('kode_unit', $kode_unit, 'both')

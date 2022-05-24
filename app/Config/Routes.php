@@ -151,6 +151,8 @@ $routes->get('/master-laporan', 'Laporan\LaporanController::index', ['filter', '
 $routes->get('/master-laporan/gendata-pemasukan/(:any)', 'Laporan\LaporanController::generate_data_pemasukan/$1', ['filter', 'auth']);
 $routes->get('/master-laporan/pemasukan', 'Laporan\LaporanController::laporan_pemasukan', ['filter', 'auth']);
 $routes->get('/master-laporan/pengeluaran', 'Laporan\LaporanController::laporan_pengeluaran', ['filter', 'auth']);
+$routes->get('/master-laporan/pemasukan/(:any)/(:any)', 'Laporan\LaporanController::show_laporan_pemasukan/$1/$2', ['filter', 'auth']);
+$routes->get('/master-laporan/pengeluaran/(:any)/(:any)', 'Laporan\LaporanController::show_laporan_pengeluaran/$1/$2', ['filter', 'auth']);
 $routes->get('/master-laporan/tagihan-mhs', 'Laporan\LaporanController::laporan_tagihan_mhs', ['filter', 'auth']);
 $routes->get('/master-laporan/tagihan-mhs/(:any)', 'Laporan\LaporanController::laporan_tagihan_mhs_by_nim/$1', ['filter', 'auth']);
 
