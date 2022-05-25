@@ -165,7 +165,7 @@ class LaporanController extends BaseController
         $data['pengeluaran'] = $result;
         $data['tgl_mulai'] = tgl_indo($mulai);
         $data['tgl_akhir'] = tgl_indo($akhir);
-        return view('pages/master/laporan/laporan-pemasukan/index', $data);
+        return view('pages/master/laporan/laporan-pengeluaran/index', $data);
     }
 
     public function laporan_tagihan_mhs_by_nim(String $nim)

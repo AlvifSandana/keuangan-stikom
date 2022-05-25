@@ -75,6 +75,7 @@ class Transaksi extends Model
                     ->get();
             } else if ($kode_unit == 'PENGELUARAN_ALL') {
                 $query = $this->builder()
+                    ->join('tbl_akun_pengeluaran', 'tbl_transaksi.kode_unit = tbl_akun_pengeluaran.kode_akun', 'left')
                     ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
                     ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
                     ->orderBy($orderBy, $direction)
@@ -82,10 +83,11 @@ class Transaksi extends Model
             } else if ($kode_unit == 'PEMASUKAN_ALL') {
                 $query = $this->builder()
                     ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->join('tbl_akun_pemasukan', 'tbl_transaksi.kode_unit = tbl_akun_pemasukan.kode_akun', 'left')
                     ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
                     ->orderBy($orderBy, $direction)
                     ->get();
-            }else {
+            } else {
                 // set query
                 $query = $this->builder()
                     ->like('kode_unit', $kode_unit, 'both')
@@ -269,10 +271,10 @@ class Transaksi extends Model
             if (count($query_data->getResultArray()) > 0) {
                 $data = $query_data->getResultArray();
                 $data_short = [];
-                for ($i=1; $i <= 12; $i++) { 
+                for ($i = 1; $i <= 12; $i++) {
                     // dd(array_search((string)$i,array_column(json_decode(json_encode($data),true), 'bulan'),true));
-                    $idx_found = array_search((string)$i,array_column(json_decode(json_encode($data),true), 'bulan'),true);
-                    if(is_numeric($idx_found)){
+                    $idx_found = array_search((string)$i, array_column(json_decode(json_encode($data), true), 'bulan'), true);
+                    if (is_numeric($idx_found)) {
                         array_push($data_short, (int)$data[$idx_found]['total']);
                         continue;
                     } else {

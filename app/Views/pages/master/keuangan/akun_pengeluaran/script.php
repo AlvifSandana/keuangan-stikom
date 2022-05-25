@@ -2,6 +2,18 @@
     // DataTable
     $('.tbl_master_akun_pengeluaran').DataTable();
 
+    $(document).ready(function(){
+        var anchor = window.location.hash.substr(1);
+        console.log("test= "+ anchor);
+        var search = document.querySelector("input[type='search']");
+        if(anchor != ''){
+            $('input[type=search]').val(anchor);
+            setTimeout(function(){
+                $('input[type=search]').trigger("click");
+            }, 2);
+        }
+    });
+
     /** 
      * get akun pengeluaran by id
      */

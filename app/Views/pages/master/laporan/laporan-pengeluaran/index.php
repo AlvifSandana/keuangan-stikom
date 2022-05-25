@@ -36,11 +36,26 @@
                                 <thead class="text-center">
                                     <th>NO.</th>
                                     <th>UNIT</th>
-                                    <th>JENIS</th>  
                                     <th>NOMINAL</th>
                                     <th>TANGGAL</th>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <?php if(is_array($pengeluaran)){
+                                        foreach ($pengeluaran as $key => $value) { ?>
+                                        <tr>
+                                            <td class="text-center"><?= $key + 1 ?></td>
+                                            <td class="text-center">
+                                                <?php if (strpos($value['kode_unit'], "-") == false) { ?>
+                                                    <a target="_blank" href="<?= base_url() ?>/keuangan-mahasiswa/pembayaran/detail/<?= $value['kode_unit'] ?>"><?= $value['kode_unit'] ?></a>
+                                                <?php } else { ?>
+                                                    <a target="_blank" href="<?= base_url() ?>/master-keuangan/akun-pengeluaran#<?= $value['kode_unit'] ?>"><?= $value['kode_unit'] ?></a>
+                                                <?php } ?>
+                                            </td>
+                                            <td>Rp. <span class="float-right"><?= number_format($value['q_kredit']) ?></span></td>
+                                            <td class="text-center"><?= $value['tanggal_transaksi'] ?></td>
+                                        </tr>
+                                    <?php }} else { echo "<tr><td><?= $pengeluaran ?></td></tr>"; } ?>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -52,5 +67,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
-<?= $this->include('pages/master/laporan/script') ?>
+<?= $this->include('pages/master/laporan/laporan-pengeluaran/script') ?>
 <?= $this->endSection() ?>
