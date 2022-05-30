@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-2">
+        <!--<div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
@@ -164,7 +164,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </section>
 <?= $this->endSection() ?>
