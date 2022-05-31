@@ -85,25 +85,37 @@
                 </div>
             </div>
         </div>
-        <!--<div class="row mb-2">
+        <div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Laporan Tagihan (berdasarkan NIM)</h4>
-                        <p>Meliputi nominal <b>Total Tagihan</b> dan <b>Sisa Tagihan</b> berdasarkan NIM. <br>
-                            Generate laporan tagihan berdasarkan NIM. Silahkan masukkan NIM yang valid, lali klik tombol <b class="text-success">Generate</b>.
+                        <h4 class="h4">Laporan Keseluruhan</h4>
+                        <p>Meliputi pemasukan dari pembayaran mahasiswa dan pengeluaran.<br>
+                        Atur <b>Waktu Mulai</b> dan <b>Waktu Berakhir</b>, lalu tekan tombol <b class="text-success">Generate</b> berikut.
                         </p>
-                        <div class="input-group mb-3">
-                            <input id="tagihan_nim" type="text" class="form-control" placeholder="Generate laporan tagihan per mahasiswa. Masukkan NIM." aria-label="Generate laporan tagihan per mahasiswa. Masukkan NIM." aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-success" type="button" onclick="generateLaporanTagihanByNIM()"><i class="fas fa-arrow-down"></i> Generate</button>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="waktu_mulai">Waktu Mulai</label>
+                                    <input type="date" name="waktu_mulai_global" id="waktu_mulai_global" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="waktu_mulai">Waktu Berakhir</label>
+                                    <input type="date" name="waktu_akhir_global" id="waktu_akhir_global" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <a class="btn btn-success float-right" href="#" style="margin-top: 30px;" onclick="generateLaporanGlobal()">
+                                <i class="fas fa-fw fa-arrow-down"></i> Generate</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mb-2">
+        <!--<div class="row mb-2">
             <div class="col">
                 <div class="card">
                     <div class="card-body">

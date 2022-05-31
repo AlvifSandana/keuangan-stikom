@@ -20,6 +20,16 @@
         }
     }
 
+    function generateLaporanGlobal(){
+        var tgl_mulai = $("#waktu_mulai_global").val();
+        var tgl_akhir = $("#waktu_akhir_global").val();
+        if (tgl_mulai == '' || tgl_akhir == '') {
+            showSWAL('error', 'Mohon masukkan waktu dengan benar!');
+        } else {
+            window.open(`<?= base_url()?>/master-laporan/global/${tgl_mulai}/${tgl_akhir}`)
+        }
+    }
+
     function generateLaporanTagihanByNIM(){
         try {
             // get nim from input

@@ -118,6 +118,59 @@ class LaporanController extends BaseController
         }
     }
 
+    /**
+     * Get data laporan global (JSON)
+     */
+    public function laporan_global()
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            // set rules
+            $validator->setRules([
+                'waktu_mulai_global' => 'required',
+                'waktu_akhir_global' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create model
+                $m_transaksi = new Transaksi();
+                // get data pengeluaran
+                $pemasukan = $this->generate_data_pengeluaran('PEMASUKAN_ALL');
+                $pengeluaran = $this->generate_data_pengeluaran('PENGELUARAN');
+                // check
+                if (!is_string($pengeluaran) || !is_string($pemasukan)) {
+                    $global = array_merge($pemasukan, $pengeluaran);
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Data available!',
+                        'data' => $global
+                    ]);
+                } else {
+                    $global = array_merge($pemasukan, $pengeluaran);
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => $global,
+                        'data' => []
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Validasi gagal, mohon isi field waktu mulai dan berakhir dengan benar!',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' => $th->getTrace()
+            ]);
+        }
+    }
+
     public function show_laporan_pemasukan(String $mulai, String $akhir)
     {
         helper('custom_helper');
@@ -166,6 +219,32 @@ class LaporanController extends BaseController
         $data['tgl_mulai'] = tgl_indo($mulai);
         $data['tgl_akhir'] = tgl_indo($akhir);
         return view('pages/master/laporan/laporan-pengeluaran/index', $data);
+    }
+
+    public function show_laporan_global(String $mulai, String $akhir)
+    {
+        helper('custom_helper');
+        // create request instance
+        $request = \Config\Services::request();
+        // get uri segment for dynamic sidebar active item
+        $data['uri_segment'] = $request->uri->getSegment(1);
+        // result
+        $result = [];
+        // create model
+        $m_transaksi = new Transaksi();
+        // get data pemasukan
+        $pemasukan = $m_transaksi->findTransaksi('PEMASUKAN_ALL', 'D', 'id_transaksi', 'ASC', $mulai, $akhir);
+        $pengeluaran = $m_transaksi->findTransaksi('PENGELUARAN', 'K', 'id_transaksi', 'ASC', $mulai, $akhir);
+        // check
+        if (!is_string($pengeluaran) || !is_string($pemasukan)) {
+            $result = array_merge($pemasukan, $pengeluaran);
+        } else {
+            $result = "Data tidak ditemukan!";
+        }
+        $data['global_data'] = $result;
+        $data['tgl_mulai'] = tgl_indo($mulai);
+        $data['tgl_akhir'] = tgl_indo($akhir);
+        return view('pages/master/laporan/laporan-global/index', $data);
     }
 
     public function laporan_tagihan_mhs_by_nim(String $nim)
