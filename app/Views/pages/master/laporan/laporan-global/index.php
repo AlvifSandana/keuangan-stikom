@@ -30,9 +30,50 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Laporan Global <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span></h4>
+                        <h4 class="h4">Laporan Global <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span> <span class="float-right"><button class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></button></span></h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-borderless table-sm">
+                                    <tr class="text-success"> 
+                                        <td>Record Pembayaran Mahasiswa</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold"><?= $n_pemasukan_dari_mhs?></td>
+                                    </tr>
+                                    <tr class="text-success">
+                                        <td>Record Akun Pemasukan</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold"><?= $n_pemasukan_akun_pemasukan?></td>
+                                    </tr>
+                                    <tr class="text-danger">
+                                        <td>Record Akun Pengeluaran</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold"><?= $n_pengeluaran?></td>
+                                    </tr>
+                                    <tr class="text-success">
+                                        <td>Total Nominal Pembayaran Mahasiswa</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold">Rp <?= number_format($total_pemasukan_dari_mhs, 0, ',', '.') ?></td>
+                                    </tr>
+                                    <tr class="text-success">
+                                        <td>Total Nominal Transaksi Akun Pemasukan</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold">Rp <?= number_format($total_pemasukan_akun_pemasukan, 0, ',', '.') ?></td>
+                                    </tr>
+                                    <tr class="text-danger">
+                                        <td>Total Nominal Transaksi Akun Pengeluaran</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold">Rp <?= number_format($total_pengeluaran, 0, ',', '.') ?></td>
+                                    </tr>
+                                    <tr class="text-white bg-warning">
+                                        <td>Total Nominal</td>
+                                        <td>:</td>
+                                        <td class="font-weight-bold">Rp <?= number_format(($total_pemasukan_akun_pemasukan + $total_pemasukan_dari_mhs) - $total_pengeluaran, 0, ',', '.') ?></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm">
+                            <table class="table table-hover table-bordered table-sm tbl-global">
                                 <thead class="text-center">
                                     <th>NO.</th>
                                     <th>UNIT</th>
@@ -69,5 +110,5 @@
 
 <?= $this->section('custom-script') ?>
 <?= $this->include('pages/master/laporan/script') ?>
-<?= $this->include('pages/master/laporan/laporan-pemasukan/script') ?>
+<?= $this->include('pages/master/laporan/laporan-global/script') ?>
 <?= $this->endSection() ?>

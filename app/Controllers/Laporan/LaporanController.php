@@ -134,10 +134,8 @@ class LaporanController extends BaseController
             // begin validation
             $isDataValid = $validator->withRequest($this->request)->run();
             if ($isDataValid) {
-                // create model
-                $m_transaksi = new Transaksi();
                 // get data pengeluaran
-                $pemasukan = $this->generate_data_pengeluaran('PEMASUKAN_ALL');
+                $pemasukan = $this->generate_data_pemasukan('PEMASUKAN_ALL');
                 $pengeluaran = $this->generate_data_pengeluaran('PENGELUARAN');
                 // check
                 if (!is_string($pengeluaran) || !is_string($pemasukan)) {
@@ -186,6 +184,17 @@ class LaporanController extends BaseController
         $pemasukan = $m_transaksi->findTransaksi('PEMASUKAN_ALL', 'D', 'id_transaksi', 'ASC', $mulai, $akhir);
         // check
         if (!is_string($pemasukan)) {
+            $data['n_pemasukan_akun_pemasukan'] = count(array_unique(array_column($pemasukan, 'kode_unit')));
+            $data['n_pemasukan_dari_mhs'] = count($pemasukan) - $data['n_pemasukan_akun_pemasukan'];
+            $data['total_pemasukan_akun_pemasukan'] = 0;
+            $data['total_pemasukan_dari_mhs'] = 0;
+            foreach ($pemasukan as $key => $value) {
+                if (strpos($value['kode_unit'], "-")) {
+                    $data['total_pemasukan_akun_pemasukan'] += (int)$value['q_debit'];
+                } else {
+                    $data['total_pemasukan_dari_mhs'] += (int)$value['q_debit'];
+                }
+            }
             $result = $pemasukan;
         } else {
             $result = "Data tidak ditemukan!";
@@ -211,6 +220,11 @@ class LaporanController extends BaseController
         $pengeluaran = $m_transaksi->findTransaksi('PENGELUARAN', 'K', 'id_transaksi', 'ASC', $mulai, $akhir);
         // check
         if (!is_string($pengeluaran)) {
+            $data['n_pengeluaran'] = count($pengeluaran);
+            $data['total_pengeluaran'] = 0;
+            foreach ($pengeluaran as $key => $value) {
+                $data['total_pengeluaran'] += (int)$value['q_kredit'];
+            }
             $result = $pengeluaran;
         } else {
             $result = "Data tidak ditemukan!";
@@ -237,6 +251,22 @@ class LaporanController extends BaseController
         $pengeluaran = $m_transaksi->findTransaksi('PENGELUARAN', 'K', 'id_transaksi', 'ASC', $mulai, $akhir);
         // check
         if (!is_string($pengeluaran) || !is_string($pemasukan)) {
+            $data['n_pemasukan_akun_pemasukan'] = count(array_unique(array_column($pemasukan, 'kode_unit')));
+            $data['n_pengeluaran'] = count($pengeluaran);
+            $data['n_pemasukan_dari_mhs'] = count($pemasukan) - $data['n_pemasukan_akun_pemasukan'];
+            $data['total_pemasukan_akun_pemasukan'] = 0;
+            $data['total_pemasukan_dari_mhs'] = 0;
+            $data['total_pengeluaran'] = 0;
+            foreach ($pemasukan as $key => $value) {
+                if (strpos($value['kode_unit'], "-")) {
+                    $data['total_pemasukan_akun_pemasukan'] += (int)$value['q_debit'];
+                } else {
+                    $data['total_pemasukan_dari_mhs'] += (int)$value['q_debit'];
+                }
+            }
+            foreach ($pengeluaran as $key => $value) {
+                $data['total_pengeluaran'] += (int)$value['q_kredit'];
+            }
             $result = array_merge($pemasukan, $pengeluaran);
         } else {
             $result = "Data tidak ditemukan!";

@@ -1,6 +1,6 @@
 <script>
     // enable datatable
-    $('table').DataTable();
+    $('.tbl-pengeluaran').DataTable();
 
 
 </script>

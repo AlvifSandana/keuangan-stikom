@@ -1,5 +1,5 @@
 <script>
     // enable datatable
-    $('table').DataTable();
+    $('.tbl-pemasukan').DataTable();
 
 </script>

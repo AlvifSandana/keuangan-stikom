@@ -90,7 +90,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="h4">Laporan Keseluruhan</h4>
-                        <p>Meliputi pemasukan dari pembayaran mahasiswa dan pengeluaran.<br>
+                        <p>Meliputi pemasukan, pembayaran mahasiswa, dan pengeluaran.<br>
                         Atur <b>Waktu Mulai</b> dan <b>Waktu Berakhir</b>, lalu tekan tombol <b class="text-success">Generate</b> berikut.
                         </p>
                         <div class="row">
