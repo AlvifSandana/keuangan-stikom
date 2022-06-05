@@ -39,4 +39,50 @@ class AppSettings extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Get Setting by id_setting
+     */
+    public function getSettingById(String $id_setting = null)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder()
+                ->where('id_setting', $id_setting)
+                ->orderBy('id_setting', 'ASC')
+                ->get();
+            // check query
+            if (count($query->getResultArray()) > 0) {
+                $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
+
+    /**
+     * Get Setting by Name
+     */
+    public function getSettingByName(String $nama_setting = null)
+    {
+        try {
+            // set result
+            $result = "Data tidak ditemukan!";
+            // set query
+            $query = $this->builder()
+                ->where('nama_setting', $nama_setting)
+                ->orderBy('id_setting', 'ASC')
+                ->get();
+            // check query
+            if (count($query->getResultArray()) > 0) {
+                $result = $query->getResultArray();
+            }
+            return $result;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }

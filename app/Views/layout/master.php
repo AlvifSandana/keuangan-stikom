@@ -23,7 +23,7 @@
     <!-- datatable -->
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"> -->
     <!-- datatable -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/plugins/datatables/datatables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/plugins/datatables/jquery.dataTables.min.css">
     <!-- animate.css -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/plugins/animatecss/animate.min.css" />
     <!-- select2 -->

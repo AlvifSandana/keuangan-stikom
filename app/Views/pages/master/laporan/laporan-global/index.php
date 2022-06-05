@@ -34,20 +34,20 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-borderless table-sm">
-                                    <tr class="text-success"> 
+                                    <tr class="text-success">
                                         <td>Record Pembayaran Mahasiswa</td>
                                         <td>:</td>
-                                        <td class="font-weight-bold"><?= $n_pemasukan_dari_mhs?></td>
+                                        <td class="font-weight-bold"><?= $n_pemasukan_dari_mhs ?></td>
                                     </tr>
                                     <tr class="text-success">
                                         <td>Record Akun Pemasukan</td>
                                         <td>:</td>
-                                        <td class="font-weight-bold"><?= $n_pemasukan_akun_pemasukan?></td>
+                                        <td class="font-weight-bold"><?= $n_pemasukan_akun_pemasukan ?></td>
                                     </tr>
                                     <tr class="text-danger">
                                         <td>Record Akun Pengeluaran</td>
                                         <td>:</td>
-                                        <td class="font-weight-bold"><?= $n_pengeluaran?></td>
+                                        <td class="font-weight-bold"><?= $n_pengeluaran ?></td>
                                     </tr>
                                     <tr class="text-success">
                                         <td>Total Nominal Pembayaran Mahasiswa</td>
@@ -78,6 +78,7 @@
                                     <th>NO.</th>
                                     <th>UNIT</th>
                                     <th>KATEGORI</th>
+                                    <th>KETERANGAN</th>
                                     <th>NOMINAL</th>
                                     <th>TANGGAL</th>
                                 </thead>
@@ -92,9 +93,16 @@
                                                     <a target="_blank" href="<?= base_url() ?>/master-keuangan/<?= $value['kategori_transaksi'] == 'D' ? 'akun-pemasukan' : 'akun-pengeluaran' ?>#<?= $value['kode_unit'] ?>"><?= $value['kode_unit'] ?></a>
                                                 <?php } ?>
                                             </td>
-                                            <td class="text-center text-<?= $value['kategori_transaksi'] == 'D' ? 'success' : 'danger' ?>"><?= $value['kategori_transaksi'] == 'D' ? 'Pemasukan' : 'Pengeluaran'?></td>
+                                            <td class="text-center text-<?= $value['kategori_transaksi'] == 'D' ? 'success' : 'danger' ?>"><?= $value['kategori_transaksi'] == 'D' ? 'Pemasukan' : 'Pengeluaran' ?></td>
+                                            <td class="">
+                                                <?php if (strpos($value['kode_unit'], "-") == false) { ?>
+                                                    Pembayaran <?= $value['nama_item']?>
+                                                <?php } else { ?>
+                                                    <?= $value['nama_akun']?>
+                                                <?php } ?>
+                                            </td>
                                             <td>Rp. <span class="float-right"><?= $value['kategori_transaksi'] == 'D' ? $value['q_debit'] : $value['q_kredit'] ?></span></td>
-                                            <td class="text-center"><?= $value['tanggal_transaksi'] ?></td>
+                                            <td class="text-center"><?= date('d-M-Y H:i:s', strtotime($value['tanggal_transaksi'])) ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>

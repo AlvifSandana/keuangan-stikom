@@ -17,7 +17,10 @@
 <!-- select2 -->
 <script src="<?php echo base_url(); ?>/plugins/select2/js/select2.full.min.js"></script>
 <!-- DataTable -->
-<script src="<?php echo base_url(); ?>/plugins/datatables/jquery.dataTables.min.js"></script>
+<!--<script src="<?php echo base_url(); ?>/plugins/datatables/jquery.dataTables.min.js"></script>-->
+<script src="<?php echo base_url(); ?>/plugins/datatables/datatables.min1.js"></script>
+<script src="<?php echo base_url(); ?>/plugins/datatables/pdfmake.min.js"></script>
+<script src="<?php echo base_url(); ?>/plugins/datatables/vfs_fonts.js"></script>
 <!-- ChartJS -->
 <script src="<?php echo base_url(); ?>/plugins/chart.js/Chart.min.js"></script>
 <!-- sweetalert2 custom -->
