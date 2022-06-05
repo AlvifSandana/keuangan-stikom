@@ -65,6 +65,22 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card card-info">
                     <div class="card-header">
+                        <h3 class="card-title">Grafik Pembayaran Mahasiswa Periode <?= date("Y") - 1 ?></h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart">
+                            <canvas id="keuangan-gg-chart-canvas" height="300" style="height: 300px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="card card-info">
+                    <div class="card-header">
                         <h3 class="card-title">Grafik Pembayaran Mahasiswa tahun <?= date("Y") ?></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -85,8 +101,17 @@
 
 <?= $this->section('custom-script') ?>
 <script>
+    // get current date, month, and year
+    var current_date = new Date().getDate();
+    var current_month = new Date().getMonth() + 1;
+    var current_year = new Date().getFullYear();
+    // define month labels
+    var even_semester_month = ['July', 'August', 'September', 'October', 'November', 'December'];
+    var odd_semester_month = ['January', 'February', 'March', 'April', 'May', 'June'];
+    var all_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     // define initial chart data
     const ctx = $("#keuangan-chart-canvas").get(0).getContext('2d')
+    const ctx2 = $("#keuangan-gg-chart-canvas").get(0).getContext('2d')
     var chartData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [{
@@ -166,20 +191,29 @@
                 if (data.data.pembayaran.length != 0) {
                     chartData.datasets[0].data = data.data.pembayaran
                 }
-                // if (data.data.tagihan.length != 0) {
-                //     chartData.datasets[1].data = data.data.tagihan
-                // }
                 var barChartData = $.extend(true, {}, chartData)
                 var tmp0 = chartData.datasets[0]
-                var tmp1 = chartData.datasets[1]
                 barChartData.datasets[0] = tmp0
-                // barChartData.datasets[1] = tmp1
 
                 const keuangan_chart = new Chart(ctx, {
                     type: "bar",
                     data: chartData,
                     options: barChartOptions
                 });
+
+                if (data.data.pembayaran_prev.length != 0) {
+                    chartData.datasets[0].data = data.data.pembayaran_prev
+                }
+                var barChartData = $.extend(true, {}, chartData)
+                var tmp0 = chartData.datasets[0]
+                barChartData.datasets[0] = tmp0
+
+                const keuangan_chart2 = new Chart(ctx2, {
+                    type: "bar",
+                    data: chartData,
+                    options: barChartOptions
+                });
+
             }
         },
         error: function(jqXHR) {

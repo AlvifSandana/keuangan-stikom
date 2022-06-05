@@ -52,22 +52,28 @@ class DashboardController extends BaseController
         return view('pages/dashboard', $data);
     }
 
-    public function chart_pemasukan_pengeluaran(String $tahun)
+    public function chart_pemasukan_pengeluaran(String $tahun, String $semester = "")
     {
         try {
             // create model object
             $m_transaksi = new Transaksi();
-            // get data 1 year
-            $data = $m_transaksi->getChartDataByYear($tahun, 'q_debit');
-            $data1 = $m_transaksi->getChartDataByYear($tahun, 'q_kredit');
+            // define year
+            $prev_year = (int)$tahun - 1;
+            // get data 1 year and prev year
+            $data_in = $m_transaksi->getChartDataByYear($tahun, 'q_debit');
+            $data_in_prev = $m_transaksi->getChartDataByYear($prev_year, 'q_debit');
+            $data_out = $m_transaksi->getChartDataByYear($tahun, 'q_kredit');
+            $data_out_prev = $m_transaksi->getChartDataByYear($prev_year, 'q_kredit');
             // check data
-            if(!is_string($data) && count($data) > 0 || !is_string($data1) && count($data1) > 0){
+            if(!is_string($data_in) && count($data_in) > 0 || !is_string($data_out) && count($data_out) > 0){
                 return json_encode([
                     'status' => 'success',
                     'message' => 'Data available!',
                     'data' => [
-                        'pembayaran' => $data,
-                        'tagihan' => $data1
+                        'pembayaran' => $data_in,
+                        'pembayaran_prev' => $data_in_prev,
+                        'tagihan' => $data_out,
+                        'tagihan_prev' => $data_out_prev
                     ]
                 ]);
             } else {
@@ -75,8 +81,10 @@ class DashboardController extends BaseController
                     'status' => 'failed',
                     'message' => 'Data not available!',
                     'data' => [
-                        'pembayaran' => $data,
-                        'tagihan' => $data1
+                        'pembayaran' => $data_in,
+                        'pembayaran_prev' => $data_in_prev,
+                        'tagihan' => $data_out,
+                        'tagihan_prev' => $data_out_prev
                     ]
                 ]);
             }

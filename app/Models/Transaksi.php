@@ -69,6 +69,7 @@ class Transaksi extends Model
             } else if ($kode_unit == 'PENGELUARAN') {
                 $query = $this->builder()
                     ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
+                    ->join('tbl_akun_pengeluaran', 'tbl_transaksi.kode_unit = tbl_akun_pengeluaran.kode_akun', 'left')
                     ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
                     ->notLike('kode_transaksi', 'BY-')
                     ->orderBy($orderBy, $direction)
@@ -84,6 +85,7 @@ class Transaksi extends Model
                 $query = $this->builder()
                     ->like('kategori_transaksi', $kategori_transaksi, 'both', true)
                     ->join('tbl_akun_pemasukan', 'tbl_transaksi.kode_unit = tbl_akun_pemasukan.kode_akun', 'left')
+                    ->join('tbl_item_paket', 'tbl_transaksi.item_kode = tbl_item_paket.kode_item', 'left')
                     ->where("tbl_transaksi.created_at BETWEEN '$from' AND '$to'", null)
                     ->orderBy($orderBy, $direction)
                     ->get();
@@ -99,7 +101,6 @@ class Transaksi extends Model
             }
             // check query, when query success with data, 
             // set to result
-            // dd($query->getResultArray());
             if (count($query->getResultArray()) > 0) {
                 $result = $query->getResultArray();
             }
@@ -240,7 +241,7 @@ class Transaksi extends Model
     /**
      * 
      */
-    public function getChartDataByYear(String $year, String $type)
+    public function getChartDataByYear(String $year, String $type, String $bulan = "")
     {
         try {
             // set result
