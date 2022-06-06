@@ -65,7 +65,7 @@
             <div class="col-md-6 col-sm-12">
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Grafik Pembayaran Mahasiswa Periode <?= date("Y") - 1 ?></h3>
+                        <h3 class="card-title">Grafik Pembayaran Mahasiswa tahun <?= date("Y") - 1 ?></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                             <!--<button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>-->
@@ -73,7 +73,7 @@
                     </div>
                     <div class="card-body">
                         <div class="chart">
-                            <canvas id="keuangan-gg-chart-canvas" height="300" style="height: 300px;"></canvas>
+                            <canvas id="keuangan-chart-canvas" height="300" style="height: 300px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="card-body">
                         <div class="chart">
-                            <canvas id="keuangan-chart-canvas" height="300" style="height: 300px;"></canvas>
+                            <canvas id="keuangan-1-chart-canvas" height="300" style="height: 300px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
     var all_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     // define initial chart data
     const ctx = $("#keuangan-chart-canvas").get(0).getContext('2d')
-    const ctx2 = $("#keuangan-gg-chart-canvas").get(0).getContext('2d')
+    const ctx2 = $("#keuangan-1-chart-canvas").get(0).getContext('2d')
     var chartData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: [{
@@ -125,17 +125,6 @@
                 pointHighlightStroke: 'rgba(60,141,188,1)',
                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
-            // {
-            //     label: 'Tagihan',
-            //     backgroundColor: 'rgba(210, 214, 222, 1)',
-            //     borderColor: 'rgba(210, 214, 222, 1)',
-            //     pointRadius: false,
-            //     pointColor: 'rgba(210, 214, 222, 1)',
-            //     pointStrokeColor: '#c1c7d1',
-            //     pointHighlightFill: '#fff',
-            //     pointHighlightStroke: 'rgba(220,220,220,1)',
-            //     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            // },
         ]
     };
     var barChartOptions = {
@@ -177,43 +166,33 @@
     };
 
     //////////////////// GET DATA /////////////////////////////////////
-    var data_pemasukan = [];
-    var data_pengeluaran = [];
-    // get current year
-    var year = new Date().getFullYear();
     // get data from api 
     $.ajax({
-        url: '<?= base_url() ?>/dashboard/chart-keuangan/' + year,
+        url: '<?= base_url() ?>/dashboard/chart-keuangan/' + current_year,
         method: 'GET',
         dataType: 'JSON',
         success: function(data) {
             if (data.status == 'success') {
-                if (data.data.pembayaran.length != 0) {
-                    chartData.datasets[0].data = data.data.pembayaran
-                }
                 var barChartData = $.extend(true, {}, chartData)
-                var tmp0 = chartData.datasets[0]
-                barChartData.datasets[0] = tmp0
+                var barChartData1 = $.extend(true, {}, chartData)
+                if (data.data.pembayaran.length > 0) {
+                    barChartData1.datasets[0].data = data.data.pembayaran
+                }
+                if (data.data.pembayaran_prev.length > 0) {
+                    barChartData.datasets[0].data = data.data.pembayaran_prev
+                }
 
                 const keuangan_chart = new Chart(ctx, {
                     type: "bar",
-                    data: chartData,
+                    data: barChartData,
                     options: barChartOptions
                 });
-
-                if (data.data.pembayaran_prev.length != 0) {
-                    chartData.datasets[0].data = data.data.pembayaran_prev
-                }
-                var barChartData = $.extend(true, {}, chartData)
-                var tmp0 = chartData.datasets[0]
-                barChartData.datasets[0] = tmp0
 
                 const keuangan_chart2 = new Chart(ctx2, {
                     type: "bar",
-                    data: chartData,
+                    data: barChartData1,
                     options: barChartOptions
                 });
-
             }
         },
         error: function(jqXHR) {
