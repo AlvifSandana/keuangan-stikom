@@ -30,7 +30,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Laporan Global <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span> <span class="float-right"><button class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></button></span></h4>
+                        <h4 class="h4">Laporan Global <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span> <span class="float-right"><a href="<?= base_url('/lk').'/'.$filename?>" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></a></span></h4>
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-borderless table-sm">
@@ -96,7 +96,7 @@
                                             <td class="text-center text-<?= $value['kategori_transaksi'] == 'D' ? 'success' : 'danger' ?>"><?= $value['kategori_transaksi'] == 'D' ? 'Pemasukan' : 'Pengeluaran' ?></td>
                                             <td class="">
                                                 <?php if (strpos($value['kode_unit'], "-") == false) { ?>
-                                                    Pembayaran <?= $value['nama_item']?>
+                                                    <?= $value['nama_item']?>
                                                 <?php } else { ?>
                                                     <?= $value['nama_akun']?>
                                                 <?php } ?>

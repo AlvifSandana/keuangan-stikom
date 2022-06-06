@@ -5,6 +5,8 @@ namespace App\Controllers\Laporan;
 use App\Controllers\BaseController;
 use App\Models\Mahasiswa;
 use App\Models\Transaksi;
+use CodeIgniter\I18n\Time;
+use \PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class LaporanController extends BaseController
 {
@@ -257,6 +259,13 @@ class LaporanController extends BaseController
             $data['total_pemasukan_akun_pemasukan'] = 0;
             $data['total_pemasukan_dari_mhs'] = 0;
             $data['total_pengeluaran'] = 0;
+            // generate .xlsx data
+            // create spreadsheet instance
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $spreadsheet = $reader->load(WRITEPATH . 'templates/template-lk-global.xlsx');
+            // set spreadsheet styles
+            $spreadsheet->getDefaultStyle()->getFont()->setName('CALIBRI');
+            $spreadsheet->getDefaultStyle()->getFont()->setSize(12);
             foreach ($pemasukan as $key => $value) {
                 if (strpos($value['kode_unit'], "-")) {
                     $data['total_pemasukan_akun_pemasukan'] += (int)$value['q_debit'];
@@ -267,7 +276,47 @@ class LaporanController extends BaseController
             foreach ($pengeluaran as $key => $value) {
                 $data['total_pengeluaran'] += (int)$value['q_kredit'];
             }
+            // merge array pemasukan and pengeluaran
             $result = array_merge($pemasukan, $pengeluaran);
+            // set first xlsx index column
+            $idcol = 14;
+            foreach ($result as $key => $value) {
+                // actual xlsx column index 
+                $idx = $key + $idcol;
+                // get keterangan
+                if (strpos($value['kode_unit'], "-")) {
+                    $ket = $value['nama_akun'];
+                } else {
+                    $ket = $value['nama_item'];
+                }
+                // write data to cell
+                $spreadsheet
+                    ->setActiveSheetIndex(0)
+                    ->setCellValue("B$idx", $key + 1)
+                    ->setCellValue("C$idx", "'".$value['kode_unit'])
+                    ->setCellValue("D$idx", $value['kategori_transaksi'] == "D" ? 'PEMASUKAN' : "PENGELUARAN")
+                    ->setCellValue("E$idx", $ket)
+                    ->setCellValue("F$idx", $value['kategori_transaksi'] == "D" ? $value['q_debit'] : $value['q_kredit'])
+                    ->setCellValue("G$idx", date('d-M-Y H:i:s', strtotime($value['tanggal_transaksi'])));
+            }
+            // write data to cell
+            $spreadsheet
+                ->setActiveSheetIndex(0)
+                ->setCellValue('B3', 'PERIODE '.strtoupper(tgl_indo($mulai)).' - '.strtoupper(tgl_indo($akhir)))
+                ->setCellValue('G5', $data['n_pemasukan_dari_mhs'])
+                ->setCellValue('G6', $data['n_pemasukan_akun_pemasukan'])
+                ->setCellValue('G7', $data['n_pengeluaran'])
+                ->setCellValue('G8', $data['total_pemasukan_dari_mhs'])
+                ->setCellValue('G9', $data['total_pemasukan_akun_pemasukan'])
+                ->setCellValue('G10', $data['total_pengeluaran']);
+            // write spreadsheet to file
+            $filename = 'lk-global-'.date('d-m-Y-H-i-s').'.xlsx';
+            $writer = new Xlsx($spreadsheet);
+            $writer->save(WRITEPATH.'lk/'.$filename);
+            // move file to the public folder
+            $file = new \CodeIgniter\Files\File(WRITEPATH.'lk/'.$filename);
+            $data['filename'] = $filename;
+            $file->move(ROOTPATH.'public/lk', $filename);
         } else {
             $result = "Data tidak ditemukan!";
         }
