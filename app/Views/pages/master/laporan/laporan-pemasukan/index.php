@@ -74,7 +74,7 @@
                                     <th class="text-center">TANGGAL</th>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($pemasukan as $key => $value) { ?>
+                                    <?php if(!is_string($pemasukan)) { foreach ($pemasukan as $key => $value) { ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td class="text-center">
@@ -89,7 +89,7 @@
                                             <td>Rp. <span class="float-right"><?= number_format($value['q_debit']) ?></span></td>
                                             <td class="text-center"><?= date('d-M-Y H:i:s', strtotime($value['tanggal_transaksi'])) ?></td>
                                         </tr>
-                                    <?php } ?>
+                                    <?php }} else {} ?>
                                 </tbody>
                             </table>
                         </div>

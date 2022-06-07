@@ -31,9 +31,10 @@
                 <div class="form-group">
                     <label for="dp_nama_item">ACCESS LEVEL</label>
                     <select class="form-control" name="user_level" id="create_user_level">
-                        <option value="admin">ADMIN</option>
+                        <option value="admin">ADMINISTRATOR</option>
                         <option value="demo">DEMO</option>
                         <option value="read">READ</option>
+                        <option value="read/write">READ/WRITE</option>
                     </select>
                 </div>
                 <button class="btn btn-success float-right mb-4" onclick="createUser()">Create</button>

@@ -180,6 +180,14 @@ class LaporanController extends BaseController
         $data['uri_segment'] = $request->uri->getSegment(1);
         // result
         $result = [];
+        // view data
+        $data['n_pemasukan_akun_pemasukan'] = 0;
+        $data['n_pengeluaran'] = 0;
+        $data['n_pemasukan_dari_mhs'] = 0;
+        $data['total_pemasukan_akun_pemasukan'] = 0;
+        $data['total_pemasukan_dari_mhs'] = 0;
+        $data['total_pengeluaran'] = 0;
+        $data['filename'] = 'kosong';
         // create model
         $m_transaksi = new Transaksi();
         // get data pemasukan
@@ -220,7 +228,7 @@ class LaporanController extends BaseController
                 $spreadsheet
                     ->setActiveSheetIndex(0)
                     ->setCellValue("B$idx", $key + 1)
-                    ->setCellValue("C$idx", "'".$value['kode_unit'])
+                    ->setCellValue("C$idx", "'" . $value['kode_unit'])
                     ->setCellValue("D$idx", $value['kategori_transaksi'] == "D" ? 'PEMASUKAN' : "PENGELUARAN")
                     ->setCellValue("E$idx", $ket)
                     ->setCellValue("F$idx", $value['kategori_transaksi'] == "D" ? $value['q_debit'] : $value['q_kredit'])
@@ -229,19 +237,19 @@ class LaporanController extends BaseController
             // write data to cell
             $spreadsheet
                 ->setActiveSheetIndex(0)
-                ->setCellValue('B3', 'PERIODE '.strtoupper(tgl_indo($mulai)).' - '.strtoupper(tgl_indo($akhir)))
+                ->setCellValue('B3', 'PERIODE ' . strtoupper(tgl_indo($mulai)) . ' - ' . strtoupper(tgl_indo($akhir)))
                 ->setCellValue('G5', $data['n_pemasukan_dari_mhs'])
                 ->setCellValue('G6', $data['n_pemasukan_akun_pemasukan'])
                 ->setCellValue('G7', $data['total_pemasukan_dari_mhs'])
                 ->setCellValue('G8', $data['total_pemasukan_akun_pemasukan']);
             // write spreadsheet to file
-            $filename = 'lk-pemasukan-'.date('d-m-Y-H-i-s').'.xlsx';
+            $filename = 'lk-pemasukan-' . date('d-m-Y-H-i-s') . '.xlsx';
             $writer = new Xlsx($spreadsheet);
-            $writer->save(WRITEPATH.'lk/'.$filename);
+            $writer->save(WRITEPATH . 'lk/' . $filename);
             // move file to the public folder
-            $file = new \CodeIgniter\Files\File(WRITEPATH.'lk/'.$filename);
+            $file = new \CodeIgniter\Files\File(WRITEPATH . 'lk/' . $filename);
             $data['filename'] = $filename;
-            $file->move(ROOTPATH.'public/lk', $filename);
+            $file->move(ROOTPATH . 'public/lk', $filename);
         } else {
             $result = "Data tidak ditemukan!";
         }
@@ -260,6 +268,14 @@ class LaporanController extends BaseController
         $data['uri_segment'] = $request->uri->getSegment(1);
         // result
         $result = [];
+        // view data
+        $data['n_pemasukan_akun_pemasukan'] = 0;
+        $data['n_pengeluaran'] = 0;
+        $data['n_pemasukan_dari_mhs'] = 0;
+        $data['total_pemasukan_akun_pemasukan'] = 0;
+        $data['total_pemasukan_dari_mhs'] = 0;
+        $data['total_pengeluaran'] = 0;
+        $data['filename'] = 'kosong';
         // create model
         $m_transaksi = new Transaksi();
         // get data pemasukan
@@ -294,7 +310,7 @@ class LaporanController extends BaseController
                 $spreadsheet
                     ->setActiveSheetIndex(0)
                     ->setCellValue("B$idx", $key + 1)
-                    ->setCellValue("C$idx", "'".$value['kode_unit'])
+                    ->setCellValue("C$idx", "'" . $value['kode_unit'])
                     ->setCellValue("D$idx", $value['kategori_transaksi'] == "D" ? 'PEMASUKAN' : "PENGELUARAN")
                     ->setCellValue("E$idx", $ket)
                     ->setCellValue("F$idx", $value['kategori_transaksi'] == "D" ? $value['q_debit'] : $value['q_kredit'])
@@ -303,17 +319,17 @@ class LaporanController extends BaseController
             // write data to cell
             $spreadsheet
                 ->setActiveSheetIndex(0)
-                ->setCellValue('B3', 'PERIODE '.strtoupper(tgl_indo($mulai)).' - '.strtoupper(tgl_indo($akhir)))
+                ->setCellValue('B3', 'PERIODE ' . strtoupper(tgl_indo($mulai)) . ' - ' . strtoupper(tgl_indo($akhir)))
                 ->setCellValue('G5', $data['n_pengeluaran'])
                 ->setCellValue('G6', $data['total_pengeluaran']);
             // write spreadsheet to file
-            $filename = 'lk-pengeluaran-'.date('d-m-Y-H-i-s').'.xlsx';
+            $filename = 'lk-pengeluaran-' . date('d-m-Y-H-i-s') . '.xlsx';
             $writer = new Xlsx($spreadsheet);
-            $writer->save(WRITEPATH.'lk/'.$filename);
+            $writer->save(WRITEPATH . 'lk/' . $filename);
             // move file to the public folder
-            $file = new \CodeIgniter\Files\File(WRITEPATH.'lk/'.$filename);
+            $file = new \CodeIgniter\Files\File(WRITEPATH . 'lk/' . $filename);
             $data['filename'] = $filename;
-            $file->move(ROOTPATH.'public/lk', $filename);
+            $file->move(ROOTPATH . 'public/lk', $filename);
         } else {
             $result = "Data tidak ditemukan!";
         }
@@ -332,6 +348,15 @@ class LaporanController extends BaseController
         $data['uri_segment'] = $request->uri->getSegment(1);
         // result
         $result = [];
+        // view data
+        $data['n_pemasukan_akun_pemasukan'] = 0;
+        $data['n_pengeluaran'] = 0;
+        $data['n_pemasukan_dari_mhs'] = 0;
+        $data['total_pemasukan_akun_pemasukan'] = 0;
+        $data['total_pemasukan_dari_mhs'] = 0;
+        $data['total_pengeluaran'] = 0;
+        $data['filename'] = 'kosong';
+        $data['global_data'] = null;
         // create model
         $m_transaksi = new Transaksi();
         // get data pemasukan
@@ -379,7 +404,7 @@ class LaporanController extends BaseController
                 $spreadsheet
                     ->setActiveSheetIndex(0)
                     ->setCellValue("B$idx", $key + 1)
-                    ->setCellValue("C$idx", "'".$value['kode_unit'])
+                    ->setCellValue("C$idx", "'" . $value['kode_unit'])
                     ->setCellValue("D$idx", $value['kategori_transaksi'] == "D" ? 'PEMASUKAN' : "PENGELUARAN")
                     ->setCellValue("E$idx", $ket)
                     ->setCellValue("F$idx", $value['kategori_transaksi'] == "D" ? $value['q_debit'] : $value['q_kredit'])
@@ -388,7 +413,7 @@ class LaporanController extends BaseController
             // write data to cell
             $spreadsheet
                 ->setActiveSheetIndex(0)
-                ->setCellValue('B3', 'PERIODE '.strtoupper(tgl_indo($mulai)).' - '.strtoupper(tgl_indo($akhir)))
+                ->setCellValue('B3', 'PERIODE ' . strtoupper(tgl_indo($mulai)) . ' - ' . strtoupper(tgl_indo($akhir)))
                 ->setCellValue('G5', $data['n_pemasukan_dari_mhs'])
                 ->setCellValue('G6', $data['n_pemasukan_akun_pemasukan'])
                 ->setCellValue('G7', $data['n_pengeluaran'])
@@ -396,13 +421,13 @@ class LaporanController extends BaseController
                 ->setCellValue('G9', $data['total_pemasukan_akun_pemasukan'])
                 ->setCellValue('G10', $data['total_pengeluaran']);
             // write spreadsheet to file
-            $filename = 'lk-global-'.date('d-m-Y-H-i-s').'.xlsx';
+            $filename = 'lk-global-' . date('d-m-Y-H-i-s') . '.xlsx';
             $writer = new Xlsx($spreadsheet);
-            $writer->save(WRITEPATH.'lk/'.$filename);
+            $writer->save(WRITEPATH . 'lk/' . $filename);
             // move file to the public folder
-            $file = new \CodeIgniter\Files\File(WRITEPATH.'lk/'.$filename);
+            $file = new \CodeIgniter\Files\File(WRITEPATH . 'lk/' . $filename);
+            $file->move(ROOTPATH . 'public/lk', $filename);
             $data['filename'] = $filename;
-            $file->move(ROOTPATH.'public/lk', $filename);
         } else {
             $result = "Data tidak ditemukan!";
         }

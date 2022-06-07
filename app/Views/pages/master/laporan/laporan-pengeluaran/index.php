@@ -74,10 +74,7 @@
                                                 <td>Rp. <span class="float-right"><?= number_format($value['q_kredit']) ?></span></td>
                                                 <td class="text-center"><?= $value['tanggal_transaksi'] ?></td>
                                             </tr>
-                                    <?php }
-                                    } else {
-                                        echo "<tr><td><?= $pengeluaran ?></td></tr>";
-                                    } ?>
+                                    <?php }} else {} ?>
                                 </tbody>
                             </table>
                         </div>
@@ -90,5 +87,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>
+<?= $this->include('pages/master/laporan/script') ?>
 <?= $this->include('pages/master/laporan/laporan-pengeluaran/script') ?>
 <?= $this->endSection() ?>

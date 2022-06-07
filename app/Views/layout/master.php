@@ -40,7 +40,15 @@
     <!-- Wrapper -->
     <div class="wrapper">
         <?= $this->include('layout/navbar') ?>
-        <?= $this->include('layout/sidebar') ?>
+        <?php if (session('user_level') === 'admin') { ?>
+            <?= $this->include('layout/sidebar_admin') ?>
+        <?php } else if(session('user_level') === 'demo') {?>
+            <?= $this->include('layout/sidebar_demo') ?>
+        <?php } else if(session('user_level') === 'read') {?>
+            <?= $this->include('layout/sidebar_read') ?>
+        <?php } else if(session('user_level') === 'read/write') {?>
+            <?= $this->include('layout/sidebar_readwrite') ?>
+        <?php } ?>
         <div class="content-wrapper">
             <?= $this->renderSection('content-header') ?>
             <?= $this->renderSection('content-body') ?>

@@ -62,11 +62,11 @@
                             <div class="table-responsive">
                                 <table class="table table-hover" id="tbl_user">
                                     <thead class="text-center">
-                                        <th>#</th>
-                                        <th>USERNAME</th>
-                                        <th>EMAIL</th>
-                                        <th>LEVEL</th>
-                                        <th>ACTION</th>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">USERNAME</th>
+                                        <th class="text-center">EMAIL</th>
+                                        <th class="text-center">LEVEL</th>
+                                        <th class="text-center">ACTION</th>
                                     </thead>
                                     <tbody class="text-center">
                                         <?php foreach ($users as $u) {

@@ -189,62 +189,6 @@
                         </p>
                     </a>
                 </li>
-            <?php } else if (session('user_level') === 'demo') { ?>
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                    <li class="nav-item">
-                        <a href="<?php echo base_url() ?>/dashboard" class="nav-link<?php if ($uri_segment == "dashboard") {
-                                                                                        echo " active";
-                                                                                    } ?>">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item<?php if ($uri_segment == "tagihan" || $uri_segment == "pembayaran") {
-                                            echo " menu-is-opening menu-open";
-                                        } ?>">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-dollar-sign"></i>
-                            <p>
-                                Keuangan Mahasiswa
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="<?php echo base_url() ?>/tagihan" class="nav-link<?php $uri_segment == "tagihan" ? print(" active") : print("") ?>">
-                                    <i class="fas fa-file-invoice-dollar nav-icon"></i>
-                                    <p>Tagihan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo base_url() ?>/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
-                                    <i class="fas fa-receipt nav-icon"></i>
-                                    <p>Pembayaran</p>
-                                </a>
-                            </li>
-                    </li>
-                </ul>
-                <li class="nav-header">SETTINGS</li>
-                <li class="nav-item">
-                    <a href="<?php echo base_url() ?>/settings-account" class="nav-link">
-                        <i class="nav-icon fas fa-user-cog"></i>
-                        <p>
-                            Account
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?php echo base_url() ?>/logout" class="nav-link">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>
-                            Logout
-                        </p>
-                    </a>
-                </li>
             <?php } ?>
         </nav>
         <!-- /.sidebar-menu -->

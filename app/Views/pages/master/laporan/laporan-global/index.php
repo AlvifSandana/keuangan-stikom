@@ -30,7 +30,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Laporan Global <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span> <span class="float-right"><a href="<?= base_url('/lk').'/'.$filename?>" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></a></span></h4>
+                        <h4 class="h4">Laporan Global <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span> <span class="float-right"><a href="<?= base_url('/lk').'/'?><?= $filename ? $filename : 'kosong'?>" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></a></span></h4>
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-borderless table-sm">
@@ -83,7 +83,7 @@
                                     <th>TANGGAL</th>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($global_data as $key => $value) { ?>
+                                    <?php if(!is_string($global_data)) { foreach ($global_data as $key => $value) { ?>
                                         <tr>
                                             <td class="text-center"><?= $key + 1 ?></td>
                                             <td class="text-center">
@@ -104,7 +104,7 @@
                                             <td>Rp. <span class="float-right"><?= $value['kategori_transaksi'] == 'D' ? $value['q_debit'] : $value['q_kredit'] ?></span></td>
                                             <td class="text-center"><?= date('d-M-Y H:i:s', strtotime($value['tanggal_transaksi'])) ?></td>
                                         </tr>
-                                    <?php } ?>
+                                    <?php }} else {} ?>
                                 </tbody>
                             </table>
                         </div>
