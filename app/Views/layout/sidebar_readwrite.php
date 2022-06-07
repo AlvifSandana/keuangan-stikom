@@ -21,7 +21,6 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <?php if (session('user_level') === 'admin') { ?>
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -44,20 +43,6 @@
                                 <!--<i class="fas fa-angle-left right"></i>-->
                             </p>
                         </a>
-                        <!--<ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran" class="nav-link<?php $uri_segment == "pembayaran" ? print(" active") : print("") ?>">
-                                    <i class="fas fa-arrow-down nav-icon"></i>
-                                    <p>Pembayaran</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo base_url() ?>/keuangan-mahasiswa/tagihan" class="nav-link<?php $uri_segment == "tagihan" ? print(" active") : print("") ?>">
-                                    <i class="fas fa-arrow-up nav-icon"></i>
-                                    <p>Tagihan</p>
-                                </a>
-                            </li>
-                        </ul>-->
                     </li>
                     <li class="nav-item<?php //if ($uri_segment == "pembayaran" || $uri_segment == "tagihan") {echo " menu-is-opening menu-open";} ?>">
                         <a href="<?php echo base_url() ?>/keuangan-mahasiswa/pembayaran-va" class="nav-link<?php $uri_segment == "pembayaran-va" || $uri_segment == "keuangan-mahasiswa"? print(" active") : print("") ?>">
@@ -156,14 +141,6 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="<?php echo base_url() ?>/backup-restore" class="nav-link<?php $uri_segment == "backup-restore" ? print(" active") : print("") ?>">
-                        <i class="nav-icon fas fa-database"></i>
-                        <p>
-                            Backup / Restore DB
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-header">SETTINGS</li>
                 <li class="nav-item">
                     <a href="<?php echo base_url() ?>/settings-account" class="nav-link<?php $uri_segment == "settings-account" ? print(" active") : print("") ?>">
@@ -189,7 +166,6 @@
                         </p>
                     </a>
                 </li>
-            <?php } ?>
         </nav>
         <!-- /.sidebar-menu -->
     </div>

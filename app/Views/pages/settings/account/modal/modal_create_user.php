@@ -31,10 +31,14 @@
                 <div class="form-group">
                     <label for="dp_nama_item">ACCESS LEVEL</label>
                     <select class="form-control" name="user_level" id="create_user_level">
+                        <?php if(session('user_level') === 'admin') {?>
                         <option value="admin">ADMINISTRATOR</option>
+                        <?php }?>
                         <option value="demo">DEMO</option>
                         <option value="read">READ</option>
-                        <option value="read/write">READ/WRITE</option>
+                        <?php if(session('user_level') === 'admin') {?>
+                        <option value="readwrite">READ/WRITE</option>
+                        <?php }?>
                     </select>
                 </div>
                 <button class="btn btn-success float-right mb-4" onclick="createUser()">Create</button>

@@ -164,9 +164,9 @@ $routes->get('/backup-restore/backup', 'Master/BackupRestoreController::backup',
 $routes->post('/backup-restore/restore', 'Master/BackupRestoreController::restore');
 
 // route for settings account
-$routes->get('/settings-account', 'Settings/UserController::index', ['filter' => 'auth']);
-$routes->post('/settings-account/create', 'Settings/UserController::create', ['filter' => 'auth']);
-$routes->post('/settings-account/update/(:any)', 'Settings/UserController::update/$1', ['filter' => 'auth']);
+$routes->get('/settings-account', 'Settings\UserController::index', ['filter' => 'auth']);
+$routes->post('/settings-account/create', 'Settings\UserController::create', ['filter' => 'auth']);
+$routes->post('/settings-account/update/(:any)', 'Settings\UserController::update/$1', ['filter' => 'auth']);
 $routes->delete('/settings-account/delete/(:any)', 'Settings\UserController::delete/$1', ['filter' => 'auth']);
 
 // route for settings app

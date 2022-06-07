@@ -42,7 +42,7 @@ class UserController extends BaseController
                 $m_user = new UserModel();
                 // create new user with given data
                 $new_user = $m_user->insert([
-                    'nama' => $this->request->getPost('nama'),
+                    'fullname' => $this->request->getPost('nama'),
                     'username' => $this->request->getPost('username'),
                     'email' => $this->request->getPost('email'),
                     'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
@@ -111,7 +111,7 @@ class UserController extends BaseController
                     if ($verify_password) {
                         // update user data
                         $update_user = $m_user->update($id_user, [
-                            'nama' => $this->request->getPost('nama'),
+                            'fullname' => $this->request->getPost('nama'),
                             'username' => $this->request->getPost('username'),
                             'email' => $this->request->getPost('email'),
                             'password' => password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT),
