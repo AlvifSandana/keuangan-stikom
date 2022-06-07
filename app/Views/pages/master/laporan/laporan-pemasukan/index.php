@@ -30,7 +30,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="h4">Laporan Pemasukan <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span><span class="float-right"><button class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></button></span></h4>
+                        <h4 class="h4">Laporan Pemasukan <span><?= $tgl_mulai ?></span> - <span><?= $tgl_akhir ?></span><span class="float-right"><a href="<?= base_url('/lk').'/'.$filename?>" target="_blank" class="btn btn-sm btn-primary"><i class="fas fa-print fa-fw"></i></a></span></h4>
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-borderless table-sm">
@@ -65,11 +65,13 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered table-sm tbl-pemasukan">
-                                <thead class="text-center">
-                                    <th>NO.</th>
-                                    <th>UNIT</th>
-                                    <th>NOMINAL</th>
-                                    <th>TANGGAL</th>
+                                <thead>
+                                    <th class="text-center">NO.</th>
+                                    <th class="text-center">UNIT</th>
+                                    <th class="text-center">KATEGORI</th>
+                                    <th class="text-center">KETERANGAN</th>
+                                    <th class="text-center">NOMINAL</th>
+                                    <th class="text-center">TANGGAL</th>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($pemasukan as $key => $value) { ?>
@@ -82,8 +84,10 @@
                                                     <a target="_blank" href="<?= base_url() ?>/master-keuangan/akun-pemasukan#<?= $value['kode_unit'] ?>"><?= $value['kode_unit'] ?></a>
                                                 <?php } ?>
                                             </td>
+                                            <td class="text-center text-success">Pemasukan</td>
+                                            <td><?= strpos($value['kode_unit'], '-') == false ? $value['nama_item'] : $value['nama_akun']?></td>
                                             <td>Rp. <span class="float-right"><?= number_format($value['q_debit']) ?></span></td>
-                                            <td class="text-center"><?= $value['tanggal_transaksi'] ?></td>
+                                            <td class="text-center"><?= date('d-M-Y H:i:s', strtotime($value['tanggal_transaksi'])) ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
