@@ -49,7 +49,28 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="h5 mb-4">Data Mahasiswa <!-- <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button>--></h5>
+                        <h5 class="h5 mb-4">Data Mahasiswa
+                            <!-- <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button>-->
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for=""><?= $settings[0]['nama_setting'] ?></label>
+                                <p><?= $settings[0]['deskripsi_settings'] ?></p>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="val">Angkatan Tahun</label>
+                                    </div>
+                                    <select class="custom-select" name="val" id="val">
+                                        <?php foreach ($angkatan as $key => $value) { ?>
+                                            <option value="<?= $value['tahun_angkatan'] ?>" <?= $value['tahun_angkatan'] == $settings[0]['value'] ? 'selected':''?>><?= $value['tahun_angkatan'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-success float-right" onclick="saveSetting(<?= $settings[0]['id_setting'] ?>)"><i class="fas fa-fw fa-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered" id="tbl_list_mhs">
                                 <thead class="text-center">
