@@ -1,6 +1,6 @@
 # Pengerjaan Revisi
 
-- [ ] Saat login, pesan error pertama kali perlu dihilangkan.
+- [x] Saat login, pesan error pertama kali perlu dihilangkan.
 - [ ] Backup Database Belum Bisa Didownload
 - [ ] Create User Baru belum bisa (Gagal)
 - [ ] User admin dan user frontoffice harus dibedakan.
