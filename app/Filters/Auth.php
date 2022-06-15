@@ -26,7 +26,7 @@ class Auth implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (! session()->get('logged_in')) {
-            return redirect()->to(base_url().'/login')->with('error', 'Silahkan Login!');
+            return redirect()->to(base_url().'/login')->with('info', 'Silahkan Login untuk menuju Dasboard.');
         }
     }
 
