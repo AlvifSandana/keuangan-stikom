@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-        <img src="<?php echo base_url(); ?>/assets/img/bill.png" class="brand-image elevation-2" alt="Brand" style="opacity: .8;" />
+        <img src="<?php echo base_url(); ?>/assets/img/logo-stikom.png" class="brand-image elevation-2" alt="Brand" style="opacity: .8;" />
         <span class="brand-text font-weight-light">Sistem Keuangan</span>
     </a>
 
