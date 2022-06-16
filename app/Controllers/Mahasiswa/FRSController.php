@@ -166,7 +166,7 @@ class FRSController extends BaseController
                             // return JSON
                             return json_encode([
                                 'status' => 'failed',
-                                'message' => 'Gagal ACC FRS! Mohon cek master item tagihan untuk praktikum di menu MASTER DATA > Keuangan > Paket (Mahasiswa).',
+                                'message' => 'Gagal ACC FRS! Mohon cek master item tagihan untuk praktikum SOFTWARE di menu MASTER DATA > Keuangan > Paket (Mahasiswa).',
                                 'data' => []
                             ]);
                         }
@@ -177,7 +177,7 @@ class FRSController extends BaseController
                             // return JSON
                             return json_encode([
                                 'status' => 'failed',
-                                'message' => 'Gagal ACC FRS! Mohon cek master item tagihan untuk praktikum di menu MASTER DATA > Keuangan > Paket (Mahasiswa).',
+                                'message' => 'Gagal ACC FRS! Mohon cek master item tagihan untuk praktikum HARDWARE di menu MASTER DATA > Keuangan > Paket (Mahasiswa).',
                                 'data' => []
                             ]);
                         }
