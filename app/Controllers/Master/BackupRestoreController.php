@@ -41,8 +41,8 @@ class BackupRestoreController extends BaseController
             }
             $filename = date('d-m-Y-H-i-s') . '-db_keuangan.sql';
             $command = 'mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
-            system($command);
-            return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
+            $res = system($command);
+            return redirect()->to(base_url() . '/backup-restore')->with('success', $res.'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
         } catch (\Throwable $th) {
             return redirect()->to(base_url() . '/backup-restore')->with('error', $th->getMessage());
         }
