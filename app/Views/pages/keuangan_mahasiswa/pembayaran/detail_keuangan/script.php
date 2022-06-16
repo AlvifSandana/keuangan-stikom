@@ -261,7 +261,7 @@
                             <tr>
                                 <td>${element.kode_transaksi}</td>
                                 <td>${element.tanggal_transaksi}</td>
-                                <td class="text-left">Rp ${num_format.format(element.q_debit)}</td>
+                                <td class="text-left">Rp <span class="float-right">${num_format.format(element.q_debit)}</span></td>
                                 <td>
                                 <div class="dropdown no-arrow">
                                     <i class="fas fa-fw fa-ellipsis-h" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
@@ -273,7 +273,7 @@
                                             <i class="fas fa-fw fa-print "></i>
                                             Bukti Pembayaran
                                         </a>
-                                        <a href="#edit" class="dropdown-item text-warning edit" data-toggle="" data-target="#" onclick="">
+                                        <a href="#edit" class="dropdown-item text-warning edit" data-toggle="modal" data-target="#modalEditPembayaran" onclick="fillModalEditPembayaran(${element.id_transaksi}, '${element.kode_transaksi}', '${element.tanggal_transaksi}', ${element.q_debit})">
                                             <i class="fas fa-fw fa-edit "></i>
                                             Edit
                                         </a>
@@ -308,6 +308,54 @@
             error: function(jqXHR) {
                 console.log(jqXHR);
             }
+        })
+    }
+
+    /** 
+     * fill modal edit pembayaran field
+     */
+    function fillModalEditPembayaran(id_transaksi, kode_transaksi, tanggal_transaksi, q_debit){
+        $('#edit_id_transaksi').val('');
+        $('#edit_kode_transaksi').val('');
+        $('#edit_tanggal_transaksi').val('');
+        $('#edit_q_debit').val('');
+        $('#edit_id_transaksi').val(id_transaksi);
+        $('#edit_kode_transaksi').val(kode_transaksi);
+        $('#edit_tanggal_transaksi').val(tanggal_transaksi);
+        $('#edit_q_debit').val(q_debit);
+    }
+
+    function updatePembayaran(){
+        var data = {
+            id_transaksi: $('#edit_id_transaksi').val(),
+            kode_transaksi: $('#edit_kode_transaksi').val(),
+            tanggal_transaksi: $('#edit_tanggal_transaksi').val(),
+            q_debit: $('#edit_q_debit').val()
+        };
+        $.ajax({
+            url: '<?= base_url()?>/keuangan-mahasiswa/pembayaran/edit/' + data.id_transaksi,
+            method: 'POST',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function() {
+                $('.str-status').text("loading...");
+            },
+            success: function(data){
+                if (data.status == 'success') {
+                    $('.str-status').addClass('text-success');
+                    $('.str-status').text(data.message + ' Reloading halaman dalam 3 detik...');
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 3000);
+                } else {
+                    $('.str-status').addClass('text-danger');
+                    $('.str-status').text(data.message);
+                }
+            },
+            error: function(jqXHR){
+                $('.str-status').addClass('text-danger');
+                $('.str-status').text(jqXHR.responseText);
+            },
         })
     }
 

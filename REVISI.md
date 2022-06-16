@@ -14,5 +14,5 @@
 
 Tambahan
 
-- [ ] Edit detail keuangan bagian detail pembayaran masih error. 
+- [x] Edit detail keuangan bagian detail pembayaran masih error. 
 - [x] Sisa tagihan keseluruhan pada detail keuangan masih belum ada.

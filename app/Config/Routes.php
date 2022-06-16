@@ -53,6 +53,7 @@ $routes->post('/keuangan-mahasiswa/tagihan/create', 'Mahasiswa/TagihanController
 $routes->get('/keuangan-mahasiswa/tagihan/get/(:any)', 'Mahasiswa\TagihanController::get_tagihan_by_nim/$1', ['filter' => 'auth']);
 $routes->post('/keuangan-mahasiswa/diskon/create', 'Mahasiswa\PembayaranController::add_diskon', ['filter' => 'auth']);
 $routes->get('/keuangan-mahasiswa/detail-keuangan-semester/(:any)', 'Mahasiswa\DetailKeuanganController::getDetailKeuangan/$1', ['filter' => 'auth']);
+$routes->post('/keuangan-mahasiswa/pembayaran/edit/(:any)', 'Mahasiswa\PembayaranController::edit_pembayaran/$1', ['filter' => 'auth']);
 
 // route for keuangan mahasiswa (pembayaran VA)
 $routes->get('/keuangan-mahasiswa/pembayaran-va', 'Mahasiswa\PembayaranVAController::index', ['filter' => 'auth']);

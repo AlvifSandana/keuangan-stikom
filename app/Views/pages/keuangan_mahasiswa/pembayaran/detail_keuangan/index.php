@@ -300,6 +300,8 @@
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/modal_tambah_diskon') ?>
 <!-- modal detail keuangan -->
 <?= $this->include('pages/keuangan_mahasiswa/pembayaran/detail_keuangan/modal_detail_keuangan') ?>
+<!-- modal create tagihan -->
+<?= $this->include('pages/keuangan_mahasiswa/pembayaran/detail_keuangan/modal_edit_pembayaran') ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('custom-script') ?>

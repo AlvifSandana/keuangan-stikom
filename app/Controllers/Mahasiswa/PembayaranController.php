@@ -452,6 +452,60 @@ class PembayaranController extends BaseController
     }
 
     /**
+     * Edit pembayaran by id_transaksi
+     */
+    public function edit_pembayaran(String $id_transaksi)
+    {
+        try {
+            // create validator
+            $validator = \Config\Services::validation();
+            //  set validation rules
+            $validator->setRules([
+                'kode_transaksi' => 'required',
+                'tanggal_transaksi' => 'required',
+                'q_debit' => 'required',
+            ]);
+            // begin validation
+            $isDataValid = $validator->withRequest($this->request)->run();
+            if ($isDataValid) {
+                // create model
+                $m_transaksi = new Transaksi();
+                // update data
+                $update_data = $m_transaksi->update($id_transaksi, [
+                    'tanggal_transaksi' => $this->request->getPost('tanggal_transaksi'),
+                    'q_debit' => $this->request->getPost('q_debit'),
+                ]);
+                // check
+                if ($update_data) {
+                    return json_encode([
+                        'status' => 'success',
+                        'message' => 'Berhasil memperbarui data pembayaran!',
+                        'data' => []
+                    ]);
+                } else {
+                    return json_encode([
+                        'status' => 'failed',
+                        'message' => 'Gagal memperbarui data pembayaran!',
+                        'data' => []
+                    ]);
+                }
+            } else {
+                return json_encode([
+                    'status' => 'failed',
+                    'message' => 'Validasi gagal! Mohon isi field dengan benar.',
+                    'data' => []
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return json_encode([
+                'status' => 'error',
+                'message' => $th->getMessage(),
+                'data' > $th->getTrace()
+            ]);
+        }
+    }
+
+    /**
      * Delete pembayaran item by 
      * kode pembayaran
      * 
