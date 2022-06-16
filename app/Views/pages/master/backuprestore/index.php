@@ -22,7 +22,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content-body') ?>
-<section class="content" on>
+<section class="content">
     <div class="container-fluid">
         <?= $this->include('layout/flash') ?>
         <div class="row mb-2">
