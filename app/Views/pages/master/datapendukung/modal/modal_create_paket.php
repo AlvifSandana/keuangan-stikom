@@ -20,14 +20,14 @@
                         <?php } ?>
                     </select>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="semester">Angkatan</label>
                     <select name="add_angkatanp_id" id="add_angkatanp_id" class="form-control">
                         <?php foreach ($angkatan as $key => $value) {?>
                             <option value="<?php echo $value['id_angkatan'];?>"><?php echo $value['tahun_angkatan'];?></option>
                         <?php } ?>
                     </select>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label for="semester">Sesi Perkuliahan</label>
                     <select name="add_sesi_id" id="add_sesi_id" class="form-control">
