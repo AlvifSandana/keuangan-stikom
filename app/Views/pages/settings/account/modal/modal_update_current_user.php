@@ -42,7 +42,7 @@
                         <option value="demo" <?= session('user_level') == 'demo' ? 'selected' :''?>>DEMO</option>
                         <option value="read" <?= session('user_level') == 'read' ? 'selected' :''?>>READ</option>
                         <?php if(session('user_level') === 'admin') {?>
-                        <option value="readwrite" <?= session('user_level') == 'readwrite' ? 'selected' :''?>>READ/WRITE</option>
+                        <option value="readwrite" <?= session('user_level') == 'readwrite' ? 'selected' :''?>>READ/WRITE (FRONT OFFICE)</option>
                         <?php }?>
                     </select>
                 </div>

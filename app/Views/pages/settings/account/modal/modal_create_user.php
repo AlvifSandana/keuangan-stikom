@@ -37,7 +37,7 @@
                         <option value="demo">DEMO</option>
                         <option value="read">READ</option>
                         <?php if(session('user_level') === 'admin') {?>
-                        <option value="readwrite">READ/WRITE</option>
+                        <option value="readwrite">READ/WRITE (FRONT OFFICE)</option>
                         <?php }?>
                     </select>
                 </div>
