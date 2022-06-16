@@ -255,6 +255,31 @@
                                                 </table>
                                             </div>
                                         </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-12">
+                                                <h6 class="h6 font-weight-bold">Detail Keseluruhan</h6>
+                                                <table class="table table-hover table-bordered table-sm tagihan" id="tbl_detail_all">
+                                                    <tbody>
+                                                        <tr class="bg-danger font-weight-bold">
+                                                            <td>Total Tagihan</td>
+                                                            <td>Rp. <span class="float-right"><?= number_format($total_tagihan) ?></span></td>
+                                                        </tr>
+                                                        <tr class="bg-success font-weight-bold">
+                                                            <td>Total Pembayaran</td>
+                                                            <td>Rp. <span class="float-right"><?= number_format($total_pembayaran) ?></span></td>
+                                                        </tr>
+                                                        <tr class="bg-success font-weight-bold">
+                                                            <td>Total Diskon</td>
+                                                            <td>Rp. <span class="float-right"><?= number_format($total_diskon) ?></span></td>
+                                                        </tr>
+                                                        <tr class="bg-warning font-weight-bold">
+                                                            <td>Sisa Tagihan</td>
+                                                            <td>Rp. <span class="float-right"><?= number_format($total_tagihan - ($total_pembayaran + $total_diskon)) ?></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             <?php } ?>
