@@ -35,7 +35,12 @@ class BackupRestoreController extends BaseController
                 }
             }
             $res = system($command);
-            return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
+            // check result
+            if($res != ''){
+                return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
+            } else {
+                return redirect()->to(base_url() . '/backup-restore')->with('error', 'Gagal backup database!');
+            }
         } catch (\Throwable $th) {
             return redirect()->to(base_url() . '/backup-restore')->with('error', $th->getMessage());
         }
