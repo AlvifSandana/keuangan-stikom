@@ -23,6 +23,7 @@
         </div>
     </div>
 <?php } ?>
+
 <?php if (session()->getFlashdata('info')) { ?>
     <div class="row mb-2">
         <div class="col">

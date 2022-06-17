@@ -22,27 +22,20 @@ class BackupRestoreController extends BaseController
     public function backup()
     {
         try {
+            $filename = date('d-m-Y-H-i-s') . '-db_keuangan.sql';
+            $command = '';
             // check OS
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                $filename = date('d-m-Y-H-i-s') . '-db_keuangan.sql';
                 $command = 'C:/xampp/mysql/bin/mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
-                system($command);
-                return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
-            } else if (system('[ -f /.dockerenv ] && echo "DOCKER"') === 'DOCKER') {
-                $filename = date('d-m-Y-H-i-s') . '-db_keuangan.sql';
-                $command = 'mysqldump --column-statistics=0 --host='.env('database.default.hostname').' --user='.env('database.default.username'). ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
-                $res = system($command);
-                return redirect()->to(base_url() . '/backup-restore')->with('success', $res.'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
             } else {
-                $filename = date('d-m-Y-H-i-s') . '-db_keuangan.sql';
-                $command = 'mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
-                system($command);
-                return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
+                if (system("which mysqldump") != '') {
+                    $command = 'mysqldump --column-statistics=0 --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
+                } else {
+                    return redirect()->to(base_url() . '/backup-restore')->with('error', '<b>mysqldump</b> tidak terinstall');
+                }
             }
-            $filename = date('d-m-Y-H-i-s') . '-db_keuangan.sql';
-            $command = 'mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
             $res = system($command);
-            return redirect()->to(base_url() . '/backup-restore')->with('success', $res.'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
+            return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
         } catch (\Throwable $th) {
             return redirect()->to(base_url() . '/backup-restore')->with('error', $th->getMessage());
         }
