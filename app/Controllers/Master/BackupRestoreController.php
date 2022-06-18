@@ -26,16 +26,17 @@ class BackupRestoreController extends BaseController
             $command = '';
             // check OS
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                $command = 'C:/xampp/mysql/bin/mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
+                $command = 'C:/xampp/mysql/bin/mysqldump --host='.env('database.default.hostname').' --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
             } else {
                 if (system("which mysqldump") != '') {
-                    $command = 'mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
+                    $command = 'mysqldump --host='.env('database.default.hostname').' --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
                 } else {
                     return redirect()->to(base_url() . '/backup-restore')->with('error', '<b>mysqldump</b> tidak terinstall');
                 }
             }
+            $res = system($command);
             // check result
-            if(system($command)){
+            if($res != ''){
                 return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
             } else {
                 return redirect()->to(base_url() . '/backup-restore')->with('error', 'Gagal backup database!');
