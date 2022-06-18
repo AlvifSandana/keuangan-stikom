@@ -1,7 +1,7 @@
 # Pengerjaan Revisi
 
 - [x] Saat login, pesan error pertama kali perlu dihilangkan.
-- [ ] Backup Database Belum Bisa Didownload
+- [x] Backup Database Belum Bisa Didownload
 - [x] Create User Baru belum bisa (Gagal)
 - [x] User admin dan user frontoffice harus dibedakan.
 - [x] Batas Show Data mahasiswa harusnya ada di data Mahasiswa, bukan Application

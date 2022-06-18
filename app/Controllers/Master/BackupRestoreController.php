@@ -29,7 +29,7 @@ class BackupRestoreController extends BaseController
                 $command = 'C:/xampp/mysql/bin/mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
             } else {
                 if (system("which mysqldump") != '') {
-                    $command = 'mysqldump --column-statistics=0 --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
+                    $command = 'mysqldump --user=' . env('database.default.username') . ' --password=' . env('database.default.password') . ' ' . env('database.default.database') . ' > ' . ROOTPATH . '/public/backupdb/' . $filename;
                 } else {
                     return redirect()->to(base_url() . '/backup-restore')->with('error', '<b>mysqldump</b> tidak terinstall');
                 }
