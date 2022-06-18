@@ -34,9 +34,8 @@ class BackupRestoreController extends BaseController
                     return redirect()->to(base_url() . '/backup-restore')->with('error', '<b>mysqldump</b> tidak terinstall');
                 }
             }
-            $res = system($command);
             // check result
-            if($res != ''){
+            if(system($command)){
                 return redirect()->to(base_url() . '/backup-restore')->with('success', 'Backup database berhasil! <a class="float-right" href="' . base_url() . '/public/backupdb/' . $filename . '"><i class="fas fa-download"></i> Download</a>');
             } else {
                 return redirect()->to(base_url() . '/backup-restore')->with('error', 'Gagal backup database!');
