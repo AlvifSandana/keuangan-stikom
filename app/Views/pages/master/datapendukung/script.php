@@ -405,7 +405,7 @@
     function deleteAngkatan(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data tahun angkatan berkaitan dengan data mahasiswa dan data keuangan. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -438,7 +438,7 @@
     function deleteJurusan(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data jurusan berkaitan dengan data mahasiswa dan data keuangan. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -471,7 +471,7 @@
     function deleteMP(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data master paket berkaitan dengan data keuangan mahasiswa. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -504,7 +504,7 @@
     function deleteSemester(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data semester berkaitan dengan data mahasiswa dan data keuangan. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -537,7 +537,7 @@
     function deleteSesiKuliah(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data sesi kuliah berkaitan dengan data mahasiswa. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -570,7 +570,7 @@
     function deleteDiskon(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data diskon berkaitan dengan data keuangan mahasiswa. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -603,7 +603,7 @@
     function deletePaket(id) {
         Swal.fire({
             title: 'Apakah Anda yakin ingin menghapus item ini?',
-            text: "Tindakan ini tidak dapat dikembalikan!",
+            text: "Data paket berkaitan dengan data mahasiswa dan data keuangan. Tindakan ini tidak dapat dikembalikan!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
