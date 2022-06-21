@@ -50,7 +50,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="h5 mb-4">Data Mahasiswa
-                            <!-- <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button>-->
+                            <button class="btn btn-success float-right" data-toggle="modal" data-target="#modalAddMahasiswa"><i class="fas fa-plus"></i> Tambah Data Mahasiswa</button>
                         </h5>
                         <div class="row">
                             <div class="col-md-12">

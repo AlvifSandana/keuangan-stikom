@@ -77,6 +77,7 @@ $routes->post('/transaksi/pengeluaran/create', 'Transaksi/PengeluaranController:
 
 // route for master mahasiswa
 $routes->get('/master-mahasiswa', 'Master/MahasiswaController::index', ['filter' => 'auth']);
+$routes->post('/master-mahasiswa/create', 'Master/MahasiswaController::create_mahasiswa', ['filter' => 'auth']);
 
 // route for master paket
 $routes->get('/master-keuangan/paket', 'Master/PaketController::index', ['filter' => 'auth']);

@@ -25,12 +25,10 @@
         var data_mahasiswa = {
             nim: $('#nim').val(),
             nama_mahasiswa: $('#nama_mahasiswa').val(),
-            progdi_id: parseInt($('#progdi_id').val()),
-            angkatan_id: parseInt($('#angkatan_id').val()),
+            angkatan_id: $('#angkatan_id').val(),
+            jurusan_id: $('#jurusan_id').val(),
             paket_tagihan: $('#paket_tagihan').val(),
-            tanggal_tagihan: `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`,
         };
-        console.log(data_mahasiswa);
         $.ajax({
             url: '<?php echo base_url(); ?>' + '/master-mahasiswa/create',
             type: 'POST',
@@ -42,9 +40,11 @@
                     showSWAL('error', data.message);
                 } else {
                     showSWAL('success', data.message);
-                    $('#nim').val('');
-                    $('#nama_mahasiswa').val('');
-                    window.location.reload();
+                    setTimeout(function() {
+                        $('#nim').val('');
+                        $('#nama_mahasiswa').val('');
+                        window.location.reload();
+                    }, 3000);
                 }
             },
             error: function(jqXHR) {
@@ -218,27 +218,27 @@
     /** 
      * Save filter setting for data mahasiswa
      */
-    function saveSetting(id){
+    function saveSetting(id) {
         var data = {
             id_setting: id,
             value: $('#val').val()
         };
         $.ajax({
-            url: '<?= base_url()?>/settings-application/apply',
+            url: '<?= base_url() ?>/settings-application/apply',
             method: 'POST',
             dataType: 'JSON',
             data: data,
-            success: function(data){
-                if(data.status == 'success'){
+            success: function(data) {
+                if (data.status == 'success') {
                     showSWAL('success', data.message);
-                    setTimeout(function(){
+                    setTimeout(function() {
                         window.location.reload();
                     }, 2000);
                 } else {
                     showSWAL('error', data.message);
                 }
             },
-            error: function(jqXHR){
+            error: function(jqXHR) {
 
             }
         });

@@ -17,22 +17,28 @@
                     <label for="nama_mahasiswa">NAMA MAHASISWA</label>
                     <input type="text" name="nama_mahasiswa" id="nama_mahasiswa" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label for="progdi_id">PROGRAM STUDI</label>
-                    <select name="progdi_id" id="progdi_id" class="form-control">
-                        
-                    </select>
-                </div>
                 <div class="form-group mb-3">
                     <label for="angkatan_id">ANGKATAN</label>
                     <select name="angkatan_id" id="angkatan_id" class="form-control">
-                        
+                        <?php foreach ($angkatan as $key => $value) {?>
+                            <option value="<?= $value['tahun_angkatan'] ?>"><?= $value['tahun_angkatan'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="jurusan_id">JURUSAN</label>
+                    <select name="jurusan_id" id="jurusan_id" class="form-control">
+                        <?php foreach ($jurusan as $key => $value) { ?>
+                            <option value="<?= $value['id_jurusan'] ?>"><?= $value['nama_jurusan'] ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="form-group mb-3">
                     <label for="paket_tagihan">PAKET TAGIHAN</label><br>
                     <select class="form-control customselect" name="paket_tagihan" id="paket_tagihan" multiple="multiple" style="width: 100%;">
-                        
+                        <?php foreach ($paket as $key => $value) { ?>
+                            <option value="<?= $value['id_paket'] ?>"><?= $value['nama_paket'] ?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <button class="btn btn-success float-right" onclick="createMahasiswa()">Tambah</button>
