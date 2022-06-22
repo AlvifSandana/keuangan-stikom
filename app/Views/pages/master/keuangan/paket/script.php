@@ -37,7 +37,7 @@
             url: "<?php echo base_url(); ?>" + "/master-keuangan/itempaket/" + $('select#select_paket').children('option:selected').val(),
             type: "GET",
             dataType: "JSON",
-            beforeSend: function(){
+            beforeSend: function() {
                 $('.sp-item').css("display", "block");
             },
             complete: function() {
@@ -69,7 +69,10 @@
                 }
             },
             error: function(jqXHR) {
-                showSWAL('error', jqXHR.statusText);
+                // table
+                var tbl = $('#tbl_master_paket').DataTable();
+                // clear table
+                tbl.clear().draw(false);
             }
         });
     }
@@ -391,7 +394,7 @@
             url: "<?php echo base_url(); ?>" + "/master-keuangan/itempaket/null",
             type: "GET",
             dataType: "JSON",
-            beforeSend: function(){
+            beforeSend: function() {
                 $('.sp-itemlain').css("display", "block");
             },
             complete: function() {
@@ -428,8 +431,8 @@
                 // showSWAL('error', jqXHR.statusText);
                 // table
                 var tbl = $('#tbl_master_item_lain').DataTable();
-                    // clear table
-                    tbl.clear().draw(false);
+                // clear table
+                tbl.clear().draw(false);
             }
         });
     }

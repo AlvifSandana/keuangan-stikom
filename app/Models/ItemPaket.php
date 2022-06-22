@@ -39,4 +39,24 @@ class ItemPaket extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getLastId()
+    {
+        try {
+            $result = "Data tidak ditemukan!";
+            $last_id = $this->builder()
+                ->select('id_item')
+                ->orderBy('id_item', 'DESC')
+                ->get(1);
+            // check
+            if ($last_id->getResultArray()) {
+                $result = $last_id->getResultArray();
+                return $result[0]['id_item'];
+            } else {
+                return $result;
+            }
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+    }
 }
