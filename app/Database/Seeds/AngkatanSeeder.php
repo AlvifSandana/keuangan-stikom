@@ -125,6 +125,12 @@ class AngkatanSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
+            [
+                'id_angkatan' => 'THN2025',
+                'tahun_angkatan' => '2025',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ];
         $this->db->table('tbl_angkatan')->insertBatch($data);
     }
