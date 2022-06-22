@@ -52,22 +52,22 @@ class PaketController extends BaseController
             // get item paket by paket_id
             if ($paket_id == 'null') {
                 $item_paket = $m_itempaket
-                ->where('paket_id IS NULL', NULL)
-                ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
-                ->join('tbl_angkatan', 'tbl_paket.angkatan_id = tbl_angkatan.id_angkatan', 'left')
-                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
-                ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
-                ->notLike('nama_item', 'Diskon')
-                ->notLike('nama_item', 'diskon')
-                ->findAll();
+                    ->where('paket_id IS NULL', NULL)
+                    ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
+                    ->join('tbl_angkatan', 'tbl_item_paket.angkatan_id = tbl_angkatan.id_angkatan', 'left')
+                    ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
+                    ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+                    ->notLike('nama_item', 'Diskon')
+                    ->notLike('nama_item', 'diskon')
+                    ->findAll();
             } else {
                 $item_paket = $m_itempaket
-                ->where('paket_id', $paket_id)
-                ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
-                ->join('tbl_angkatan', 'tbl_paket.angkatan_id = tbl_angkatan.id_angkatan', 'left')
-                ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
-                ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
-                ->findAll();
+                    ->where('paket_id', $paket_id)
+                    ->join('tbl_paket', 'paket_id = tbl_paket.id_paket', 'left')
+                    ->join('tbl_angkatan', 'tbl_item_paket.angkatan_id = tbl_angkatan.id_angkatan', 'left')
+                    ->join('tbl_semester', 'semester_id = tbl_semester.id_semester', 'left')
+                    ->join('tbl_formula', 'kode_item = tbl_formula.item_kode', 'left')
+                    ->findAll();
             }
             // check
             if (sizeOf($item_paket) > 0) {
@@ -116,11 +116,11 @@ class PaketController extends BaseController
                     ->orderBy('id_paket', 'DESC')
                     ->findAll();
                 // get last id_paket from last record
-                $last_id = count($last_record) > 0 ? explode('PKT', $last_record[0]['id_paket']) : [0,0];
+                $last_id = count($last_record) > 0 ? explode('PKT', $last_record[0]['id_paket']) : [0, 0];
                 // insert new paket
                 $new_paket = $m_paket
                     ->insert([
-                        'id_paket' => 'PKT'.(1 + (int)$last_id[1]),
+                        'id_paket' => 'PKT' . (1 + (int)$last_id[1]),
                         'nama_paket' => $this->request->getPost('nama_paket'),
                         'keterangan_paket' => $this->request->getPost('keterangan_paket'),
                         'angkatan_id' => $this->request->getPost('angkatan_id'),
@@ -145,14 +145,14 @@ class PaketController extends BaseController
             } else {
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> $validator->getError(),
+                    'message' => $validator->getError(),
                     'data' => $validator->getErrors()
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
         }
@@ -180,7 +180,7 @@ class PaketController extends BaseController
                 $m_paket = new Paket();
                 // insert new paket
                 $update_paket = $m_paket
-                    ->update( $this->request->getPost('id_paket'), [
+                    ->update($this->request->getPost('id_paket'), [
                         'nama_paket' => $this->request->getPost('nama_paket'),
                         'keterangan_paket' => $this->request->getPost('keterangan_paket'),
                         'angkatan_id' => $this->request->getPost('angkatan_id'),
@@ -205,14 +205,14 @@ class PaketController extends BaseController
             } else {
                 return json_encode([
                     'status' => 'failed',
-                    'message'=> $validator->getError(),
+                    'message' => $validator->getError(),
                     'data' => $validator->getErrors()
                 ]);
             }
         } catch (\Throwable $th) {
             return json_encode([
                 'status' => 'error',
-                'message'=> $th->getMessage(),
+                'message' => $th->getMessage(),
                 'data' => $th->getTrace()
             ]);
         }

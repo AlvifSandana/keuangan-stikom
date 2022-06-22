@@ -37,6 +37,12 @@
             url: "<?php echo base_url(); ?>" + "/master-keuangan/itempaket/" + $('select#select_paket').children('option:selected').val(),
             type: "GET",
             dataType: "JSON",
+            beforeSend: function(){
+                $('.sp-item').css("display", "block");
+            },
+            complete: function() {
+                $('.sp-item').css("display", "none");
+            },
             success: function(data) {
                 var itempaket = data.data;
                 if (data.status != "success") {
@@ -59,7 +65,7 @@
                         total_tagihan += parseInt(element.nominal_item);
                     });
                     // show total tagihan
-                    $("#tbl_master_paket > tbody").append(`<tr class="font-weight-bold text-center"><td colspan="3">Total Tagihan</td><td colspan="2">Rp. ${numformat.format(total_tagihan)}</td></tr>`);
+                    //$("#tbl_master_paket > tbody").append(`<tr class="font-weight-bold text-center"><td colspan="3">Total Tagihan</td><td colspan="2">Rp. ${numformat.format(total_tagihan)}</td></tr>`);
                 }
             },
             error: function(jqXHR) {
@@ -385,10 +391,20 @@
             url: "<?php echo base_url(); ?>" + "/master-keuangan/itempaket/null",
             type: "GET",
             dataType: "JSON",
+            beforeSend: function(){
+                $('.sp-itemlain').css("display", "block");
+            },
+            complete: function() {
+                $('.sp-itemlain').css("display", "none");
+            },
             success: function(data) {
                 var itempaket = data.data;
                 if (data.status != "success") {
-                    showSWAL('error', data.message);
+                    // showSWAL('error', data.message);
+                    // table
+                    var tbl = $('#tbl_master_item_lain').DataTable();
+                    // clear table
+                    tbl.clear().draw(false);
                 } else {
                     // total nominal item paket tagihan
                     var total_tagihan = 0;
@@ -409,7 +425,11 @@
                 }
             },
             error: function(jqXHR) {
-                showSWAL('error', jqXHR.statusText);
+                // showSWAL('error', jqXHR.statusText);
+                // table
+                var tbl = $('#tbl_master_item_lain').DataTable();
+                    // clear table
+                    tbl.clear().draw(false);
             }
         });
     }

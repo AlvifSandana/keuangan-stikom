@@ -51,11 +51,16 @@
                             <option value=""></option>
                             <?php
                             foreach ($data_paket as $p) {
-                                echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . ' - ' . $p['angkatan_id'] . '</option>';
+                                echo '<option value="' . $p['id_paket'] . '">' . $p['nama_paket'] . '</option>';
                             }
                             ?>
                         </select>
-                        <h5 class="h5 mt-3 mb-4">Detail Item Paket</h5>
+                        <h5 class="h5 mt-3 mb-4">
+                            Detail Item Paket
+                            <div class="spinner-border text-primary float-right sp-item" role="status" style="display: none;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </h5>
                         <div class="table-responsive">
                             <table class="table table-bordered tbl_master_paket" id="tbl_master_paket">
                                 <thead class="text-center">
@@ -79,7 +84,12 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="h5 mt-3 mb-4">Detail Item Tagihan Lain-lain</h5>
+                        <h5 class="h5 mt-3 mb-4">
+                            Detail Item Tagihan Lain-lain
+                            <div class="spinner-border text-primary float-right sp-itemlain" role="status" style="display: none;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </h5>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover tbl_master_paket" id="tbl_master_item_lain">
                                 <thead class="text-center">
