@@ -1,4 +1,4 @@
-<?= $this->extend('layout/master') ?>
+is_array($tahun_ajaran) ? <?= $this->extend('layout/master') ?>
 
 <?= $this->section('content-header') ?>
 <!-- Content Header (Page header) -->
@@ -22,7 +22,8 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content-body') ?>
-<?php $p_soft = 0; $p_hard = 0; ?>
+<?php $p_soft = 0;
+$p_hard = 0; ?>
 <section class="content">
     <div class="container-fluid">
         <div class="row" mb-2>
@@ -72,12 +73,12 @@
                                     <tr>
                                         <td>Semester, Tahun Ajaran</td>
                                         <td>:</td>
-                                        <td><?= $tahun_ajaran[0]['kode_thn'] ?></td>
+                                        <td><?= is_array($tahun_ajaran) ? $tahun_ajaran[0]['kode_thn'] : $tahun_ajaran ?></td>
                                     </tr>
                                     <tr>
                                         <td>IP Semester Lalu</td>
                                         <td>:</td>
-                                        <td><?= $ipk ?></td>
+                                        <td><?= isset($ipk) ? $ipk : "-" ?></td>
                                     </tr>
                                     <tr>
                                         <td>Program Kelas</td>
@@ -87,13 +88,13 @@
                                     <tr>
                                         <td>Semester yang akan ditempuh(*)</td>
                                         <td>:</td>
-                                        <td id="next_semester"><?= $next_semester[0]['semester'] ?></td>
-                                        <input type="text" name="angkatan" id="angkatan" value="<?= $data_mhs[0]['angkatan']?>" hidden />
+                                        <td id="next_semester"><?= isset($next_semester) ? $next_semester[0]['semester'] : '-' ?></td>
+                                        <input type="text" name="angkatan" id="angkatan" value="<?= isset($next_semester) ? $data_mhs[0]['angkatan'] : '-' ?>" hidden />
                                     </tr>
                                     <tr>
                                         <td>Beban Studi Maksimal</td>
                                         <td>:</td>
-                                        <td><?= $beban_sks ?></td>
+                                        <td><?= isset($beban_sks) ? $beban_sks : '-' ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -130,71 +131,102 @@
                                     <th>Calon</th>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($list_frs as $key => $value) { 
-                                        if ($value['jenis'] == 'praktikum software') {
-                                            $p_soft += 1;
-                                        }
-                                        if ($value['jenis'] == 'praktikum hardware') {
-                                            $p_soft += 1;
-                                        }
-                                        ?>
-                                        <tr class="<?= $tanggal_persetujuan_dw[0]['status'] != 1 && ((int)$value['kapasitas'] - 1) < (int)$value['Peserta'] ? 'bg-danger' : ''; ?>">
-                                            <td><?= $value['kode_mk'] ?></td>
-                                            <td><?= $value['nama_mk'] ?></td>
-                                            <td class="text-center"><?= $value['smtTempuh'] ?></td>
-                                            <td class="text-center"><?= $value['sts_mk'] ?></td>
-                                            <td class="text-center"><?= $value['jum_sks'] ?></td>
-                                            <td><?= $value['nama_dosen'] ?></td>
-                                            <td class="text-center"><?= $value['kelas'] ?></td>
-                                            <td><?= $value['jadwal'] ?></td>
-                                            <td class="text-center"><?= $value['kapasitas'] ?></td>
-                                            <td class="text-center"><?= $value['Peserta'] ?></td>
-                                            <td class="text-center"><?= $value['CalonPeserta'] ?></td>
-                                        </tr>
-                                    <?php } ?>
+                                    <?php
+                                    if (!isset($list_frs)) {
+                                    } else {
+                                        foreach ($list_frs as $key => $value) {
+                                            if ($value['jenis'] == 'praktikum software') {
+                                                $p_soft += 1;
+                                            }
+                                            if ($value['jenis'] == 'praktikum hardware') {
+                                                $p_soft += 1;
+                                            }
+                                    ?>
+                                            <tr class="<?= $tanggal_persetujuan_dw[0]['status'] != 1 && ((int)$value['kapasitas'] - 1) < (int)$value['Peserta'] ? 'bg-danger' : ''; ?>">
+                                                <td><?= $value['kode_mk'] ?></td>
+                                                <td><?= $value['nama_mk'] ?></td>
+                                                <td class="text-center"><?= $value['smtTempuh'] ?></td>
+                                                <td class="text-center"><?= $value['sts_mk'] ?></td>
+                                                <td class="text-center"><?= $value['jum_sks'] ?></td>
+                                                <td><?= $value['nama_dosen'] ?></td>
+                                                <td class="text-center"><?= $value['kelas'] ?></td>
+                                                <td><?= $value['jadwal'] ?></td>
+                                                <td class="text-center"><?= $value['kapasitas'] ?></td>
+                                                <td class="text-center"><?= $value['Peserta'] ?></td>
+                                                <td class="text-center"><?= $value['CalonPeserta'] ?></td>
+                                            </tr>
+                                    <?php }
+                                    } ?>
                                     <tr>
                                         <td colspan="4">Total SKS yang akan ditempuh</td>
-                                        <td colspan="7" class="font-weight-bold"><span id="n_sks"><?= $total_sks ?></span> SKS</td>
+                                        <td colspan="7" class="font-weight-bold"><span id="n_sks"><?= isset($total_sks) ? $total_sks : "-" ?></span> SKS</td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">Status Persetujuan KRS</td>
                                         <td colspan="7" class="font-weight-bold">
-                                            <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? 'Disetujui oleh Dosen Wali.' : 'FRS belum disetujui Dosen Wali.' ?>
+                                            <?php if (isset($tanggal_persetujuan_dw)) {
+                                                if (isset($tanggal_persetujuan_dw) &&  $tanggal_persetujuan_dw[0]['status'] == 1) {
+                                                    echo 'Disetujui oleh Dosen Wali.';
+                                                } else {
+                                                    echo 'FRS belum disetujui Dosen Wali.';
+                                                }
+                                            } else {
+                                                echo "-";
+                                            } ?>
                                         </td>
-                                        <input type="text" name="p_soft" id="p_soft" value="<?= $p_soft ?>" hidden/>
-                                        <input type="text" name="p_hard" id="p_hard" value="<?= $p_hard ?>" hidden/>
+                                        <input type="text" name="p_soft" id="p_soft" value="<?= isset($p_soft) ? $p_soft : "-" ?>" hidden />
+                                        <input type="text" name="p_hard" id="p_hard" value="<?= isset($p_hard) ? $p_hard : "-" ?>" hidden />
                                     </tr>
                                     <tr>
                                         <td colspan="4">Status Persetujuan Keuangan</td>
                                         <td colspan="7" class="font-weight-bold">
-                                            <?= $tanggal_persetujuan_k && $tanggal_persetujuan_k[0]['status'] == 1 ? 'Disetujui oleh Bagian Keuangan.' : 'FRS belum disetujui.' ?>
+                                            <?php if (isset($tanggal_persetujuan_k)) {
+                                                if (isset($tanggal_persetujuan_k) && $tanggal_persetujuan_k[0]['status'] == 1) {
+                                                    echo 'Disetujui oleh Bagian Keuangan.';
+                                                } else {
+                                                    echo 'FRS belum disetujui.';
+                                                }
+                                            } else {
+                                                echo "-";
+                                            } ?>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">Sudah disetujui pada tanggal </td>
                                         <td class="font-weight-bold" colspan="7">
-                                            <?= $tanggal_persetujuan_dw && $tanggal_persetujuan_dw[0]['status'] == 1 ? $tanggal_persetujuan_dw[0]['tgl_persetujuan'] : $tanggal_persetujuan_dw[0]['tgl_persetujuan'] ?>
+                                            <?php if (isset($tanggal_persetujuan_dw)) {
+                                                if (isset($tanggal_persetujuan_dw) && $tanggal_persetujuan_dw[0]['status'] == 1) {
+                                                    echo $tanggal_persetujuan_dw[0]['tgl_persetujuan'];
+                                                } else {
+                                                    echo $tanggal_persetujuan_dw[0]['tgl_persetujuan'];
+                                                }
+                                            } else {
+                                                echo "-";
+                                            } ?>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="group-persetujuan mt-3">
-                            <span>
-                                <?php
-                                if ($tanggal_persetujuan_k[0]['status'] == 1) {
-                                    echo '(+) Jika Anda ingin membatalkan seluruh Rencana Study Mahasiswa silakan Klik tombol Batalkan.';
-                                } else {
-                                    echo '(+) Jika Anda menyetujui Rencana Study Mahasiswa yang bersangkutan, silahkan Klik tombol Setujui.';
-                                }?>
-                            </span>
-                            <button class="btn btn-warning btn-sm float-right" onclick="<?= $tanggal_persetujuan_k[0]['status'] == 1 ? 'batalFRS()':'accFRS()'?>" <?= $tanggal_persetujuan_dw[0]['status'] == 1 ? '': 'disabled'?>>
-                                <?php if ($tanggal_persetujuan_k[0]['status'] == 1) {?>
-                                    Batalkan Formulir Rencana Studi
-                                <?php } else {?>
-                                    Setujui Formulir Rencana Studi
-                                <?php } ?>
-                            </button>
+                            <?php if (isset($tanggal_persetujuan_k)) { ?>
+                                <span>
+                                    <?php
+                                    if ($tanggal_persetujuan_k[0]['status'] == 1) {
+                                        echo '(+) Jika Anda ingin membatalkan seluruh Rencana Study Mahasiswa silakan Klik tombol Batalkan.';
+                                    } else {
+                                        echo '(+) Jika Anda menyetujui Rencana Study Mahasiswa yang bersangkutan, silahkan Klik tombol Setujui.';
+                                    } ?>
+                                </span>
+                                <button class="btn btn-warning btn-sm float-right" onclick="<?= $tanggal_persetujuan_k[0]['status'] == 1 ? 'batalFRS()' : 'accFRS()' ?>" <?= $tanggal_persetujuan_dw[0]['status'] == 1 ? '' : 'disabled' ?>>
+                                    <?php if ($tanggal_persetujuan_k[0]['status'] == 1) { ?>
+                                        Batalkan Formulir Rencana Studi
+                                    <?php } else { ?>
+                                        Setujui Formulir Rencana Studi
+                                    <?php } ?>
+                                </button>
+                            <?php } ?>
+
                         </div>
                     </div>
                 </div>

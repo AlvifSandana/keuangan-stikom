@@ -50,73 +50,109 @@ class FRSController extends BaseController
         $query_frs_dosenwali = $builder_frs
             ->where('nim', $nim)
             ->get();
-        // query get khs mahasiswa by nim
-        $next_semester = $query_next_semester->getResultArray();
-        $query_khs = $builder_khs
-            ->where('nim', $nim)
-            ->where('semester_ditempuh', ($next_semester[0]['semester'] - 1))
-            ->join('tbl_mk', 'tbl_nilai_mahasiswa.kode_mk = tbl_mk.kode_mk', 'left')
-            ->join('tbl_bobot_nilai', 'tbl_nilai_mahasiswa.grade = tbl_bobot_nilai.nilai')
-            ->join('tbl_dosen', 'tbl_nilai_mahasiswa.kode_dosen = tbl_dosen.kode_dosen', 'left')
-            ->get();
         // get data tahun ajaran
         $query_tahun_ajaran = $builder_frs_detail
             ->select('kode_thn, kls_program')
             ->where('nim', $nim)
             ->groupBy('kode_thn')
             ->get();
-        // get tanggal persetujuan dosen wali dan keuangan
-        $query_tanggal_persetujuan_dw = $builder_frs_dosenwali
-            ->where('nim', $nim)
-            ->get();
-        $query_tanggal_persetujuan_k = $builder_frs
-            ->where('nim', $nim)
-            ->get();
-        // set to view data
-        $data['tanggal_persetujuan_dw'] = $query_tanggal_persetujuan_dw->getResultArray();
-        $data['tanggal_persetujuan_k'] = $query_tanggal_persetujuan_k->getResultArray();
-        $data['khs'] = $query_khs->getResultArray();
-        $data['data_mhs'] = $query_mhs->getResultArray();
-        $data['list_frs_dw'] = $query_frs_dosenwali->getResultArray();
-        $data['next_semester'] = $query_next_semester->getResultArray();
-        $data['tahun_ajaran'] = $query_tahun_ajaran->getResultArray();
-        // get nilai mahasiswa
-        $total_sks = 0;
-        $total_nk = 0;
-        foreach ($query_khs->getResultArray() as $value) {
-            $total_sks += (int) $value['jum_sks'];
-            $total_nk += (int) $value['bobot'] * (int) $value['jum_sks'];
-        }
-        $sum_ipk = $total_sks != 0 ? $total_nk / $total_sks : 0;
-        $data['ipk'] = round($sum_ipk, 2);
-        // get beban sks
-        if ($data['ipk'] >= 3) {
-            $data['beban_sks'] = 24;
-        } else if ($data['ipk'] >= 2.75 && $data['ipk'] < 3) {
-            $data['beban_sks'] = 22;
-        } else if ($data['ipk'] >= 2.51 && $data['ipk'] < 2.75) {
-            $data['beban_sks'] = 20;
-        } else if ($data['ipk'] >= 2.00 && $data['ipk'] < 2.50) {
-            $data['beban_sks'] = 18;
-        } else {
-            $data['beban_sks'] = 15;
-        }
-        // pass data frs to view data
-        if ($query_frs) {
-            $data['list_frs'] = $query_frs->getResultArray();
-            foreach ($query_frs->getResultArray() as $key => $value) {
-                $q = $db_old->table('tbl_mk')->select('sts')->where('kode_mk', $value['kode_mk'])->get();
-                $sts = $q->getResultArray();
-                $data['list_frs'][$key]['sts_mk'] = $sts[0]['sts'];
-            }
+        // check data mahasiswa (status)
+        if (count($query_mhs->getResultArray()) > 0) {
+            $dat_mhs = $query_mhs->getResultArray();
+            // dd($dat_mhs);
+            // check status mahasiswa
+            switch ($dat_mhs[0]['status_mhs']) {
+                case 'AKTIF':
+                    // query get khs mahasiswa by nim
+                    $next_semester = $query_next_semester->getResultArray();
+                    $query_khs = $builder_khs
+                        ->where('nim', $nim)
+                        ->where('semester_ditempuh', ($next_semester[0]['semester'] - 1))
+                        ->join('tbl_mk', 'tbl_nilai_mahasiswa.kode_mk = tbl_mk.kode_mk', 'left')
+                        ->join('tbl_bobot_nilai', 'tbl_nilai_mahasiswa.grade = tbl_bobot_nilai.nilai')
+                        ->join('tbl_dosen', 'tbl_nilai_mahasiswa.kode_dosen = tbl_dosen.kode_dosen', 'left')
+                        ->get();
 
-            $tot_sks = 0;
-            foreach ($query_frs->getResultArray() as $value) {
-                $tot_sks += (int) $value['jum_sks'];
+                    // get tanggal persetujuan dosen wali dan keuangan
+                    $query_tanggal_persetujuan_dw = $builder_frs_dosenwali
+                        ->where('nim', $nim)
+                        ->get();
+                    $query_tanggal_persetujuan_k = $builder_frs
+                        ->where('nim', $nim)
+                        ->get();
+                    // set to view data
+                    $data['tanggal_persetujuan_dw'] = $query_tanggal_persetujuan_dw->getResultArray();
+                    $data['tanggal_persetujuan_k'] = $query_tanggal_persetujuan_k->getResultArray();
+                    $data['khs'] = $query_khs->getResultArray();
+                    $data['data_mhs'] = $query_mhs->getResultArray();
+                    $data['list_frs_dw'] = $query_frs_dosenwali->getResultArray();
+                    $data['next_semester'] = $query_next_semester->getResultArray();
+                    $data['tahun_ajaran'] = $query_tahun_ajaran->getResultArray();
+                    // get nilai mahasiswa
+                    $total_sks = 0;
+                    $total_nk = 0;
+                    foreach ($query_khs->getResultArray() as $value) {
+                        $total_sks += (int) $value['jum_sks'];
+                        $total_nk += (int) $value['bobot'] * (int) $value['jum_sks'];
+                    }
+                    $sum_ipk = $total_sks != 0 ? $total_nk / $total_sks : 0;
+                    $data['ipk'] = round($sum_ipk, 2);
+                    // get beban sks
+                    if ($data['ipk'] >= 3) {
+                        $data['beban_sks'] = 24;
+                    } else if ($data['ipk'] >= 2.75 && $data['ipk'] < 3) {
+                        $data['beban_sks'] = 22;
+                    } else if ($data['ipk'] >= 2.51 && $data['ipk'] < 2.75) {
+                        $data['beban_sks'] = 20;
+                    } else if ($data['ipk'] >= 2.00 && $data['ipk'] < 2.50) {
+                        $data['beban_sks'] = 18;
+                    } else {
+                        $data['beban_sks'] = 15;
+                    }
+                    // pass data frs to view data
+                    if ($query_frs) {
+                        $data['list_frs'] = $query_frs->getResultArray();
+                        foreach ($query_frs->getResultArray() as $key => $value) {
+                            $q = $db_old->table('tbl_mk')->select('sts')->where('kode_mk', $value['kode_mk'])->get();
+                            $sts = $q->getResultArray();
+                            $data['list_frs'][$key]['sts_mk'] = $sts[0]['sts'];
+                        }
+
+                        $tot_sks = 0;
+                        foreach ($query_frs->getResultArray() as $value) {
+                            $tot_sks += (int) $value['jum_sks'];
+                        }
+                        $data['total_sks'] = $tot_sks;
+                    } else {
+                        $data['list_frs'] = 'Data Perwalian kosong!';
+                    }
+                    break;
+
+                case 'LULUS':
+                    $data['data_mhs'] = $query_mhs->getResultArray();
+                    $data['tahun_ajaran'] = '-';
+                    break;
+
+                case 'CUTI':
+                    $data['data_mhs'] = $query_mhs->getResultArray();
+                    $data['tahun_ajaran'] = '-';
+                    break;
+
+                case 'DROP OUT':
+                    $data['tahun_ajaran'] = '-';
+                    $data['data_mhs'] = $query_mhs->getResultArray();
+                    break;
+
+                case 'KELUAR':
+                    $data['tahun_ajaran'] = '-';
+                    $data['data_mhs'] = $query_mhs->getResultArray();
+                    break;
+
+                case 'YUDISIUM':
+                    $data['tahun_ajaran'] = '-';
+                    $data['data_mhs'] = $query_mhs->getResultArray();
+                    break;
             }
-            $data['total_sks'] = $tot_sks;
-        } else {
-            $data['list_frs'] = 'Data Perwalian kosong!';
         }
         // show view
         return view('pages/keuangan_mahasiswa/frs/index', $data);
@@ -328,7 +364,7 @@ class FRSController extends BaseController
                         'kategori_transaksi' => 'K',
                         'item_kode' => $item['kode_item'],
                         'q_kredit' => (int)$item['nominal_item'] * $n,
-                        'keterangan_transaksi' => $n.' praktikum_s'
+                        'keterangan_transaksi' => $n . ' praktikum_s'
                     ]);
                     if ($new_tagihan) {
                         return 'success';
@@ -354,7 +390,7 @@ class FRSController extends BaseController
                         'kategori_transaksi' => 'K',
                         'item_kode' => $item['kode_item'],
                         'q_kredit' => (int)$item['nominal_item'] * $n,
-                        'keterangan_transaksi' => $n.' praktikum_h'
+                        'keterangan_transaksi' => $n . ' praktikum_h'
                     ]);
                     if ($new_tagihan) {
                         return 'success';
@@ -362,7 +398,7 @@ class FRSController extends BaseController
                         return 'failed';
                     }
                 }
-            } else if ($type == 'sks'){
+            } else if ($type == 'sks') {
                 // find item tagihan SKS
                 $item = $m_item
                     ->join('tbl_angkatan', 'angkatan_id = tbl_angkatan.id_angkatan')
@@ -380,7 +416,7 @@ class FRSController extends BaseController
                         'kategori_transaksi' => 'K',
                         'item_kode' => $item['kode_item'],
                         'q_kredit' => (int)$item['nominal_item'] * $n,
-                        'keterangan_transaksi' => $n.' SKS'
+                        'keterangan_transaksi' => $n . ' SKS'
                     ]);
                     if ($new_tagihan) {
                         return 'success';
@@ -408,7 +444,7 @@ class FRSController extends BaseController
             if ($type == 'hardware') {
                 // get tagihan by kode_transaksi and keterangan transaksi
                 $tagihan = $m_transaksi
-                    ->like('kode_transaksi', 'BY-'.$nim.'-K-'.$semester)
+                    ->like('kode_transaksi', 'BY-' . $nim . '-K-' . $semester)
                     ->like('keterangan_transaksi', 'praktikum_h')
                     ->first();
                 // delete tagihan by kode_transaksi and keterangan transaksi
@@ -419,10 +455,10 @@ class FRSController extends BaseController
                 } else {
                     return 'failed';
                 }
-            } else if($type == 'software'){
+            } else if ($type == 'software') {
                 // get tagihan by kode_transaksi and keterangan transaksi
                 $tagihan = $m_transaksi
-                    ->like('kode_transaksi', 'BY-'.$nim.'-K-'.$semester)
+                    ->like('kode_transaksi', 'BY-' . $nim . '-K-' . $semester)
                     ->like('keterangan_transaksi', 'praktikum_s')
                     ->first();
                 // delete tagihan by kode_transaksi and keterangan transaksi
@@ -433,10 +469,10 @@ class FRSController extends BaseController
                 } else {
                     return 'failed';
                 }
-            } else if($type == 'sks'){
+            } else if ($type == 'sks') {
                 // get tagihan by kode_transaksi and keterangan transaksi
                 $tagihan = $m_transaksi
-                    ->like('kode_transaksi', 'BY-'.$nim.'-K-'.$semester)
+                    ->like('kode_transaksi', 'BY-' . $nim . '-K-' . $semester)
                     ->like('keterangan_transaksi', 'SKS')
                     ->first();
                 // delete tagihan by kode_transaksi and keterangan transaksi
@@ -467,7 +503,7 @@ class FRSController extends BaseController
             $prev_transaksi = $m_transaksi
                 ->where('kode_unit', $kode_unit)
                 ->where('kategori_transaksi', $tipe_transaksi)
-                ->like('kode_transaksi', 'K-'.$semester.'-')
+                ->like('kode_transaksi', 'K-' . $semester . '-')
                 ->orderBy('id_transaksi', 'DESC')
                 ->findAll();
             // slice kode_transaksi
