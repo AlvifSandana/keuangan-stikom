@@ -239,10 +239,10 @@
                         var list_checkbox = ``;
                         if (Array.isArray(tmptr[i][1].status_item_tagihan)) {
                             for (let j = 0; j < tmptr[i][1].status_item_tagihan.length; j++) {
-                                if (tmptr[i][1].status_item_tagihan == "lunas") {
+                                if (tmptr[i][1].status_item_tagihan[j][2] == 'lunas') {
                                     continue;
                                 }
-                                console.log(tmptr[i][1].status_item_tagihan[j]);
+                                console.log(tmptr[i][1].status_item_tagihan[j][2]);
                                 list_checkbox += `
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" name="bulan-${tmptr[i][0].id_temp_transaksi}" value="${tmptr[i][1].status_item_tagihan[j][0]}" id="${tmptr[i][0].kode_temp_transaksi}">
