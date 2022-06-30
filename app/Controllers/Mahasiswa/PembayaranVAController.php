@@ -142,6 +142,31 @@ class PembayaranVAController extends BaseController
         }
     }
 
+    public function check_sisa_tagihan_by_nim_and_item($nim, $kode_item)
+    {
+        try {
+            // create model
+            $m_transaksi = new Transaksi();
+            // get items tagihan & pembayaran
+            $items_tagihan = $m_transaksi->findTransaksiByItemKode($nim, 'K', $kode_item, 'id_transaksi', 'ASC');
+            $items_pembayaran = $m_transaksi->findTransaksiByItemKode($nim, 'D', $kode_item, 'id_transaksi', 'ASC');
+            // sum q_kredit
+            $sum_tagihan = 0;
+            foreach ($items_tagihan as $key => $value) {
+                $sum_tagihan += (int)$value['q_kredit'];
+            }
+            // sum q_debit
+            $sum_pembayaran = 0;
+            foreach ($items_pembayaran as $key => $value) {
+                $sum_pembayaran += (int)$value['q_debit'];
+            }
+            // return sum
+            return $sum_tagihan - $sum_pembayaran;
+        } catch (\Throwable $th) {
+            return 0;
+        }
+    }
+
     public function acc_va()
     {
         try {
@@ -173,7 +198,7 @@ class PembayaranVAController extends BaseController
                 if ($n_item == 1) {
                     // check nominal tagihan by item
                     $check_item_tagihan = $m_transaksi->findTransaksiByItemKode($nim, 'K', $item_tagihan[0], 'id_transaksi', 'ASC');
-                    $nom_tagihan = !is_string($check_item_tagihan) ? (int)$check_item_tagihan[0]['q_kredit'] : 0;
+                    $nom_tagihan = $this->check_sisa_tagihan_by_nim_and_item($nim, $item_tagihan[0]); #!is_string($check_item_tagihan) ? (int)$check_item_tagihan[0]['q_kredit'] : 0;
                     $semester = !is_string($check_item_tagihan) ? explode('SMT', $check_item_tagihan[0]['semester_id']) : 1;
                     // check nominal temp transaksi - nominal item tagihan
                     if (($nom_tagihan - $nom_tmp_tr) >= 0) {
@@ -196,7 +221,7 @@ class PembayaranVAController extends BaseController
                         // check
                         if ($new_pembayaran) {
                             // delete selectad temp_transaksi
-                            $delete_temp_tr = $m_temptr->delete($id_temp_tr);
+                            $delete_temp_tr = true; #$m_temptr->delete($id_temp_tr);
                             if ($delete_temp_tr) {
                                 return json_encode([
                                     'status' => 'success',
@@ -221,17 +246,18 @@ class PembayaranVAController extends BaseController
                 } else if ($n_item > 1) {
                     // divide nominal temp transaksi by n_item
                     $nom_va = $nom_tmp_tr / $n_item;
+                    $sisa_nom_va = 0;
                     // iterate item tagihan
                     for ($i = 0; $i < $n_item; $i++) {
                         // check nominal tagihan by item
                         $check_item_tagihan = $m_transaksi->findTransaksiByItemKode($nim, 'K', $item_tagihan[$i], 'id_transaksi', 'ASC');
-                        $nom_tagihan = !is_string($check_item_tagihan) ? (int)$check_item_tagihan[0]['q_kredit'] : 0;
+                        $nom_tagihan = $this->check_sisa_tagihan_by_nim_and_item($nim, $item_tagihan[$i]);
                         $semester = !is_string($check_item_tagihan) ? explode('SMT', $check_item_tagihan[0]['semester_id']) : 1;
                         // get metode pembayaran
                         $mp = $m_mp->like('nama_metode_pembayaran', $this->request->getPost('mp'))->first();
                         $metode_pembayaran = $mp != null ? $mp['id_metode'] : '07VA';
                         // check nominal va - nominal item tagihan
-                        if (($nom_tagihan - $nom_va) >= 0) {
+                        if (($nom_va - $nom_tagihan) == 0) {
                             // get last kode transaksi pembayaran
                             $last_pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'id_transaksi', 'DESC', '', '');
                             $kode_pembayaran = !is_string($last_pembayaran) ? explode('-', $last_pembayaran[0]['kode_transaksi']) : array('BY', $nim, 'D', 1, 0);
@@ -254,13 +280,72 @@ class PembayaranVAController extends BaseController
                                     'data' => []
                                 ]);
                             }
+                        } else if (($nom_va - $nom_tagihan) > 0){
+                            // get last kode transaksi pembayaran
+                            $last_pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'id_transaksi', 'DESC', '', '');
+                            $kode_pembayaran = !is_string($last_pembayaran) ? explode('-', $last_pembayaran[0]['kode_transaksi']) : array('BY', $nim, 'D', 1, 0);
+                            // dd($nom_tagihan, $semester, $kode_pembayaran);
+                            // create pembayaran
+                            $new_pembayaran = $m_transaksi->insert([
+                                'kode_transaksi' => 'BY-' . $nim . '-D-' . (int)$semester[1] . '-' . ((int)$kode_pembayaran[4] + 1),
+                                'kode_unit' => $nim,
+                                'kategori_transaksi' => 'D',
+                                'kode_metode_pembayaran' => $metode_pembayaran,
+                                'tanggal_transaksi' => $this->request->getPost('tgl'),
+                                'item_kode' => $item_tagihan[$i],
+                                'q_debit' => $nom_tagihan,
+                            ]);
+                            // check
+                            if (!$new_pembayaran) {
+                                return json_encode([
+                                    'status' => 'failed',
+                                    'message' => 'Gagal Acc!',
+                                    'data' => []
+                                ]);
+                            }
+                            // get change
+                            $kembalian = $nom_va - $nom_tagihan;
+                            $sisa_nom_va += $kembalian;
                         } else {
-                            
+                            // add sisa_nom_va to nom_va
+                            $bayar = $nom_va + $sisa_nom_va;
+                            // get last kode transaksi pembayaran
+                            $last_pembayaran = $m_transaksi->findTransaksi($nim, 'D', 'id_transaksi', 'DESC', '', '');
+                            $kode_pembayaran = !is_string($last_pembayaran) ? explode('-', $last_pembayaran[0]['kode_transaksi']) : array('BY', $nim, 'D', 1, 0);
+                            // dd($nom_tagihan, $semester, $kode_pembayaran);
+                            // create pembayaran
+                            $new_pembayaran = $m_transaksi->insert([
+                                'kode_transaksi' => 'BY-' . $nim . '-D-' . (int)$semester[1] . '-' . ((int)$kode_pembayaran[4] + 1),
+                                'kode_unit' => $nim,
+                                'kategori_transaksi' => 'D',
+                                'kode_metode_pembayaran' => $metode_pembayaran,
+                                'tanggal_transaksi' => $this->request->getPost('tgl'),
+                                'item_kode' => $item_tagihan[$i],
+                                'q_debit' => $bayar > $nom_tagihan ? $nom_tagihan : $bayar,
+                            ]);
+                            // check
+                            if (!$new_pembayaran) {
+                                return json_encode([
+                                    'status' => 'failed',
+                                    'message' => 'Gagal Acc!',
+                                    'data' => []
+                                ]);
+                            }
+                            // get change
+                            $kembalian = ($bayar - $nom_tagihan) > 0 ? $bayar - $nom_tagihan : 0;
+                            $sisa_nom_va = $kembalian;
                         }
                     }
-                    // delete selectad temp_transaksi
-                    $delete_temp_tr = true; #$m_temptr->delete($id_temp_tr);
-                    if ($delete_temp_tr) {
+                    if($sisa_nom_va > 0){
+                        // update selected temp_transaksi
+                        $update_temp_tr = $m_temptr->update($id_temp_tr, ['q_debit' => $sisa_nom_va]);
+                        $delete_temp_tr = false;
+                    } else {
+                        // delete selectad temp_transaksi
+                        $update_temp_tr = false;
+                        $delete_temp_tr = $m_temptr->delete($id_temp_tr);
+                    }
+                    if ($delete_temp_tr || $update_temp_tr) {
                         return json_encode([
                             'status' => 'success',
                             'message' => 'Berhasil ACC!',
